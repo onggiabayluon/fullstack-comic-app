@@ -1,0 +1,11 @@
+{
+    "python.formatting.provider": "autopep8",
+    "editor.formatOnSave": false,
+    "files.autoSave": "afterDelay",
+    "emmet.includeLanguages": {
+        "django-html": "html"
+    },
+    "python.analysis.extraPaths": [
+        "./comicapis/comicapis"
+    ],
+}
