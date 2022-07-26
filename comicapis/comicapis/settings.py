@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'comics',
-    'rest_framework'
+    'rest_framework',
+    'drf_yasg'
 ]
 
 MIDDLEWARE = [
@@ -52,6 +53,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'comicapis.urls'
+
+STATIC_URL = '/static/'
+
+MEDIA_ROOT = '%s/comics/static/' % BASE_DIR
 
 TEMPLATES = [
     {
