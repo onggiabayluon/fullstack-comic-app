@@ -11,7 +11,7 @@ echo "${green}>>> .venv is created.${reset}"
 # active
 sleep 2
 echo "${green}>>> activate the .venv.${reset}"
-zsh "./venv/bin/activate"
+source "./venv/Scripts/activate"
 echo "${green}>>> activate the .venv sucessfully.${reset}"
 sleep 2
 
