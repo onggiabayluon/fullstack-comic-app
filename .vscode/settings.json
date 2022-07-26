@@ -1,11 +1,12 @@
 {
-    "python.formatting.provider": "autopep8",
-    "editor.formatOnSave": false,
-    "files.autoSave": "afterDelay",
-    "emmet.includeLanguages": {
-        "django-html": "html"
-    },
-    "python.analysis.extraPaths": [
-        "./comicapis/comicapis"
-    ],
+  "python.formatting.provider": "autopep8",
+  "python.formatting.autopep8Args": [
+    "--max-line-length=200"
+  ],
+  "editor.formatOnSave": true,
+  "files.autoSave": "afterDelay",
+  "emmet.includeLanguages": {
+    "django-html": "html"
+  },
+  "python.analysis.extraPaths": ["./comicapis/comicapis"]
 }

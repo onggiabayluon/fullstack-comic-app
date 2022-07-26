@@ -14,7 +14,7 @@ class User(AbstractUser):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100, null=False, unique=True)
+    name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return self.name
@@ -33,21 +33,18 @@ class MyModelBase(models.Model):
 
 
 class Comic(MyModelBase):
+    class Meta:
+        ordering = ["-id"]
+
     title = models.CharField(max_length=100, null=False)
     description = models.TextField(null=True, blank=True)
     slug = AutoSlugField(unique=True, populate_from='title', editable=True, blank=True)
     thumbnail = models.ImageField(default='default.png', blank=True, upload_to='comics/%Y/%m')
     author = models.TextField(null=True, blank=True, default="None")
-    # views
     # bookmark
     # rate
-
-    posted_by = models.ForeignKey(User,
-                                  on_delete=models.SET_NULL,
-                                  null=True)
-    category = models.ForeignKey(Category,
-                                 on_delete=models.SET_NULL,
-                                 null=True)
+    posted_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    categories = models.ManyToManyField('Category', related_name="comics", blank=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
@@ -58,24 +55,33 @@ class Comic(MyModelBase):
 
 
 class Chapter(MyModelBase):
+    class Meta:
+        ordering = ["-id"]
+
     title = models.TextField(null=True, blank=True, default="None")
     chapter_num = models.PositiveIntegerField(null=False, unique=True)
     slug = AutoSlugField(unique=True, populate_from='chapter_num', editable=True, blank=True)
-    # views
-    comic = models.ForeignKey(Comic, on_delete=models.SET_NULL, null=True)
+    comic = models.ForeignKey(Comic, related_name="chapters", on_delete=models.CASCADE, null=True)
 
     def save(self, *args, **kwargs):
         prefix = "chapter-"
         self.slug = prefix + str(self.chapter_num)
-        super(Comic, self).save(*args, **kwargs)
+        super(Chapter, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.title
+        return "Ch.{0} of {1}".format(self.chapter_num, self.comic.title)
 
 
 class Chapter_image(models.Model):
     thumbnail = models.ImageField(default='default.png', blank=True, upload_to='chapters/%Y/%m')
     chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE, null=True)
+
+
+class ComicView(models.Model):
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+    views = models.IntegerField(default=0)
+    comic = models.OneToOneField(Comic, on_delete=models.CASCADE)
 
 
 # class Comment(models.Model):
@@ -91,13 +97,6 @@ class Chapter_image(models.Model):
 
 # class Rating(ActionBase):
 #     rate = models.PositiveSmallIntegerField(default=0)
-
-
-# class LessonView(models.Model):
-#     created_date = models.DateTimeField(auto_now_add=True)
-#     updated_date = models.DateTimeField(auto_now=True)
-#     views = models.IntegerField(default=0)
-#     lesson = models.OneToOneField(Lesson, on_delete=models.CASCADE)
 
 
 # class Course(MyModelBase):
@@ -134,10 +133,6 @@ class Chapter_image(models.Model):
 #         return self.content
 
 
-# class Tag(models.Model):
-#     name = models.CharField(max_length=50, unique=True)
-
-
 # class ActionBase(models.Model):
 #     created_date = models.DateTimeField(auto_now_add=True)
 #     updated_date = models.DateTimeField(auto_now=True)
@@ -161,10 +156,3 @@ class Chapter_image(models.Model):
 
 # class Rating(ActionBase):
 #     rate = models.PositiveSmallIntegerField(default=0)
-
-
-# class LessonView(models.Model):
-#     created_date = models.DateTimeField(auto_now_add=True)
-#     updated_date = models.DateTimeField(auto_now=True)
-#     views = models.IntegerField(default=0)
-#     lesson = models.OneToOneField(Lesson, on_delete=models.CASCADE)

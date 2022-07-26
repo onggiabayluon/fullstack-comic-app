@@ -4,7 +4,7 @@ green=`tput setaf 2`
 reset=`tput sgr0`
 
 # up one level
-cd saleapp
+cd comicapis
 # run
 python manage.py runserver
 
