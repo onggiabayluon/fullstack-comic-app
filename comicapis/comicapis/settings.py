@@ -39,8 +39,24 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'comics',
     'rest_framework',
-    'drf_yasg'
+    'drf_yasg',
+    'oauth2_provider',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+    )
+}
+
+OAUTH2_INFO = {
+    "client_id": "eshENOufYsrUyhN76o8qTTNs13XqHO2TI2qmgkrC",
+    "client_serect": "yI3kGuiZmihqRkuTxByiHPKWKw0raXQ6BV3pyaGZBklANZr7dt0AvuAO3jXXaVtHMhqyWjOS24G79yZIe5yDdlIznAVONfs7KhsH7RaVuqimT8SDPGNHjzPpdxF8VlUT"
+}
+
+# OAUTH2_PROVIDER = {
+#     'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore'
+# }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
