@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
-from .models import Category, Chapter, Comic, User
+from .models import Category, Chapter, Comic, ComicView, Comment, Rating, User
 
 
 class UserSerializer(ModelSerializer):
@@ -8,7 +8,7 @@ class UserSerializer(ModelSerializer):
         fields = "__all__"
 
 
-class PostedBySerializer(ModelSerializer):
+class UserLessSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = ["username"]
@@ -42,7 +42,7 @@ class ComicDetailSerializer(ComicSerializer):
     posted_by = SerializerMethodField()
 
     def get_posted_by(self, comic):
-        return PostedBySerializer(comic.posted_by, context={"request": self.context.get('request')}).data
+        return UserLessSerializer(comic.posted_by, context={"request": self.context.get('request')}).data
 
     class Meta:
         model = ComicSerializer.Meta.model
@@ -55,3 +55,45 @@ class ChapterSerializer(ModelSerializer):
     class Meta:
         model = Chapter
         fields = "__all__"
+
+
+class RatingSerializer(ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = ["id", "rate", "created_date"]
+
+
+class CommentSerializer(ModelSerializer):
+    creator = SerializerMethodField()
+
+    def get_creator(self, comment):
+        return UserLessSerializer(comment.creator, context={"request": self.context.get('request')}).data
+
+    class Meta:
+        model = Comment
+        fields = ['id', 'content', 'created_date', 'updated_date', 'creator']
+
+
+class ComicViewSerializer(ModelSerializer):
+    class Meta:
+        model = ComicView
+        fields = ["id", "views", "comic"]
+
+
+class UserSerializer(ModelSerializer):
+    # overriding create
+    def create(self, validated_data):
+        # Hashing password whenever creating new user
+        user = User(**validated_data)
+        user.set_password(user.password)
+        user.save()
+
+        return user
+
+    class Meta:
+        model = User
+        fields = ["id", "first_name", "last_name", "avatar",
+                  "username", "password", "email", "date_joined"]
+        extra_kwargs = {
+            'password': {'write_only': 'true'}
+        }
