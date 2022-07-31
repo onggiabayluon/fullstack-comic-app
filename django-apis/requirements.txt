@@ -7,6 +7,7 @@ coreschema==0.0.4
 cryptography==3.4.7
 Deprecated==1.2.12
 Django==3.2.5
+django-autoslug==1.9.8
 django-ckeditor==6.1.0
 django-cors-headers==3.7.0
 django-debug-toolbar==3.2.1
@@ -20,6 +21,7 @@ itypes==1.2.0
 Jinja2==3.0.1
 jwcrypto==0.9.1
 MarkupSafe==2.0.1
+mysql-connector-python==8.0.29
 mysqlclient==2.1.0
 oauthlib==3.1.1
 packaging==21.0
