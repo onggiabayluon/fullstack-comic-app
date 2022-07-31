@@ -71,7 +71,8 @@ class CommentSerializer(ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['id', 'content', 'created_date', 'updated_date', 'creator']
+        fields = ['id', 'content', 'created_date', 'updated_date', 'creator', 'reply_to']
+
 
 
 class ComicViewSerializer(ModelSerializer):
