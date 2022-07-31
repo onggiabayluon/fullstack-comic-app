@@ -9,7 +9,7 @@ router = routers.DefaultRouter()
 router.register('categories', views.CategoryViewSet, 'category')
 router.register('comics', views.ComicViewSet, 'comic')
 router.register('comments', views.CommentViewSet, 'comment')
-router.register('users', views.UserViewSet, 'User')
+# router.register('users', views.UserViewSet, 'User')
 
 # Custom views
 chapter_list = views.ChapterViewSet.as_view({'get': 'list'})
