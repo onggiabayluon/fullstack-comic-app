@@ -42,7 +42,6 @@ class Comic(MyModelBase):
     thumbnail = models.ImageField(default='default.png', blank=True, upload_to='comics/%Y/%m')
     author = models.TextField(null=True, blank=True, default="None")
     # bookmark
-    # rate
     posted_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     categories = models.ManyToManyField('Category', related_name="comics", blank=True)
 
@@ -52,13 +51,6 @@ class Comic(MyModelBase):
 
     def __str__(self):
         return self.title
-
-
-class ComicView(models.Model):
-    created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now=True)
-    views = models.IntegerField(default=0)
-    comic = models.OneToOneField(Comic, on_delete=models.CASCADE)
 
 
 class Chapter(MyModelBase):
@@ -95,6 +87,7 @@ class Comment(models.Model):
     content = models.TextField()
     comic = models.ForeignKey(Comic, on_delete=models.CASCADE)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    reply_to = models.ForeignKey("self", null=True, blank=True, related_name='replies', on_delete=models.CASCADE)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 

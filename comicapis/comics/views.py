@@ -33,11 +33,11 @@ class ComicViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIV
     pagination_class = BasePagination
     lookup_field = "slug"
 
-    # def get_permissions(self):
-    #     if self.action in ['add_comment', 'rate']:
-    #         return [permissions.IsAuthenticated()]
+    def get_permissions(self):
+        if self.action in ['add_comment', 'rate']:
+            return [permissions.IsAuthenticated()]
 
-    #     return [permissions.AllowAny()]
+        return [permissions.AllowAny()]
 
     def get_queryset(self):
         comics = Comic.objects.filter(active=True)
@@ -60,11 +60,18 @@ class ComicViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIV
 
     @action(methods=['post'], detail=True, url_path="add-comment")
     def add_comment(self, request, slug):
+        # Check if this is a reply
+        reply_to = request.data.get('reply_to')
+        comment_object = None
+        if reply_to:
+            comment_object = Comment.objects.get(pk=reply_to)
+
         content = request.data.get('content')
         user = request.user
 
         if content:
             comment = Comment.objects.create(content=content,
+                                             reply_to=comment_object,
                                              comic=self.get_object(),
                                              creator=user)
 
@@ -155,7 +162,14 @@ class CommentViewSet(viewsets.ViewSet, generics.UpdateAPIView, generics.DestroyA
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     pagination_class = BasePagination
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
+
+    def get_permissions(self):
+        if self.action in ['get_replies']:
+            print('test')
+            return [permissions.AllowAny()]
+        else:
+            return [permissions.IsAuthenticated()]
 
     def destroy(self, request, *args, **kwargs):
         if request.user == self.get_object().creator:
@@ -168,6 +182,29 @@ class CommentViewSet(viewsets.ViewSet, generics.UpdateAPIView, generics.DestroyA
             return super().partial_update(request, *args, **kwargs)
 
         return Response(status=status.HTTP_403_FORBIDDEN)
+
+    @action(methods=['get'], detail=True, url_path="replies")
+    def get_replies(self, request, pk):
+        try:
+            comment = Comment.objects.get(pk=pk)
+        except Comment.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        else:
+            replies = comment.replies.all()
+            filter_list = ["comic_id", "content", "created_date", "creator_id", "id", "updated_date",
+                           "-comic_id", "-content", "-created_date", "-creator_id", "-id", "-updated_date"]
+
+            # Filter by order
+            sort = self.request.query_params.get('sort')
+            if sort is not None:
+                sort = sort.split(", ")
+                sort = [s.strip() for s in sort]
+                # check if sort item is in filter_list
+                if any(elem in filter_list for elem in sort):
+                    replies = replies.extra(order_by=sort)
+
+            return Response(CommentSerializer(replies, many=True, context={"request": self.request}).data,
+                            status=status.HTTP_200_OK)
 
 
 """
