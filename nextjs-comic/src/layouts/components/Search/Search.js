@@ -10,6 +10,7 @@ import AccountItem from "~/components/AccountItem";
 import { SearchIcon } from "~/components/Icons";
 import { useDebounce } from "~/hooks";
 import styles from "./Search.module.scss";
+import ComicItem from "~/components/ComicItem";
 
 const cx = classNames.bind(styles);
 
@@ -68,7 +69,7 @@ function Search() {
         render={(attrs) => (
           <div className={cx("search-result")} tabIndex="-1" {...attrs}>
             <PopperWrapper>
-              <h4 className={cx("search-title")}>Accounts</h4>
+              <h4 className={cx("search-title")}>Comics</h4>
               {searchResult?.length > 0 &&
                 searchResult.map((result) => (
                   <AccountItem key={result.id} data={result} />
@@ -82,7 +83,7 @@ function Search() {
           <input
             ref={inputRef}
             value={searchValue}
-            placeholder="Search accounts and videos"
+            placeholder="Search comics"
             spellCheck={false}
             onChange={handleChange}
             onFocus={() => setShowResult(true)}

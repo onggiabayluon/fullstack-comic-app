@@ -27,7 +27,14 @@ function AccountItem({ data }) {
               <FontAwesomeIcon className={cx("check")} icon={faCheckCircle} />
             )}
           </h4>
-          <span className={cx("username")}>{data.nickname}</span>
+          <ul className={cx("chapter-wrapper")}>
+            <Link href={"/test2"}>
+              <li className={cx("chapter")}>C.01</li>
+            </Link>
+            <Link href={"/test2"}>
+              <li className={cx("chapter")}>C.02</li>
+            </Link>
+          </ul>
         </div>
       </a>
     </Link>

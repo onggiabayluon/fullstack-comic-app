@@ -1,4 +1,3 @@
-import "~/components/styles/globals.css";
 import getLayout from "~/utils/getLayout";
 import "~/components/GlobalStyles/GlobalStyles.scss";
 

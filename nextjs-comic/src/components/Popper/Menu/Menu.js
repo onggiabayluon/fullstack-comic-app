@@ -12,7 +12,7 @@ const defaultFnc = () => {};
 function Menu({
   children,
   items = [],
-  hideOnClick = false,
+  hideOnClick = true,
   onChange = defaultFnc,
 }) {
   const [history, setHistory] = useState([{ data: items }]);

@@ -23,7 +23,6 @@ import { InboxIcon, MessageIcon, UploadIcon } from "~/components/Icons";
 import Search from "../Search";
 import Link from "next/link";
 import Image from "next/image";
-import { forwardRef, useRef } from "react";
 const cx = classNames.bind(styles);
 
 const MENU_ITEMS = [
@@ -94,9 +93,6 @@ function Header() {
       separate: true,
     },
   ];
-
-  // eslint-disable-next-line react/display-name
-  const imageRef = useRef();
 
   return (
     <header className={cx("wrapper")}>

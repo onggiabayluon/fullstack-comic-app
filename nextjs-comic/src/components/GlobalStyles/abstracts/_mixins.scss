@@ -1,0 +1,237 @@
+@mixin flexbox(
+    $display: flex,
+    $direction: row,
+    $placeContent: null,
+    $placeItems: null,
+    $wrap: nowrap,
+    $shrink: 0,
+    $grow: 0,
+    $alignContent: null,
+    $justifyContent: null,
+    $alignItems: null,
+    $justifyItems: null
+) {
+    display: $display;
+    flex-direction: $direction;
+
+    @if $placeContent == null {
+        @if $alignContent {
+            align-content: $alignContent;
+        }
+        @if $justifyContent {
+            justify-content: $justifyContent;
+        }
+    } @else {
+        place-content: $placeContent;
+    }
+
+    @if $placeItems == null {
+        @if $alignItems {
+            align-items: $alignItems;
+        }
+        @if $justifyItems {
+            justify-items: $justifyItems;
+        }
+    } @else {
+        place-items: $placeItems;
+    }
+
+    flex-wrap: $wrap;
+    flex-shrink: $shrink;
+    flex-grow: $grow;
+}
+@mixin fontSmooth {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+@mixin font-fallback-style() {
+    font-size: 17px;
+    line-height: 0.95;
+    font-weight: 300;
+}
+
+@mixin box-shadow($x-axis: 0, $y-axis: 1px, $blur: 2px, $color: $default) {
+    box-shadow: $x-axis $y-axis $blur $color;
+}
+@mixin defineColorHSL($color, $hue, $saturation, $lightness) {
+    #{$color}: unquote('hsl(#{$hue}, #{$saturation}, #{$lightness})');
+    #{$color}-h: #{$hue};
+    #{$color}-s: #{$saturation};
+    #{$color}-l: #{$lightness};
+}
+// return css color variable with different opacity value
+@function alpha($color, $opacity) {
+    $color: str-replace($color, 'var(');
+    $color: str-replace($color, ')');
+    $color-h: var(#{$color + '-h'});
+    $color-s: var(#{$color + '-s'});
+    $color-l: var(#{$color + '-l'});
+    @return hsla($color-h, $color-s, $color-l, $opacity);
+}
+
+// replace substring with another string
+// credits: https://css-tricks.com/snippets/sass/str-replace-function/
+@function str-replace($string, $search, $replace: '') {
+    $index: str-index($string, $search);
+    @if $index {
+        @return str-slice($string, 1, $index - 1) + $replace +
+            str-replace(
+                str-slice($string, $index + str-length($search)),
+                $search,
+                $replace
+            );
+    }
+    @return $string;
+}
+@function lightness($color, $lightnessMultiplier) {
+    $color: str-replace($color, 'var(');
+    $color: str-replace($color, ')');
+    $color-h: var(#{$color + '-h'});
+    $color-s: var(#{$color + '-s'});
+    $color-l: var(#{$color + '-l'});
+    @return hsl(
+        $color-h,
+        $color-s,
+        calc(#{$color-l} + #{$lightnessMultiplier})
+    );
+}
+@function darkness($color, $Darken) {
+    $color: str-replace($color, 'var(');
+    $color: str-replace($color, ')');
+    $color-h: var(#{$color + '-h'});
+    $color-s: var(#{$color + '-s'});
+    $color-l: var(#{$color + '-l'});
+    @return hsl($color-h, $color-s, calc(#{$color-l} - #{$Darken}));
+}
+
+// Mixin to prefix several properties at once
+// @author Hugo Giraudel
+// @param {Map} $declarations - Declarations to prefix
+// @param {List} $prefixes (()) - List of prefixes to print
+@mixin prefix($declarations, $prefixes: ()) {
+    @each $property, $value in $declarations {
+        @each $prefix in $prefixes {
+            #{'-' + $prefix + '-' + $property}: $value;
+        }
+        #{$property}: $value;
+    }
+}
+
+// Gives a card depth effect.
+// @param {Number} $depth - depth level (between 1 and 5)
+// @link http://www.google.com/design/spec/layout/layout-principles.html#layout-principles-dimensionality Google Design
+// @requires {function} top-shadow
+// @requires {function} bottom-shadow
+@mixin depth($depth) {
+    @if $depth < 1 {
+        box-shadow: none;
+    } @else if $depth > 5 {
+        @warn "Invalid $depth `#{$depth}` for mixin `card`.";
+    } @else {
+        box-shadow: bottom-shadow($depth), top-shadow($depth);
+    }
+}
+
+// Computes a top-shadow for a card effect.
+// @param {Number} $depth - depth level
+// @return {List}
+
+@function top-shadow($depth) {
+    $primary-offset: nth($shadowOffsetsTop, $depth) * 1px;
+    $blur: nth($shadowBlursTop, $depth) * 4px;
+    $color: rgba(black, nth($shadowOpacitiesTop, $depth));
+
+    @return 0 $primary-offset $blur $color;
+}
+
+// Computes a bottom-shadow for a card effect.
+// @param {Number} $depth - depth level
+// @return {List}
+@function bottom-shadow($depth) {
+    $primary-offset: nth($shadowOffsetsBottom, $depth) * 1px;
+    $blur: nth($shadowBlursBottom, $depth) * 5px;
+    $color: rgba(black, nth($shadowOpacitiesBottom, $depth));
+    @return 0 $primary-offset $blur $color;
+}
+
+@mixin clearfix() {
+    &::after {
+        display: block;
+        content: '';
+        clear: both;
+    }
+}
+
+//Responsive Breakpoints
+
+$breakpoints: (
+    xxs: 420px,
+    xs: 576px,
+    sm: 768px,
+    md: 992px,
+    lg: 1200px,
+    xl: 1440px,
+);
+
+@mixin breakpoint($breakpoint) {
+    // If the breakpoint exists in the map.
+    @if map-has-key($breakpoints, $breakpoint) {
+        // Get the breakpoint value.
+        $breakpoint-value: map-get(
+            $breakpoints,
+            $breakpoint
+        ); // Write the media query.
+        @media (max-width: ($breakpoint-value - 1)) {
+            @content;
+        }
+        // If the breakpoint doesn't exist in the map.
+    } @else {
+        // Log a warning.
+        @warn "Invalid breakpoint: #{$breakpoint}.";
+    }
+}
+
+@mixin respond-below($breakpoint) {
+    // If the breakpoint exists in the map.
+    @if map-has-key($breakpoints, $breakpoint) {
+        // Get the breakpoint value.
+        $breakpoint-value: map-get(
+            $breakpoints,
+            $breakpoint
+        ); // Write the media query.
+        @media (max-width: ($breakpoint-value - 1)) {
+            @content;
+        }
+        // If the breakpoint doesn't exist in the map.
+    } @else {
+        // Log a warning.
+        @warn "Invalid breakpoint: #{$breakpoint}.";
+    }
+}
+
+@mixin respond-above($breakpoint) {
+    // If the breakpoint exists in the map.
+    @if map-has-key($breakpoints, $breakpoint) {
+        // Get the breakpoint value.
+        $breakpoint-value: map-get(
+            $breakpoints,
+            $breakpoint
+        ); // Write the media query.
+        @media (min-width: ($breakpoint-value - 1)) {
+            @content;
+        }
+        // If the breakpoint doesn't exist in the map.
+    } @else {
+        // Log a warning.
+        @warn "Invalid breakpoint: #{$breakpoint}.";
+    }
+}
+
+@function encodecolor($string) {
+    @if type-of($string) == 'color' {
+        $hex: str-slice(ie-hex-str($string), 4);
+        $string: unquote('#{$hex}');
+    }
+    $string: '%23' + $string;
+    @return $string;
+}

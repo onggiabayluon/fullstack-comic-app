@@ -1,12 +1,37 @@
 @import "normalize.css";
 
+// Abstract files
+@import "abstracts/_mixins";
+
+// Fontello
+// @import 'fontello';
+
+// Vendor Files
+// @import 'vendors/*';
+
+// Core files
+@import "core/_spacing";
+
+// Components
+// @import 'components/*';
+
+// Layout
+// @import 'layout/*';
+
+// Sections
+// @import 'sections/*';
+
+// Pages
+// @import 'pages/*';
+
 :root {
   --primary: #fe2c55;
+  --secondary: #8c94bf;
   --black: #000;
   --white: #fff;
   --text-color: #161823;
 
-  --font-family: "ProximaNova", sans-serif;
+  --font-family: "Hind", sans-serif;
 
   /* // Default layout */
   --default-layout-header-height: 60px;
@@ -59,31 +84,10 @@ input,
 a {
   color: var(--text-color);
   text-decoration: none;
-}
 
-/* // Fonts emmbeded */
-@font-face {
-  font-family: ProximaNova;
-  src: url("/assets/fonts/Proxima-Nova-Regular.woff2");
-  font-weight: 400;
-}
-
-@font-face {
-  font-family: ProximaNova;
-  src: url("/assets/fonts/ProximaNova-Semibold.woff2");
-  font-weight: 600;
-}
-
-@font-face {
-  font-family: ProximaNova;
-  src: url("/assets/fonts/Proxima-Nova-Bold.woff");
-  font-weight: 700;
-}
-
-@font-face {
-  font-family: SofiaPro;
-  src: url("/assets/fonts/sofiapro-bold.woff");
-  font-weight: 700;
+  &:hover {
+    color: var(--primary);
+  }
 }
 
 /* // Custom tippy tooltip */
@@ -105,4 +109,26 @@ a {
 
 .tippy-box[data-placement^="bottom"] > .tippy-arrow:before {
   top: -8px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.truncate-single {
+  width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0;
+  color: var(--white);
+}
+
+.white-text {
+  color: var(--white);
+
+  &:hover {
+    text-decoration: underline;
+    color: var(--white);
+  }
 }

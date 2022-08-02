@@ -1,0 +1,170 @@
+.astro + .astro {
+  margin-top: 3rem;
+}
+.astro {
+  $this: &;
+
+  &__container {
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr;
+    // margin: var(--space);
+
+    gap: var(--space);
+    --space: 4rem;
+    @media (max-width: 850px) {
+      grid-template-columns: 1fr 1fr;
+
+      --space: 2rem;
+    }
+    @media (max-width: 550px) {
+      grid-template-columns: 1fr;
+
+      --space: 1.5rem;
+    }
+  }
+
+  &__card {
+    display: grid;
+    overflow: hidden;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    width: 240px;
+    height: auto;
+
+    border-radius: 15px;
+    background: white;
+    position: relative;
+    contain: style layout inline-size;
+    gap: var(--gap);
+    --gap: 3qi;
+    > #{$this}__figcaption {
+      padding: 0 var(--gap) var(--gap) var(--gap);
+    }
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  &__title {
+    cursor: pointer;
+    margin: 0;
+
+    a {
+      display: block;
+      color: var(--white);
+      text-decoration: none;
+      font-size: clamp(1.2rem, 1.2rem + 1qi, 50px);
+
+      margin-block-end: calc(var(--gap) / 2);
+    }
+
+    h2 {
+      font-weight: 600;
+      margin: 0;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__nav {
+    display: flex;
+    padding: 10px;
+  }
+
+  .left {
+    margin-left: 10px;
+  }
+
+  .left,
+  .right {
+    align-items: center;
+    padding: 10px;
+    gap: 2px;
+    border: 1px solid #ebebf0;
+    border-radius: 4px;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--primary);
+    }
+  }
+  .icon-wrapper {
+    display: flex;
+    background: var(--white);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 7px;
+
+    &:hover svg {
+      color: var(--primary);
+    }
+  }
+
+  .arrow-right {
+    color: var(--secondary);
+    width: 20px;
+    height: 20px;
+    margin: 0 auto;
+  }
+
+  &__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  &__figcaption {
+    position: absolute;
+    width: 100%;
+    bottom: 15px;
+    padding: 0 13px;
+
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  &__description {
+    display: none;
+  }
+
+  &__title a:hover,
+  &__title a:focus {
+    text-decoration: underline;
+  }
+  &__image {
+    width: 100%;
+    height: 255px;
+    opacity: 0.8;
+
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  @supports container(min-width: 550px) {
+    &__card {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr;
+      align-items: start;
+      // > #{$this}__figcaption {
+      //   padding: 0 var(--gap) var(--gap) 0;
+      // }
+    }
+    &__title a {
+      margin-block-start: var(--gap);
+    }
+    &__image {
+      height: 100%;
+    }
+  }
+}
