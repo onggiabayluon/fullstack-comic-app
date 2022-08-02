@@ -13,9 +13,11 @@ export default function Custom404() {
         allowFullScreen
       ></iframe>
       <Link href="/">
-        <Button primary style={{ display: "block" }}>
-          Go home
-        </Button>
+        <span>
+          <Button primary style={{ display: "block" }}>
+            Go home
+          </Button>
+        </span>
       </Link>
     </main>
   );
