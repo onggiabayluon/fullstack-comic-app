@@ -44,7 +44,7 @@ class ComicViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIV
 
         q = self.request.query_params.get('q')
         if q is not None:
-            comics = comics.filter(subject__icontains=q)
+            comics = comics.filter(title__icontains=q)
 
         cate_id = self.request.query_params.get('category_id')
         if cate_id is not None:

@@ -6,11 +6,10 @@ import classNames from "classnames/bind";
 
 import * as searchServices from "~/services/searchService";
 import { Wrapper as PopperWrapper } from "~/components/Popper";
-import AccountItem from "~/components/AccountItem";
 import { SearchIcon } from "~/components/Icons";
 import { useDebounce } from "~/hooks";
 import styles from "./Search.module.scss";
-import ComicItem from "~/components/ComicItem";
+import ComicSearchCard from "~/components/ComicSearchCard";
 
 const cx = classNames.bind(styles);
 
@@ -65,15 +64,19 @@ function Search() {
     <div>
       <HeadlessTippy
         interactive
-        visible={showResult && searchResult?.length > 0}
+        // ShowResult is true and search result > 0 then show stuff
+        visible={showResult}
         render={(attrs) => (
           <div className={cx("search-result")} tabIndex="-1" {...attrs}>
             <PopperWrapper>
               <h4 className={cx("search-title")}>Comics</h4>
-              {searchResult?.length > 0 &&
+              {searchResult?.length > 0 ? (
                 searchResult.map((result) => (
-                  <AccountItem key={result.id} data={result} />
-                ))}
+                  <ComicSearchCard key={result.id} data={result} />
+                ))
+              ) : (
+                <p>No Result </p>
+              )}
             </PopperWrapper>
           </div>
         )}
