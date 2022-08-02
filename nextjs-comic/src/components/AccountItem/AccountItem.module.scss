@@ -1,7 +1,7 @@
 .wrapper {
   display: flex;
   align-items: center;
-  // padding: 6px 16px;
+  padding: 6px 16px;
   cursor: pointer;
 
   &:hover {
@@ -39,18 +39,4 @@
 .username {
   font-size: 1.4rem;
   color: rgba(22, 24, 35, 0.5);
-}
-
-.chapter-wrapper {
-  display: flex;
-  align-items: center;
-}
-.chapter {
-  + .chapter {
-    margin-left: 8px;
-  }
-
-  &:hover {
-    color: var(--primary);
-  }
 }

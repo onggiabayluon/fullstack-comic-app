@@ -30,6 +30,9 @@
   --black: #000;
   --white: #fff;
   --text-color: #161823;
+  --light-color: #bbb;
+  --border-color: #eaeaea;
+  --light-color-hover: rgb(204, 204, 204);
 
   --font-family: "Hind", sans-serif;
 
@@ -116,12 +119,14 @@ ul {
 }
 
 .truncate-single {
-  width: 150px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   margin: 0;
-  color: var(--white);
+}
+
+.w-150 {
+  width: 150px;
 }
 
 .white-text {
@@ -131,4 +136,24 @@ ul {
     text-decoration: underline;
     color: var(--white);
   }
+}
+
+.light-text {
+  color: var(--light-color);
+
+  &:hover {
+    text-decoration: underline;
+    color: var(--light-color-hover);
+  }
+}
+
+.border-top {
+  border-top: 1px solid var(--border-color);
+}
+.border-bottom {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.slick-slide img {
+  margin: auto;
 }

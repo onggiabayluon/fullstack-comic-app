@@ -1,7 +1,7 @@
 .wrapper {
   display: flex;
   align-items: center;
-  padding: 6px 16px;
+  // padding: 6px 16px;
   cursor: pointer;
 
   &:hover {
@@ -13,6 +13,10 @@
   display: flex;
   align-items: center;
   padding: 10px 15px;
+
+  &:hover {
+    color: unset;
+  }
 }
 .avatar {
   width: 40px;
@@ -29,6 +33,11 @@
 .name {
   font-size: 1.6rem;
   font-weight: 500;
+  margin: 0;
+
+  &:hover {
+    color: var(--primary);
+  }
 }
 
 .check {
@@ -39,4 +48,18 @@
 .username {
   font-size: 1.4rem;
   color: rgba(22, 24, 35, 0.5);
+}
+
+.chapter-wrapper {
+  display: flex;
+  align-items: center;
+}
+.chapter {
+  + .chapter {
+    margin-left: 8px;
+  }
+
+  &:hover {
+    color: var(--primary);
+  }
 }

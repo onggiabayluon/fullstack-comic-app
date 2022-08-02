@@ -1,0 +1,77 @@
+.card {
+  $this: &;
+
+  &__card {
+    display: grid;
+    overflow: hidden;
+    grid-template-columns: 80px 1fr;
+    // grid-template-rows: auto 1fr;
+    width: 100%;
+    height: auto;
+
+    // border-radius: 15px;
+    background: white;
+    position: relative;
+    contain: style layout inline-size;
+    // gap: var(--gap);
+    // --gap: 3qi;
+    > #{$this}__figcaption {
+      padding: 0 var(--gap) var(--gap) var(--gap);
+    }
+  }
+
+  &__left {
+    display: inherit;
+  }
+
+  &__right {
+    display: inherit;
+    margin: 0 1.4rem;
+  }
+
+  &__title {
+    font-size: 16px;
+    line-height: 29px;
+    font-weight: 700;
+    width: 270px;
+  }
+  &__chapters {
+    display: flex;
+    .chapter + .chapter {
+      margin-left: 10px;
+    }
+    .chapter {
+      cursor: pointer;
+    }
+    .chapter:hover {
+      text-decoration: underline;
+    }
+  }
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.tag {
+  font-size: 14px;
+  line-height: 21px;
+}
+.tag + .tag {
+  margin-left: 10px;
+}
+
+.timer {
+  display: flex;
+  align-items: center;
+  &__text {
+    font-size: 13px;
+    line-height: 21px;
+    margin-left: 7px;
+  }
+  &__icon {
+    width: 15px;
+    height: 15px;
+  }
+}
