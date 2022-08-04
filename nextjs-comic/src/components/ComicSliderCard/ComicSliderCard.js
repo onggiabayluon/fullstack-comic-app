@@ -28,7 +28,7 @@ export default function ComicSliderCard() {
       </div>
       <div className={cx("card__figcaption")}>
         <div className={cx("card__bottom")}>
-          <h3 className={cx("card__title truncate-single w-150")}>
+          <h3 className={cx("card__title truncate-blur w-150")}>
             <Link href={"#"}>
               <a className="white-text">Kill the hero</a>
             </Link>

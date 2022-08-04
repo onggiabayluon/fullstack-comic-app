@@ -1,7 +1,6 @@
 import styles from "./ComicCard.module.scss";
 import classNames from "classnames/bind";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import Image from "next/image";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
@@ -51,7 +50,7 @@ export default function ComicCard({ className, children }) {
           </span>
         </div>
 
-        <h2 className={cx("card__title", "truncate-single")}>
+        <h2 className={cx("card__title", "truncate-blur")}>
           <Link href={"#"}>
             <a>A Returner’s Magic Should Be Special</a>
           </Link>

@@ -61,22 +61,19 @@ function Search() {
   return (
     // Using a wrapper <div> tag around the reference element solves
     // this by creating a new parentNode context.
-    <div>
+    <div className={cx("search-wrapper")}>
       <HeadlessTippy
         interactive
         // ShowResult is true and search result > 0 then show stuff
-        visible={showResult}
+        visible={showResult && searchResult?.length > 0}
         render={(attrs) => (
           <div className={cx("search-result")} tabIndex="-1" {...attrs}>
             <PopperWrapper>
               <h4 className={cx("search-title")}>Comics</h4>
-              {searchResult?.length > 0 ? (
+              {searchResult?.length > 0 &&
                 searchResult.map((result) => (
                   <ComicSearchCard key={result.id} data={result} />
-                ))
-              ) : (
-                <p>No Result </p>
-              )}
+                ))}
             </PopperWrapper>
           </div>
         )}

@@ -1,0 +1,122 @@
+.card,
+.pizza-box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.pizza-box {
+  flex: 3 1 calc(var(--modifier) * 999);
+  height: calc(282px + 5vw);
+  overflow: hidden;
+
+  img {
+    max-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: cover;
+    object-position: 50% 50%;
+  }
+}
+
+.card {
+  --modifier: calc(50ch - 100%);
+
+  border: 2px solid #f2f2f2;
+  border-radius: 8px;
+  overflow: hidden;
+
+  &-content {
+    padding: 16px 32px;
+    flex: 4 1 calc(var(--modifier) * 999);
+  }
+
+  &-tags {
+    margin: 0 -8px;
+  }
+
+  &-tag {
+    display: inline-block;
+    margin: 8px;
+    font-size: 0.875em;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--primary);
+  }
+
+  &-title {
+    margin: 0;
+    font-size: clamp(1.4em, 2.1vw, 2.1em);
+    font-family: "Roboto Slab", Helvetica, Arial, sans-serif;
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+
+  &-metadata {
+    margin: 0;
+  }
+
+  &-rating {
+    font-size: 1.2em;
+    letter-spacing: 0.05em;
+    color: var(--primary);
+
+    span {
+      color: var(--grey);
+    }
+  }
+
+  &-votes {
+    font-size: 0.825em;
+    font-style: italic;
+    color: var(--lightgrey);
+  }
+
+  &-save {
+    display: flex;
+    align-items: center;
+    padding: 6px 14px 6px 12px;
+    border-radius: 4px;
+    border: 2px solid currentColor;
+    color: var(--primary);
+    background: none;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 1rem 0;
+
+    svg {
+      margin-right: 6px;
+    }
+  }
+}
+
+.big {
+  --cardWidth: 95%;
+  width: clamp(var(--cardWidth), 65%, 65%);
+  //   padding: 24px;
+}
+// @media (max-width: 1300px) {
+//   .big {
+//     --cardWidth: 450px;
+//   }
+// }
+// @media (max-width: 1200px) {
+//   .big {
+//     --cardWidth: 250px;
+//   }
+// }
+@media (max-width: 1050px) {
+  .big {
+    --cardWidth: 100%;
+  }
+}
+
+.small {
+  width: clamp(320px, 35%, 480px);
+  //   padding: 24px;
+}

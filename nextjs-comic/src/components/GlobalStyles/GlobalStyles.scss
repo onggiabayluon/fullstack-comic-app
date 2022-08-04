@@ -33,6 +33,7 @@
   --light-color: #bbb;
   --border-color: #eaeaea;
   --light-color-hover: rgb(204, 204, 204);
+  --hover-background: rgba(22, 24, 35, 0.03);
 
   --font-family: "Hind", sans-serif;
 
@@ -40,6 +41,39 @@
   --default-layout-header-height: 60px;
   --default-layout-width: 1150px;
   --default-layout-horizontal-spacer: 24px;
+
+  // Sidebar
+  --default-sidebar-width: 74px;
+  --default-sidebar-open-width: 200px;
+
+  //Section
+  --default-section-container: 1100px;
+
+  // icon
+  --button-icon-width: 30px;
+  --button-icon-height: 30px;
+
+  //breakpoint
+  /* Extra small devices (phones, 600px and down) */
+  --breakpoint-phone-below: 600px;
+  /* Small devices (portrait tablets and large phones, 600px and up) */
+  --breakpoint-tablets-sm-above: 600px;
+  /* Medium devices (landscape tablets, 768px and up) */
+  --breakpoint-tablets-lg-above: 768px;
+  /* Large devices (laptops/desktops, 992px and up) */
+  --breakpoint-laptops-sm-above: 992px;
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  --breakpoint-desktop-lg-above: 1200px;
+
+  // animation
+  --animation-duration: 200ms;
+  --animation-timing-curve: ease-in-out;
+
+  // Comic slider card
+  --comic-slider-card-width: 265px;
+
+  // Utility
+  --base: 1.35; /* Handy multiplier for consistency across elements */
 }
 
 * {
@@ -157,3 +191,94 @@ ul {
 .slick-slide img {
   margin: auto;
 }
+.slick-dots {
+  margin-top: -1rem !important;
+  position: relative !important;
+}
+
+.search-wrapper {
+  margin: auto;
+}
+
+// Nav buttons left right
+.left {
+  margin-left: 10px;
+}
+
+.left,
+.right {
+  align-items: center;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  width: var(--button-icon-width);
+  height: var(--button-icon-height);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--primary);
+  }
+}
+
+// Utility
+.truncate-blur {
+  max-height: calc(
+    1.5rem * var(--base)
+  ); /* Set a cut-off point for the content */
+  overflow: hidden; /* Cut off the content */
+  -webkit-mask: linear-gradient(#000 0 0) top/100%
+      calc(100% - calc(1rem * var(--base) + 1px)) no-repeat,
+    linear-gradient(to left, #0000, #000 80%) bottom / 100%
+      calc(1rem * var(--base) + 1px) no-repeat;
+}
+
+.h2-line {
+  max-height: calc(3.5rem * var(--base));
+}
+// /* If the amount of items is above 3 */
+// /* Change the layout direction */
+// .container > :nth-last-child(n + 3),
+// .container > :nth-last-child(n + 3) ~ * {
+//   flex-direction: column;
+// }
+
+// /* If the amount of items is above 5 */
+// /* Change the layout direction to row */
+// // .container > :nth-last-child(n + 5),
+// // .container > :nth-last-child(n + 5) ~ * {
+// //   flex-direction: row;
+// // }
+
+// /* And change the image height and color */
+// .container > :nth-last-child(n + 3) .image,
+// .container > :nth-last-child(n + 3) ~ * .image {
+//   height: 120px;
+//   background: salmon;
+// }
+
+// /* Demo decoration */
+// .container {
+//   display: flex;
+//   width: 100%;
+//   margin: 1em auto;
+// }
+// .mini-card {
+//   display: flex;
+//   width: 100%;
+//   max-width: 100%;
+//   margin: 1em;
+//   border: 2px solid #eee;
+//   border-radius: 8px;
+//   overflow: hidden;
+// }
+
+// .image {
+//   min-width: 150px;
+//   background: turquoise;
+// }
+
+// .text {
+//   font-size: 0.875em;
+//   line-height: 1.55;
+//   padding: 8px;
+// }

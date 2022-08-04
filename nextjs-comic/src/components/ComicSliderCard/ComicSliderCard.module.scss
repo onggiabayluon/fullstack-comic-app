@@ -6,7 +6,7 @@
     overflow: hidden;
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
-    width: 265px;
+    width: var(--comic-slider-card-width);
     height: 300px;
     // height: auto;
 
@@ -20,6 +20,48 @@
       padding: 0 var(--gap) var(--gap) var(--gap);
     }
   }
+
+  // @media (max-width: (1000px)) {
+  //   &__card {
+  //     width: 263px;
+  //   }
+  // }
+  // @media (max-width: (800px)) {
+  //   &__card {
+  //     width: 233px;
+  //     height: 250px;
+  //   }
+  // }
+  // @media (max-width: (720px)) {
+  //   &__card {
+  //     width: 184px;
+  //     height: 200px;
+  //   }
+  // }
+  // @media (max-width: (640px)) {
+  //   &__card {
+  //     width: 272px;
+  //     height: 295px;
+  //   }
+  // }
+  // @media (max-width: (550px)) {
+  //   &__card {
+  //     width: 242px;
+  //     height: 235px;
+  //   }
+  // }
+  // @media (max-width: (500px)) {
+  //   &__card {
+  //     width: 220px;
+  //     height: 220px;
+  //   }
+  // }
+  // @media (max-width: (400px)) {
+  //   &__card {
+  //     width: 180px;
+  //     height: 180px;
+  //   }
+  // }
 
   &__title {
     cursor: pointer;
