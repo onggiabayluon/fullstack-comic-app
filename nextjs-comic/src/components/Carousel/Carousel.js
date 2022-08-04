@@ -6,49 +6,60 @@ import "slick-carousel/slick/slick-theme.css";
 
 export default function Carousel({
   children,
-  handleNextSlide,
-  handlePrevSlide,
+  breakpoint = {
+    xxl: 4,
+    xl: 3,
+    md: 2,
+    sm: 1,
+  },
 }) {
   const ref = useRef(null);
 
-  handleNextSlide = () => {
+  const handleNextSlide = () => {
     ref.current.slickNext();
   };
 
-  handlePrevSlide = () => {
+  const handlePrevSlide = () => {
     ref.current.slickPrev();
   };
 
   var settings = {
     dots: true,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
-    // initialSlide: 0,
+    infinite: true,
+    slidesToShow: breakpoint.sm,
+    slidesToScroll: breakpoint.sm,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    // initialSlide: 1,
+    fade: true,
+    mobileFirst: true,
+
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 880,
         settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: true,
+          slidesToShow: breakpoint.md,
+          slidesToScroll: breakpoint.md,
+          mobileFirst: true,
+          fade: true,
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 1050,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2,
+          slidesToShow: breakpoint.xl,
+          slidesToScroll: breakpoint.xl,
+          mobileFirst: false,
+          fade: false,
         },
       },
       {
-        breakpoint: 480,
+        breakpoint: 1500,
         settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
+          slidesToShow: breakpoint.xxl,
+          slidesToScroll: breakpoint.xxl,
+          mobileFirst: false,
+          fade: false,
         },
       },
     ],

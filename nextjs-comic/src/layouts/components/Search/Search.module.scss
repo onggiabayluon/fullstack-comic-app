@@ -74,6 +74,8 @@
 }
 
 .search-btn {
+  position: absolute;
+  right: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -91,5 +93,16 @@
 
   &:active {
     background-color: rgba(22, 24, 35, 0.06);
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .search {
+    width: 40vw;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .search {
+    width: 45vw;
   }
 }

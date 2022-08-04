@@ -1,6 +1,15 @@
-.section + .section {
-  margin-top: 3rem;
+.section {
+  margin: 0 2rem;
+  + .section {
+    margin-top: 3rem;
+  }
 }
+// .section .section__container {
+//   max-width: var(--default-section-container);
+// }
+// .section__header {
+//   max-width: var(--default-section-container);
+// }
 
 .tripleLayoutGrid {
   .section__container {
@@ -51,7 +60,7 @@
 
       --space: 2rem;
     }
-    @media (max-width: 550px) {
+    @media (max-width: 750px) {
       grid-template-columns: 1fr;
 
       --space: 1.5rem;
@@ -114,25 +123,6 @@
   &__nav {
     display: flex;
     padding: 10px;
-  }
-
-  .left {
-    margin-left: 10px;
-  }
-
-  .left,
-  .right {
-    align-items: center;
-    padding: 10px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-
-    &:hover {
-      color: var(--primary);
-    }
   }
 
   &__image {

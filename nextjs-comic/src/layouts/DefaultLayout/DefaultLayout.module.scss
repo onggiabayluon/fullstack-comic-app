@@ -5,11 +5,12 @@
 }
 
 .container {
-  width: var(--default-layout-width);
+  // width: var(--default-layout-width);
   max-width: 100%;
-  padding: 0 var(--default-layout-horizontal-spacer);
+  // padding: 0 var(--default-layout-horizontal-spacer);
   margin-top: var(--default-layout-header-height);
   display: flex;
+  width: 100%;
 }
 
 .content {
@@ -22,4 +23,6 @@
   max-width: 100%;
   padding: 24px 0;
   position: relative;
+  width: calc(100% - var(--default-sidebar-open-width) - 32px);
+  aspect-ratio: 100 / 29;
 }

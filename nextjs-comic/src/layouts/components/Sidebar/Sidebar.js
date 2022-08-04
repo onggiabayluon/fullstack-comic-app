@@ -1,41 +1,62 @@
 import classNames from "classnames/bind";
 import styles from "./Sidebar.module.scss";
 import Menu, { MenuItem } from "./Menu";
-import {
-  HomeIcon,
-  HomeActiveIcon,
-  UserGroupIcon,
-  UserGroupActiveIcon,
-  LiveIcon,
-  LiveActiveIcon,
-} from "~/components/Icons";
-import config from "~/config";
+import { sidebarItems as MY_SIDEBAR_ITEMS } from "~/config/SidebarItems";
+import { useEffect } from "react";
 
 const cx = classNames.bind(styles);
+const MENU_ITEMS = MY_SIDEBAR_ITEMS;
 
-function Sidebar() {
+function Sidebar({ setSidebar, sidebar }) {
+  useEffect(() => {
+    // handleHideSidebar();
+    const handler = window.addEventListener("resize", handleHideSidebar);
+
+    return () => handler;
+  });
+
+  const handleHideSidebar = () => {
+    const width = window.innerWidth;
+
+    if (width <= 880) setSidebar(false);
+  };
+
   return (
-    <aside className={cx("wrapper")}>
-      <Menu>
-        <MenuItem
-          title="For You"
-          to={config.routes.home}
-          icon={<HomeIcon />}
-          activeIcon={<HomeActiveIcon />}
-        />
-        <MenuItem
-          title="Following"
-          to={config.routes.comicDetail}
-          icon={<UserGroupIcon />}
-          activeIcon={<UserGroupActiveIcon />}
-        />
-        <MenuItem
-          title="LIVE"
-          to={config.routes.chapterDetail}
-          icon={<LiveIcon />}
-          activeIcon={<LiveActiveIcon />}
-        />
-      </Menu>
+    <aside className={cx("sidebar", sidebar ? "open" : "")}>
+      <div className={cx("middle-sidebar")}>
+        {/* <div className={cx("sidebar__title")}>Menu</div> */}
+        <Menu className={cx("sidebar__list")}>
+          {MENU_ITEMS.map((item, key) => {
+            return (
+              <MenuItem
+                className={cx(sidebar ? "menu-item--detail" : "")}
+                key={key}
+                title={item.title}
+                to={item.to}
+                icon={item.icon}
+                activeIcon={item.activeIcon}
+              />
+            );
+          })}
+        </Menu>
+      </div>
+      {/* <div className={cx("middle-sidebar")}>
+        <div className={cx("sidebar__title")}>Your Favourites</div>
+        <Menu className={cx("sidebar__list")}>
+          {MENU_ITEMS.map((item, key) => {
+            return (
+              <MenuItem
+                className={cx(open ? "menu-item--detail" : "")}
+                key={key}
+                title={item.title}
+                to={item.to}
+                icon={item.icon}
+                activeIcon={item.activeIcon}
+              />
+            );
+          })}
+        </Menu>
+      </div> */}
     </aside>
   );
 }

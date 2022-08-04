@@ -6,12 +6,18 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 const cx = classNames.bind(styles);
 
-function MenuItem({ title, to, icon, activeIcon }) {
+function MenuItem({ title, to, icon, activeIcon, className }) {
   const router = useRouter();
 
   return (
     <Link href={to}>
-      <a className={cx("menu-item", { active: router.pathname == to })}>
+      <a
+        className={cx(
+          "menu-item",
+          { active: router.pathname == to },
+          className
+        )}
+      >
         <span className={cx("icon")}>{icon}</span>
         <span className={cx("active-icon")}>{activeIcon}</span>
         <span className={cx("title")}>{title}</span>

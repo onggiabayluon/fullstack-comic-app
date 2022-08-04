@@ -1,15 +1,6 @@
 import classNames from "classnames/bind";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircleQuestion,
-  faCoins,
-  faEarthAsia,
-  faEllipsisVertical,
-  faGear,
-  faKeyboard,
-  faSignOut,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
+import { faBars, faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 
@@ -19,44 +10,19 @@ import styles from "./Header.module.scss";
 import images from "~/assets/images";
 import Menu from "~/components/Popper/Menu";
 import { InboxIcon, MessageIcon, UploadIcon } from "~/components/Icons";
-// import Image from "~/components/Image";
 import Search from "../Search";
 import Link from "next/link";
 import Image from "next/image";
+import { memo, useEffect } from "react";
+import { MENU_ITEMS, userMenu } from "~/config/HeaderMenuItems";
 const cx = classNames.bind(styles);
 
-const MENU_ITEMS = [
-  {
-    icon: <FontAwesomeIcon icon={faEarthAsia} />,
-    title: "English",
-    children: {
-      title: "Language",
-      data: [
-        {
-          type: "language",
-          code: "en",
-          title: "English",
-        },
-        {
-          type: "language",
-          code: "vi",
-          title: "Tiếng Việt",
-        },
-      ],
-    },
-  },
-  {
-    icon: <FontAwesomeIcon icon={faCircleQuestion} />,
-    title: "Feedback and help",
-    to: "/feedback",
-  },
-  {
-    icon: <FontAwesomeIcon icon={faKeyboard} />,
-    title: "Keyboard shortcuts",
-  },
-];
+const defaultFnc = () => {};
 
-function Header() {
+function Header({ showSidebar = defaultFnc }) {
+  useEffect(() => {
+    console.log("header");
+  });
   const currentUser = true;
 
   // Handle logic
@@ -69,42 +35,29 @@ function Header() {
     }
   };
 
-  const userMenu = [
-    {
-      icon: <FontAwesomeIcon icon={faUser} />,
-      title: "View profile",
-      to: "/@hoaa",
-    },
-    {
-      icon: <FontAwesomeIcon icon={faCoins} />,
-      title: "Get coins",
-      to: "/coin",
-    },
-    {
-      icon: <FontAwesomeIcon icon={faGear} />,
-      title: "Settings",
-      to: "/settings",
-    },
-    ...MENU_ITEMS,
-    {
-      icon: <FontAwesomeIcon icon={faSignOut} />,
-      title: "Log out",
-      to: "/logout",
-      separate: true,
-    },
-  ];
+  const handleHamburgerClick = () => {
+    showSidebar();
+  };
 
   return (
     <header className={cx("wrapper")}>
-      <div className={cx("inner")}>
-        <Link href={config.routes.home} className={cx("logo-link")}>
-          <a>
-            <Image src={images.logo} alt="Tiktok" />
-          </a>
-        </Link>
+      {/* Hamburger */}
+      <div className={cx("hamburger")} onClick={handleHamburgerClick}>
+        <FontAwesomeIcon className={cx("hamburger-icon")} icon={faBars} />
+      </div>
 
+      {/* Logo */}
+      <Link href={config.routes.home}>
+        <a className={cx("logo-link")}>
+          <Image src={images.logo} alt="Tiktok" />
+        </a>
+      </Link>
+
+      <div className={cx("inner")}>
+        {/* Search */}
         <Search />
 
+        {/* Profile Menu */}
         <div className={cx("actions")}>
           {currentUser ? (
             <>
@@ -158,4 +111,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default memo(Header);
