@@ -34,6 +34,7 @@ class MyModelBase(models.Model):
 
 class Comic(MyModelBase):
     class Meta:
+
         ordering = ["-id"]
 
     title = models.CharField(max_length=100, null=False)
@@ -55,11 +56,12 @@ class Comic(MyModelBase):
 
 class Chapter(MyModelBase):
     class Meta:
+        unique_together = ('chapter_num', 'comic')
         ordering = ["-id"]
 
     title = models.TextField(null=True, blank=True, default="None")
-    chapter_num = models.PositiveIntegerField(null=False, unique=True)
-    slug = AutoSlugField(unique=True, populate_from='chapter_num', editable=True, blank=True)
+    chapter_num = models.PositiveIntegerField(null=False)
+    slug = AutoSlugField(populate_from='chapter_num', editable=True, blank=True)
     comic = models.ForeignKey(Comic, related_name="chapters", on_delete=models.CASCADE, null=True)
 
     def save(self, *args, **kwargs):

@@ -10,7 +10,6 @@ import Link from "next/link";
 const cx = classNames.bind(styles);
 
 function ComicSearchCard({ data }) {
-  console.log(data);
   return (
     <div className={cx("wrapper")}>
       <Link href={`/comics/${data.slug}`}>
@@ -27,12 +26,19 @@ function ComicSearchCard({ data }) {
               <span>{data.title}</span>
             </h4>
             <ul className={cx("chapter-wrapper")}>
-              <Link href={"/test2"}>
-                <li className={cx("chapter")}>C.01</li>
-              </Link>
-              <Link href={"/test2"}>
-                <li className={cx("chapter")}>C.02</li>
-              </Link>
+              {data?.chapters.map((chapter) => (
+                <Link
+                  key={chapter.chapter_num}
+                  href={data.slug + "/" + chapter.slug}
+                >
+                  <li className={cx("chapter")} style={{}}>
+                    C.
+                    <span className={cx("chapter-span")}>
+                      {chapter.chapter_num}
+                    </span>
+                  </li>
+                </Link>
+              ))}
             </ul>
           </div>
         </a>

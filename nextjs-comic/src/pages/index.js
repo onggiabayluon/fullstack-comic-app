@@ -3,21 +3,18 @@ import Section from "~/components/Section";
 import ComicCard from "~/components/ComicCard";
 import Carousel from "~/components/Carousel";
 import ComicCardV2 from "~/components/ComicCardV2";
+import { useRef } from "react";
 
 export default function Home() {
-  const breakpoint = {
-    xxl: 2,
-    xl: 3,
-    md: 1,
-    sm: 1,
-  };
+  // Get slider ref from [Carousel component] then pass ref to [Section component]
+  const sliderRef = useRef(null);
 
   return (
     <div className="primary">
       <div className="wrapper">
         {/* Recommends Section */}
-        <Section title="Recommends" href={"/"}>
-          <Carousel breakpoint={breakpoint}>
+        <Section title="Recommends" href={"/"} passRef={sliderRef}>
+          <Carousel ref={sliderRef}>
             {[1, 2, 3, 4, 5].map((comic, key) => (
               <ComicCardV2
                 key={key}
