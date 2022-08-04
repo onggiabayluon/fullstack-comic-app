@@ -4,23 +4,13 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-export default function Carousel({
-  children,
-  breakpoint = {
-    xxl: 4,
-    xl: 3,
-    md: 2,
+// eslint-disable-next-line react/display-name
+const Carousel = React.forwardRef((props, ref) => {
+  const breakpoint = {
+    xxl: 2,
+    xl: 2,
+    md: 1,
     sm: 1,
-  },
-}) {
-  const ref = useRef(null);
-
-  const handleNextSlide = () => {
-    ref.current.slickNext();
-  };
-
-  const handlePrevSlide = () => {
-    ref.current.slickPrev();
   };
 
   var settings = {
@@ -66,21 +56,11 @@ export default function Carousel({
   };
   return (
     <div className="container">
-      {/* <button
-        onClick={handlePrevSlide}
-        className="slick-custom-arrow prev-button"
-      >
-        prev
-      </button>
-      <button
-        onClick={handleNextSlide}
-        className="slick-custom-arrow next-button"
-      >
-        next
-      </button> */}
       <Slider ref={ref} {...settings}>
-        {children}
+        {props.children}
       </Slider>
     </div>
   );
-}
+});
+
+export default Carousel;

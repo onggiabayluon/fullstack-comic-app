@@ -55,6 +55,7 @@
   align-items: center;
 }
 .chapter {
+  display: "inherit";
   + .chapter {
     margin-left: 8px;
   }
@@ -63,3 +64,10 @@
     color: var(--primary);
   }
 }
+
+// .chapter-span {
+//   &:nth-child(n):before {
+//     //C.01
+//     content: "0";
+//   }
+// }

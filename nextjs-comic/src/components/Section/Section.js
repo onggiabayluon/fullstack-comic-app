@@ -9,7 +9,13 @@ import Link from "next/link";
 
 const cx = classNames.bind(styles);
 
-export default function Section({ title, href, className, children }) {
+export default function Section({
+  title,
+  href,
+  className,
+  children,
+  passRef = {},
+}) {
   const classes = cx("section", {
     [className]: className,
   });
@@ -23,8 +29,16 @@ export default function Section({ title, href, className, children }) {
           </Link>
         </div>
         <div className={cx("section__nav")}>
-          <FontAwesomeIcon className={cx("right")} icon={faChevronLeft} />
-          <FontAwesomeIcon className={cx("left")} icon={faChevronRight} />
+          <FontAwesomeIcon
+            className={cx("right")}
+            icon={faChevronLeft}
+            onClick={() => passRef?.current.slickPrev()}
+          />
+          <FontAwesomeIcon
+            className={cx("left")}
+            icon={faChevronRight}
+            onClick={() => passRef?.current.slickNext()}
+          />
         </div>
       </div>
       <div className={cx("section__container")}>{children}</div>

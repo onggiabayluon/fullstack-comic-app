@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 from .models import Category, Chapter, Comic, ComicView, Comment, Rating, User
 from .paginators import BasePagination
 from .serializers import (CategorySerializer, ChapterSerializer,
-                          ComicDetailSerializer, ComicSerializer,
+                          ComicDetailSerializer, ComicDetailTypeLessSerializer, ComicSerializer,
                           ComicViewSerializer, CommentSerializer,
                           RatingSerializer, UserSerializer)
 
@@ -53,6 +53,9 @@ class ComicViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIV
         return comics
 
     def get_serializer_class(self):
+        type = self.request.query_params.get('type')
+        if type is not None and type == 'less':
+            return ComicDetailTypeLessSerializer
         if self.action == 'list':
             return ComicSerializer
         if self.action == 'retrieve':

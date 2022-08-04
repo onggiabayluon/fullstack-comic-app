@@ -1,13 +1,13 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { faCircleXmark, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import HeadlessTippy from "@tippyjs/react/headless";
 import classNames from "classnames/bind";
+import debounce from "lodash.debounce";
 
 import * as searchServices from "~/services/searchService";
 import { Wrapper as PopperWrapper } from "~/components/Popper";
 import { SearchIcon } from "~/components/Icons";
-import { useDebounce } from "~/hooks";
 import styles from "./Search.module.scss";
 import ComicSearchCard from "~/components/ComicSearchCard";
 
@@ -19,27 +19,38 @@ function Search() {
   const [showResult, setShowResult] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const debouncedValue = useDebounce(searchValue, 500);
+  // const debouncedValue = useDebounce(searchValue, 500);
 
   const inputRef = useRef();
 
+  // Hit the database for username match after each debounced change
+  // useCallback is required for debounce to work
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const checkValueAndSearch = useCallback(
+    debounce(async (searchValue) => {
+      if (!searchValue.trim()) {
+        setSearchResult([]);
+        return;
+      }
+
+      const fetchApi = async () => {
+        setLoading(true);
+
+        const result = await searchServices.search(searchValue);
+
+        setSearchResult(result);
+        setLoading(false);
+      };
+
+      fetchApi();
+    }, 500),
+    []
+  );
+
   useEffect(() => {
-    if (!debouncedValue.trim()) {
-      setSearchResult([]);
-      return;
-    }
-
-    const fetchApi = async () => {
-      setLoading(true);
-
-      const result = await searchServices.search(debouncedValue);
-
-      setSearchResult(result);
-      setLoading(false);
-    };
-
-    fetchApi();
-  }, [debouncedValue]);
+    checkValueAndSearch(searchValue);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchValue]);
 
   const handleClear = () => {
     setSearchValue("");

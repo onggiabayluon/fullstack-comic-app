@@ -50,6 +50,27 @@ class ComicDetailSerializer(ComicSerializer):
         fields = ComicSerializer.Meta.fields + ["description", "author", "posted_by"]
 
 
+class ComicDetailTypeLessSerializer(ComicSerializer):
+    chapters = SerializerMethodField()
+
+    def get_chapters(self, comic):
+        # Get 3 lastest update chapter
+        chapters = comic.chapters.order_by('-updated_date')[:3]
+        return ChapterLessSerializer(chapters, many=True, context={"request": self.context.get('request')}).data
+
+    class Meta:
+        model = ComicSerializer.Meta.model
+        # fields = "__all__"
+        fields = ComicSerializer.Meta.fields + ["description", "author", "posted_by"]
+
+
+class ChapterLessSerializer(ModelSerializer):
+
+    class Meta:
+        model = Chapter
+        fields = ["chapter_num", "slug"]
+
+
 class ChapterSerializer(ModelSerializer):
 
     class Meta:
@@ -72,7 +93,6 @@ class CommentSerializer(ModelSerializer):
     class Meta:
         model = Comment
         fields = ['id', 'content', 'created_date', 'updated_date', 'creator', 'reply_to']
-
 
 
 class ComicViewSerializer(ModelSerializer):
