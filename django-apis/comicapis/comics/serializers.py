@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
-from .models import Category, Chapter, Comic, ComicView, Comment, Rating, User
+from .models import Category, Chapter, ChapterImage, Comic, ComicView, Comment, Rating, User
 
 
 class UserSerializer(ModelSerializer):
@@ -21,17 +21,17 @@ class CategorySerializer(ModelSerializer):
 
 
 class ComicSerializer(ModelSerializer):
-    thumbnail = SerializerMethodField()
+    # thumbnail = SerializerMethodField()
 
-    def get_thumbnail(self, comic):
-        request = self.context['request']
-        name = comic.thumbnail.name
-        if name.startswith("static/"):
-            path = '/%s' % name
-        else:
-            path = '/static/%s' % name
+    # def get_thumbnail(self, comic):
+    #     request = self.context['request']
+    #     name = comic.thumbnail.name
+    #     if name.startswith("static/"):
+    #         path = '/%s' % name
+    #     else:
+    #         path = '/static/%s' % name
 
-        return request.build_absolute_uri(path)
+    #     return request.build_absolute_uri(path)
 
     class Meta:
         model = Comic
@@ -72,9 +72,22 @@ class ChapterLessSerializer(ModelSerializer):
 
 
 class ChapterSerializer(ModelSerializer):
+    images = SerializerMethodField()
+
+    def get_images(self, chapter):
+        # Get 3 lastest update chapter
+        images = chapter.chapter_images
+        return ChapterImageSerializer(images, many=True, context={"request": self.context.get('request')}).data
 
     class Meta:
         model = Chapter
+        fields = "__all__"
+
+
+class ChapterImageSerializer(ModelSerializer):
+
+    class Meta:
+        model = ChapterImage
         fields = "__all__"
 
 

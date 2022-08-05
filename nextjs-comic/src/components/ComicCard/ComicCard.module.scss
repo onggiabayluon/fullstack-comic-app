@@ -2,6 +2,7 @@
   $this: &;
 
   &__card {
+    --spacing: 0.7rem;
     display: grid;
     overflow: hidden;
     grid-template-columns: 80px 1fr;
@@ -13,15 +14,29 @@
     background: white;
     position: relative;
     contain: style layout inline-size;
+    padding: var(--spacing) 0;
+
     // gap: var(--gap);
     // --gap: 3qi;
     > #{$this}__figcaption {
       padding: 0 var(--gap) var(--gap) var(--gap);
     }
+
+    &:nth-child(-n + 2) {
+      // padding-bottom: 0;
+      padding-top: var(--spacing);
+    }
+    &:nth-last-of-type(-n + 2) {
+      padding-bottom: var(--spacing);
+      // padding-top: 0;
+    }
   }
 
   &__left {
     display: inherit;
+    a {
+      height: 80px;
+    }
   }
 
   &__right {

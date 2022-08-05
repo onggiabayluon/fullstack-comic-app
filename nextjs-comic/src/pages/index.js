@@ -29,8 +29,12 @@ export default function Home() {
 
         {/* Lastest Update Section */}
         <Section title="Lastest Update" href={"/"} className="doubleLayoutGrid">
-          {[1, 2, 3, 4, 5, 6].map((comic, key) => (
-            <ComicCard key={key} className={"border-top border-bottom"} />
+          {[1, 2, 3, 4, 5].map((comic, key) => (
+            <ComicCard
+              key={key}
+              src={"/GoblinSlayer.jpg"}
+              className={"border-top border-bottom"}
+            />
           ))}
         </Section>
 

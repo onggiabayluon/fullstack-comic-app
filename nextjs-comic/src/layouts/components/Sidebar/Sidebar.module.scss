@@ -11,6 +11,7 @@
   top: var(--default-layout-header-height);
   height: calc(100vh - var(--default-layout-header-height));
   transition: width var(--animation-duration) var(--animation-timing-curve);
+  // border-right: 1px solid var(--light-color-hover);
 
   &__list {
     margin: 0;
