@@ -32,12 +32,12 @@ export default function Section({
           <FontAwesomeIcon
             className={cx("right")}
             icon={faChevronLeft}
-            onClick={() => passRef?.current.slickPrev()}
+            onClick={() => passRef.current?.slickPrev()}
           />
           <FontAwesomeIcon
             className={cx("left")}
             icon={faChevronRight}
-            onClick={() => passRef?.current.slickNext()}
+            onClick={() => passRef.current?.slickNext()}
           />
         </div>
       </div>

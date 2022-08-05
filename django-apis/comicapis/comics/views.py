@@ -131,16 +131,16 @@ class ChapterViewSet(viewsets.ViewSet, generics.ListAPIView):
 
 
 class ChapterDetailViewSet(viewsets.ViewSet, generics.RetrieveAPIView):
-    queryset = Chapter.objects.filter(active=True)
+    # queryset = Chapter.objects.filter(active=True)
     serializer_class = ChapterSerializer
-    pagination_class = BasePagination
+    # pagination_class = BasePagination
     lookup_field = "slug"
 
-    # def get_queryset(self):
-    #     comic_slug = self.kwargs.get('comic_slug')
-    #     slug = self.kwargs.get('slug')
-    #     chapter = Comic.objects.get(slug=comic_slug).chapters.filter(active=True, slug=slug)
-    #     return chapter
+    def get_queryset(self):
+        comic_slug = self.kwargs.get('comic_slug')
+        chapter_slug = self.kwargs.get('slug')
+        chapter = Comic.objects.get(slug=comic_slug).chapters.filter(active=True, slug=chapter_slug)
+        return chapter
 
 
 class ChapterViewsViewSet(APIView):

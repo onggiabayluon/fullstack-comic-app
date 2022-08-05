@@ -10,20 +10,21 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+from dotenv import load_dotenv
+import os
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
+load_dotenv()  # loads the configs from .env
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure--q4jt_ihmoasr2a3)-8s5xqc^r%exyrisx&@kucgi+#t=kd=+v'
+SECRET_KEY = str(os.getenv(('SECRET_KEY')))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = str(os.getenv(('DEBUG')))
 
 ALLOWED_HOSTS = []
 
@@ -37,12 +38,26 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     'comics',
     'rest_framework',
     'drf_yasg',
     'oauth2_provider',
-    'corsheaders'
+    'corsheaders',
+    'nested_admin'
 ]
+
+# Cloudinary
+MEDIA_URL = '/'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': str(os.getenv(('CLOUDINARY_CLOUD_NAME'))),  # required
+    'API_KEY': str(os.getenv(('CLOUDINARY_API_KEY'))),  # required
+    'API_SECRET': str(os.getenv(('CLOUDINARY_API_SECRET'))),  # required
+    'SECURE': True,
+}
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -51,8 +66,8 @@ REST_FRAMEWORK = {
 }
 
 OAUTH2_INFO = {
-    "client_id": "eshENOufYsrUyhN76o8qTTNs13XqHO2TI2qmgkrC",
-    "client_serect": "yI3kGuiZmihqRkuTxByiHPKWKw0raXQ6BV3pyaGZBklANZr7dt0AvuAO3jXXaVtHMhqyWjOS24G79yZIe5yDdlIznAVONfs7KhsH7RaVuqimT8SDPGNHjzPpdxF8VlUT"
+    "client_id": str(os.getenv(('OAUTH2_CLIENT_ID'))),
+    "client_serect": str(os.getenv(('OAUTH2_CLIENT_SERECT')))
 }
 
 # OAUTH2_PROVIDER = {
@@ -88,7 +103,9 @@ MEDIA_ROOT = '%s/comics/static/' % BASE_DIR
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -106,13 +123,12 @@ WSGI_APPLICATION = 'comicapis.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'comicdb',
-        'USER': 'root',
-        'PASSWORD': '12345678',
+        'NAME': str(os.getenv(('DATABASE_NAME'))),
+        'USER': str(os.getenv(('DATABASE_USER'))),
+        'PASSWORD': str(os.getenv(('DATABASE_PASSWORD'))),
         'HOST': ''
     },
 }
