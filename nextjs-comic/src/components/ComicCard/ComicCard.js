@@ -7,7 +7,12 @@ import { faClock } from "@fortawesome/free-regular-svg-icons";
 
 const cx = classNames.bind(styles);
 
-export default function ComicCard({ className, children }) {
+export default function ComicCard({
+  className,
+  children,
+  src,
+  objectFit = "cover",
+}) {
   const classes = cx("card__card", {
     [className]: className,
   });
@@ -19,10 +24,11 @@ export default function ComicCard({ className, children }) {
           <a>
             <Image
               className={cx("card__image")}
-              src="https://i0.wp.com/css-tricks.com/wp-content/uploads/2021/09/pseudo-effects.jpg?fit=1024%2C512&ssl=1"
+              src={src}
               alt="Featured image"
               width={80}
               height={80}
+              objectFit={objectFit}
               placeholder="blur"
               blurDataURL="data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjcwMCIgaGVpZ2h0PSI0NzUiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImciPgogICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjMzMzIiBvZmZzZXQ9IjIwJSIgLz4KICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzIyMiIgb2Zmc2V0PSI1MCUiIC8+CiAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiMzMzMiIG9mZnNldD0iNzAlIiAvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjcwMCIgaGVpZ2h0PSI0NzUiIGZpbGw9IiMzMzMiIC8+CiAgPHJlY3QgaWQ9InIiIHdpZHRoPSI3MDAiIGhlaWdodD0iNDc1IiBmaWxsPSJ1cmwoI2cpIiAvPgogIDxhbmltYXRlIHhsaW5rOmhyZWY9IiNyIiBhdHRyaWJ1dGVOYW1lPSJ4IiBmcm9tPSItNzAwIiB0bz0iNzAwIiBkdXI9IjFzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIgIC8+Cjwvc3ZnPg=="
             />
