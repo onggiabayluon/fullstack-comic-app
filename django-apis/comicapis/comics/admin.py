@@ -15,6 +15,7 @@ class ChapterImageInline(nested_admin.NestedStackedInline):
 class ChapterInline(nested_admin.NestedStackedInline):
     model = Chapter
     extra = 1
+    max_num = 1
     readonly_fields = ('slug',)
     inlines = [ChapterImageInline]
 
