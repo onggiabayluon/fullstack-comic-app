@@ -4,16 +4,19 @@ import ComicCard from "~/components/ComicCard";
 import Carousel from "~/components/Carousel";
 import ComicCardV2 from "~/components/ComicCardV2";
 import { useRef } from "react";
+import utils from "~/utils";
 
 export default function Home() {
   // Get slider ref from [Carousel component] then pass ref to [Section component]
   const sliderRef = useRef(null);
 
+  const comics = utils.dummyData.comics;
+
   return (
     <div className="primary">
       <div className="wrapper">
         {/* Recommends Section */}
-        <Section title="Recommends" href={"/"} passRef={sliderRef}>
+        <Section title="Recommends" passRef={sliderRef} hasNav>
           <Carousel ref={sliderRef}>
             {[1, 2, 3, 4, 5].map((comic, key) => (
               <ComicCardV2
@@ -28,13 +31,15 @@ export default function Home() {
         </Section>
 
         {/* Lastest Update Section */}
-        <Section title="Lastest Update" href={"/"} className="doubleLayoutGrid">
-          {[1, 2, 3, 4, 5].map((comic, key) => (
+        <Section title="Lastest Update" doubleLayoutGrid>
+          {comics.map((comic, index) => (
             <ComicCard
-              key={key}
-              src={"/GoblinSlayer.jpg"}
-              className={"border-top border-bottom"}
-            />
+              key={index}
+              comic={comic}
+              {...((index == 0 || index == 1) && { borderTop: true })}
+              borderBottom
+              className={"comic-card__card"}
+            ></ComicCard>
           ))}
         </Section>
 

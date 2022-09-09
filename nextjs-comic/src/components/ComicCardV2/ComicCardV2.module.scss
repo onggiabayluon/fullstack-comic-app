@@ -98,18 +98,8 @@
 .big {
   --cardWidth: 95%;
   width: clamp(var(--cardWidth), 65%, 65%);
-  //   padding: 24px;
 }
-// @media (max-width: 1300px) {
-//   .big {
-//     --cardWidth: 450px;
-//   }
-// }
-// @media (max-width: 1200px) {
-//   .big {
-//     --cardWidth: 250px;
-//   }
-// }
+
 @media (max-width: 880px) {
   .big {
     --cardWidth: 100%;

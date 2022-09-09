@@ -1,7 +1,6 @@
 import styles from "./ComicCardV2.module.scss";
 import classNames from "classnames/bind";
-import Image from "next/image";
-import { blur } from "../Shimmer/Shimmer";
+import MyImage from "~/components/MyImage";
 
 const cx = classNames.bind(styles);
 
@@ -21,14 +20,13 @@ function ComicCardV2({
           className={cx(`pizza-box`)}
           style={{ position: "relative", width: width, height: height }}
         >
-          <Image
+          <MyImage
+            className={cx("card__image")}
             src={src}
             alt={alt}
+            priority={priority}
             layout={layout}
             objectFit={objectFit}
-            placeholder="blur"
-            blurDataURL={blur}
-            priority={priority}
           />
         </div>
         <div className={cx(`card-content`)}>

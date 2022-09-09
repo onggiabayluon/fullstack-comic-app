@@ -1,12 +1,8 @@
+import ComicDetail from "~/layouts/components/ComicDetail";
 import { publicRoutes } from "~/routes";
 
 function ComicDetailPage() {
-  return (
-    <main>
-      <h1>comic detail page</h1>
-      <div></div>
-    </main>
-  );
+  return <ComicDetail />;
 }
 
 ComicDetailPage.layout = publicRoutes.comicDetail.layout;
