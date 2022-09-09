@@ -8,6 +8,7 @@ const nextConfig = {
       "images.unsplash.com",
       "i0.wp.com",
       "127.0.0.1",
+      "res.cloudinary.com",
     ],
   },
 };

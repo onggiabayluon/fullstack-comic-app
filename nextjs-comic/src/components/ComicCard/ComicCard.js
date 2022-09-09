@@ -2,75 +2,187 @@ import styles from "./ComicCard.module.scss";
 import classNames from "classnames/bind";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import Image from "next/image";
-import { faClock } from "@fortawesome/free-regular-svg-icons";
+import { faClock, faHeart } from "@fortawesome/free-regular-svg-icons";
+import MyImage from "~/components/MyImage";
+import { publicRoutes } from "~/routes";
+import { Fragment } from "react";
 
 const cx = classNames.bind(styles);
 
 export default function ComicCard({
-  className,
-  children,
   src,
-  objectFit = "cover",
+  index,
+  comic,
+  chapter,
+  className,
+  href,
+  LIMIT = 3,
+  borderTop = false,
+  borderBottom = false,
+  hasHeader = true,
+  width = 80,
+  height = 80,
+  extraClass,
+  ...passProps
 }) {
-  const classes = cx("card__card", {
+  const classes = cx({
     [className]: className,
+    borderTop,
+    borderBottom,
+    [extraClass]: extraClass,
   });
 
+  let Comp = "article";
+  let LinkWrapper = Fragment;
+
+  if (href) {
+    Comp = "li";
+    LinkWrapper = Wrapper;
+  }
+
   return (
-    <article className={classes}>
-      <div className={cx("card__left")}>
-        <Link href="#">
-          <a>
-            <Image
-              className={cx("card__image")}
-              src={src}
-              alt="Featured image"
-              width={80}
-              height={80}
-              objectFit={objectFit}
-              placeholder="blur"
-              blurDataURL="data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjcwMCIgaGVpZ2h0PSI0NzUiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImciPgogICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjMzMzIiBvZmZzZXQ9IjIwJSIgLz4KICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzIyMiIgb2Zmc2V0PSI1MCUiIC8+CiAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiMzMzMiIG9mZnNldD0iNzAlIiAvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjcwMCIgaGVpZ2h0PSI0NzUiIGZpbGw9IiMzMzMiIC8+CiAgPHJlY3QgaWQ9InIiIHdpZHRoPSI3MDAiIGhlaWdodD0iNDc1IiBmaWxsPSJ1cmwoI2cpIiAvPgogIDxhbmltYXRlIHhsaW5rOmhyZWY9IiNyIiBhdHRyaWJ1dGVOYW1lPSJ4IiBmcm9tPSItNzAwIiB0bz0iNzAwIiBkdXI9IjFzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIgIC8+Cjwvc3ZnPg=="
-            />
-          </a>
-        </Link>
-      </div>
-      <div className={cx("card__right")}>
+    <Comp
+      className={classes}
+      {...passProps}
+      style={{ "--column": height + "px" }}
+    >
+      <LinkWrapper {...(href && { href: href })}>
+        {chapter ? (
+          <ChapterStyle src={src} {...chapter} index={index}></ChapterStyle>
+        ) : (
+          <ComicStyle
+            src={src}
+            {...comic}
+            LIMIT={LIMIT}
+            hasHeader={hasHeader}
+            width={width}
+            height={height}
+          ></ComicStyle>
+        )}
+      </LinkWrapper>
+    </Comp>
+  );
+}
+
+const Wrapper = ({ href, children }) => {
+  return (
+    <Link href={href}>
+      <a className={cx("card__link")}>{children}</a>
+    </Link>
+  );
+};
+
+const ChapterStyle = (props) => {
+  return (
+    <>
+      <ChapterLeft {...props} />
+      <ChapterRight {...props} />
+    </>
+  );
+};
+const ComicStyle = (props) => {
+  return (
+    <>
+      <ComicLeft {...props} />
+      <ComicRight {...props} />
+    </>
+  );
+};
+
+const ComicLeft = (props) => {
+  return (
+    <div className={cx("comic-card__left")} style={{ height: props.height }}>
+      <Link href={publicRoutes.comicDetail.getDynamicPath(props.slug)}>
+        <a>
+          <MyImage
+            className={cx("comic-card__image")}
+            src={props.src}
+            alt={props.alt}
+            width={props.width}
+            height={props.height}
+          />
+        </a>
+      </Link>
+    </div>
+  );
+};
+
+const ComicRight = ({
+  tags,
+  created_date: createdDate,
+  slug,
+  title,
+  chapters,
+  LIMIT,
+  hasHeader,
+}) => {
+  return (
+    <div className={cx("comic-card__right")}>
+      {hasHeader && (
         <div className={cx("header")}>
           <div className={cx("tags")}>
-            <span className={cx("tag")}>
-              <Link href={"#"}>
-                <a className="light-text">Sonen</a>
-              </Link>
-            </span>
-            <span className={cx("tag")}>
-              <Link href={"#"}>
-                <a className="light-text">Adventure</a>
-              </Link>
-            </span>
+            {tags?.map((tag) => (
+              <span key={tag.id} className={cx("tag")}>
+                <Link href={publicRoutes.categories.getDynamicPath(tag.name)}>
+                  <a className="light-text">{tag.name}</a>
+                </Link>
+              </span>
+            ))}
           </div>
 
           <span className={cx("timer", "light-text")}>
             <FontAwesomeIcon className={cx("timer__icon")} icon={faClock} />
-            <span className={cx("timer__text")}>1 Mins ago</span>
+            <span className={cx("timer__text")}>{createdDate}</span>
           </span>
         </div>
+      )}
 
-        <h2 className={cx("card__title", "truncate-blur")}>
-          <Link href={"#"}>
-            <a>A Returner’s Magic Should Be Special</a>
-          </Link>
-        </h2>
+      <h2 className={cx("comic-card__title", "truncate-blur")}>
+        <Link href={publicRoutes.comicDetail.getDynamicPath(slug)}>
+          <a>{title}</a>
+        </Link>
+      </h2>
 
-        <ul className={cx("card__chapters")}>
-          <Link href={"/test2"}>
-            <li className={cx("chapter")}>C.01</li>
+      <ul className={cx("comic-card__chapters")}>
+        {chapters?.slice(0, LIMIT).map((chapter) => (
+          <Link
+            key={chapter.chapterSlug}
+            href={publicRoutes.chapterDetail.getDynamicPath(
+              slug,
+              chapter.chapterSlug
+            )}
+          >
+            <li className={cx("chapter")}>C.{chapter.chapterNum}</li>
           </Link>
-          <Link href={"/test2"}>
-            <li className={cx("chapter")}>C.02</li>
-          </Link>
-        </ul>
-      </div>
-    </article>
+        ))}
+      </ul>
+    </div>
   );
-}
+};
+
+const ChapterLeft = (props) => {
+  return (
+    <span className={cx("card__thumbnail")}>
+      <MyImage
+        className={"img"}
+        src={props.src}
+        width={73}
+        height={73}
+        alt={props.alt}
+      />
+    </span>
+  );
+};
+const ChapterRight = (props) => {
+  return (
+    <div className={cx("card__info-wrapper")}>
+      <span className={cx("card__num")}>Chapter {props.chapterNum}</span>
+      <span className={cx("card__date")}>{props.created_date}</span>
+      <span className={cx("card__likearea")}>
+        <FontAwesomeIcon className={cx("card__like-ico")} icon={faHeart} />
+        <span className={cx("card__like-num")}>{props.like}</span>
+      </span>
+      <span className={cx("card__index")}>#{props.index + 1}</span>
+    </div>
+  );
+};

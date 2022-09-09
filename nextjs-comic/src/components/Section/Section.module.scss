@@ -4,12 +4,6 @@
     margin-top: 3rem;
   }
 }
-// .section .section__container {
-//   max-width: var(--default-section-container);
-// }
-// .section__header {
-//   max-width: var(--default-section-container);
-// }
 
 .tripleLayoutGrid {
   .section__container {
@@ -133,4 +127,20 @@
     aspect-ratio: 16 / 9;
     object-fit: cover;
   }
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+}
+.spacing {
+  padding: 31px 20px 66px;
+}
+@media (max-width: 1200px) {
+  .container {
+    margin: 1rem 2rem;
+  }
+}
+.comments-box {
+  background-color: var(--white);
 }

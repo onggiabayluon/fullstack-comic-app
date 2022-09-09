@@ -2,34 +2,43 @@ import classNames from "classnames/bind";
 import styles from "./Sidebar.module.scss";
 import Menu, { MenuItem } from "./Menu";
 import { sidebarItems as MY_SIDEBAR_ITEMS } from "~/config/SidebarItems";
-import { useEffect } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 
 const cx = classNames.bind(styles);
 const MENU_ITEMS = MY_SIDEBAR_ITEMS;
 
-function Sidebar({ setSidebar, sidebar }) {
+// eslint-disable-next-line react/display-name
+const Sidebar = forwardRef((props, sidebarRef) => {
+  const [show, setShow] = useState(false);
+
+  const toggleSidebar = () => setShow(!show);
+
+  // Add new method to ref: toggleSidebar()
+  useImperativeHandle(sidebarRef, () => ({
+    toggleSidebar,
+  }));
+
   useEffect(() => {
-    // handleHideSidebar();
+    const handleHideSidebar = () => {
+      const width = window.innerWidth;
+
+      if (width <= 880) setShow(false);
+    };
     const handler = window.addEventListener("resize", handleHideSidebar);
+    console.log("sidebar");
 
     return () => handler;
   });
 
-  const handleHideSidebar = () => {
-    const width = window.innerWidth;
-
-    if (width <= 880) setSidebar(false);
-  };
-
   return (
-    <aside className={cx("sidebar", sidebar ? "open" : "")}>
+    <aside ref={sidebarRef} className={cx("sidebar", show ? "open" : "")}>
       <div className={cx("middle-sidebar")}>
         {/* <div className={cx("sidebar__title")}>Menu</div> */}
         <Menu className={cx("sidebar__list")}>
           {MENU_ITEMS.map((item, key) => {
             return (
               <MenuItem
-                className={cx(sidebar ? "menu-item--detail" : "")}
+                className={cx(show ? "menu-item--detail" : "")}
                 key={key}
                 title={item.title}
                 to={item.to}
@@ -59,6 +68,6 @@ function Sidebar({ setSidebar, sidebar }) {
       </div> */}
     </aside>
   );
-}
+});
 
 export default Sidebar;
