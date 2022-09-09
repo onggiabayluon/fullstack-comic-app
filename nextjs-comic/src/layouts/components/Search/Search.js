@@ -10,16 +10,17 @@ import { Wrapper as PopperWrapper } from "~/components/Popper";
 import { SearchIcon } from "~/components/Icons";
 import styles from "./Search.module.scss";
 import ComicSearchCard from "~/components/ComicSearchCard";
-
+import { comic } from "~/utils/dummyData";
 const cx = classNames.bind(styles);
 
-function Search() {
+const defaultFnc = () => {};
+
+function Search({ toggleLogoStateBySearchState = defaultFnc }) {
   const [searchValue, setSearchValue] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [showResult, setShowResult] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  // const debouncedValue = useDebounce(searchValue, 500);
+  const [searchExpand, setsearchExpand] = useState(false);
 
   const inputRef = useRef();
 
@@ -29,7 +30,7 @@ function Search() {
   const checkValueAndSearch = useCallback(
     debounce(async (searchValue) => {
       if (!searchValue.trim()) {
-        setSearchResult([]);
+        // setSearchResult([]);
         return;
       }
 
@@ -69,6 +70,14 @@ function Search() {
     }
   };
 
+  const toggleSearch = () => {
+    setsearchExpand(!searchExpand);
+    // SearchState not update yet so we need to update it state using !
+    toggleLogoStateBySearchState(!searchExpand);
+  };
+
+  const showPopper = (attrs) => {};
+
   return (
     // Using a wrapper <div> tag around the reference element solves
     // this by creating a new parentNode context.
@@ -76,7 +85,7 @@ function Search() {
       <HeadlessTippy
         interactive
         // ShowResult is true and search result > 0 then show stuff
-        visible={showResult && searchResult?.length > 0}
+        visible={showResult && searchExpand && searchResult?.length > 0}
         render={(attrs) => (
           <div className={cx("search-result")} tabIndex="-1" {...attrs}>
             <PopperWrapper>
@@ -90,7 +99,7 @@ function Search() {
         )}
         onClickOutside={handleHideResult}
       >
-        <div className={cx("search")}>
+        <div className={cx("search", searchExpand ? "open" : "")}>
           <input
             ref={inputRef}
             value={searchValue}
@@ -99,7 +108,7 @@ function Search() {
             onChange={handleChange}
             onFocus={() => setShowResult(true)}
           />
-          {!!searchValue && !loading && (
+          {!!searchValue && !loading && searchExpand && (
             <button className={cx("clear")} onClick={handleClear}>
               <FontAwesomeIcon icon={faCircleXmark} />
             </button>
@@ -111,6 +120,7 @@ function Search() {
           <button
             className={cx("search-btn")}
             onMouseDown={(e) => e.preventDefault()}
+            onClick={toggleSearch}
           >
             <SearchIcon />
           </button>

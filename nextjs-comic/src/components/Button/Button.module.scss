@@ -52,6 +52,7 @@
   border-color: var(--primary);
 
   &:hover {
+    color: var(--white);
     border-color: var(--primary);
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.06)),
       #fe2c55;
@@ -83,4 +84,8 @@
 .large {
   padding: 14px 16px;
   min-width: 140px;
+}
+.block {
+  display: block;
+  text-align: center;
 }

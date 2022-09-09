@@ -1,11 +1,12 @@
-.card {
+.comic-card {
   $this: &;
 
   &__card {
     --spacing: 0.7rem;
+    --column: 80px;
     display: grid;
     overflow: hidden;
-    grid-template-columns: 80px 1fr;
+    grid-template-columns: var(--column) 1fr;
     // grid-template-rows: auto 1fr;
     width: 100%;
     height: auto;
@@ -89,4 +90,84 @@
     width: 15px;
     height: 15px;
   }
+}
+
+// -------------- Card --------------- //
+
+.card {
+  :hover {
+    background-color: var(--background-secondary);
+  }
+
+  &__link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    color: var(--white);
+    height: 73px;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  &__thumbnail {
+    position: relative;
+    padding: 0;
+    width: 83px;
+    height: 73px;
+    overflow: hidden;
+    .img {
+      max-width: 100%;
+      max-height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: top;
+    }
+  }
+
+  &__info-wrapper {
+    display: flex;
+    width: 100%;
+    margin: 0 12px;
+  }
+  &__num {
+    color: #3d3d3d;
+    font-size: 17px;
+  }
+  &__date {
+    margin-left: auto;
+    font-size: 14px;
+    color: #b1b1b1;
+    letter-spacing: 1px;
+  }
+  &__likearea {
+    margin-left: 2rem;
+    font-size: 14px;
+    color: #b1b1b1;
+    letter-spacing: 1px;
+  }
+  &__like-ico {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    margin: 0px 5px 0 0;
+  }
+  &__like-num {
+  }
+  &__index {
+    margin: -2px 0px 0px 26px;
+    font-size: 17px;
+    color: var(--text-color);
+    letter-spacing: 1px;
+    text-align: right;
+  }
+}
+
+.borderTop {
+  border-top: 1px solid var(--border-color);
+}
+.borderBottom {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.hover {
+  background-color: var(--background-secondary);
 }

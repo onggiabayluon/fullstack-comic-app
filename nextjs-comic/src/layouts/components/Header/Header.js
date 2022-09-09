@@ -4,26 +4,28 @@ import { faBars, faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 
+import MyImage from "~/components/MyImage";
 import config from "~/config";
 import Button from "~/components/Button";
 import styles from "./Header.module.scss";
 import images from "~/assets/images";
 import Menu from "~/components/Popper/Menu";
-import { InboxIcon, MessageIcon, UploadIcon } from "~/components/Icons";
 import Search from "../Search";
+
+import { InboxIcon, MessageIcon, UploadIcon } from "~/components/Icons";
 import Link from "next/link";
 import Image from "next/image";
-import { memo, useEffect } from "react";
+import { memo, useEffect, useImperativeHandle, useRef } from "react";
 import { MENU_ITEMS, userMenu } from "~/config/HeaderMenuItems";
 const cx = classNames.bind(styles);
 
-const defaultFnc = () => {};
+function Header({ sidebarRef, hasHamburger = true }) {
+  const currentUser = true;
+  const logoRef = useRef(null);
 
-function Header({ showSidebar = defaultFnc }) {
   useEffect(() => {
     console.log("header");
   });
-  const currentUser = true;
 
   // Handle logic
   const handleMenuChange = (menuItem) => {
@@ -35,27 +37,35 @@ function Header({ showSidebar = defaultFnc }) {
     }
   };
 
-  const handleHamburgerClick = () => {
-    showSidebar();
+  const handleHamburgerClick = () => sidebarRef.current?.toggleSidebar();
+
+  const toggleLogoState = (searchExpand) => {
+    // Search expand then remove logo
+    if (searchExpand) {
+      logoRef.current.classList.add("flex-hidden");
+    } else {
+      logoRef.current.classList.remove("flex-hidden");
+    }
   };
 
   return (
     <header className={cx("wrapper")}>
       {/* Hamburger */}
-      <div className={cx("hamburger")} onClick={handleHamburgerClick}>
-        <FontAwesomeIcon className={cx("hamburger-icon")} icon={faBars} />
-      </div>
-
+      {hasHamburger && (
+        <div className={cx("hamburger")} onClick={handleHamburgerClick}>
+          <FontAwesomeIcon className={cx("hamburger-icon")} icon={faBars} />
+        </div>
+      )}
+      {!hasHamburger && <div className={cx("hamburger", "no-cursor")}></div>}
       {/* Logo */}
       <Link href={config.routes.home}>
-        <a className={cx("logo-link")}>
-          <Image src={images.logo} alt="Tiktok" />
+        <a ref={logoRef} className={cx("logo-link")}>
+          <MyImage src={images.logo} alt="Tiktok" />
         </a>
       </Link>
-
       <div className={cx("inner")}>
         {/* Search */}
-        <Search />
+        <Search toggleLogoStateBySearchState={toggleLogoState} />
 
         {/* Profile Menu */}
         <div className={cx("actions")}>
@@ -91,7 +101,7 @@ function Header({ showSidebar = defaultFnc }) {
           >
             {currentUser ? (
               <span className={cx("user-avatar-wrapper")} tabIndex="0">
-                <Image
+                <MyImage
                   className={cx("user-avatar")}
                   src="https://images.unsplash.com/photo-1481349518771-20055b2a7b24?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1539&q=80&w=auto&h=40"
                   alt="Nguyen Van A"
@@ -111,4 +121,4 @@ function Header({ showSidebar = defaultFnc }) {
   );
 }
 
-export default memo(Header);
+export default Header;
