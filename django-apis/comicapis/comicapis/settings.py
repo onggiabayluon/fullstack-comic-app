@@ -24,7 +24,7 @@ load_dotenv()  # loads the configs from .env
 SECRET_KEY = str(os.getenv(('SECRET_KEY')))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = str(os.getenv(('DEBUG')))
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -41,10 +41,10 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'cloudinary',
     'comics',
+    'corsheaders',
     'rest_framework',
     'drf_yasg',
     'oauth2_provider',
-    'corsheaders',
     'nested_admin'
 ]
 
@@ -74,6 +74,17 @@ OAUTH2_INFO = {
 #     'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore'
 # }
 
+# CORS_ORIGIN_ALLOW_ALL = True
+
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+    "http://127.0.0.1:3000",
+    'https://localhost:3000',
+    "https://127.0.0.1:3000",
+]
+
+
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -86,13 +97,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
-
-
-# CORS_ALLOWED_ORIGINS = [
-#     'http://localhost:3000',
-#     "http://127.0.0.1:3000",
-# ]
 
 ROOT_URLCONF = 'comicapis.urls'
 

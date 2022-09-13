@@ -75,7 +75,12 @@ class Comic(MyModelBase):
 
 
 def default_chapter_num():
-    lastest_chapter = Chapter.objects.latest('id')
+    try:
+        lastest_chapter = Chapter.objects.latest('id')
+    except Chapter.DoesNotExist:
+        lastest_chapter = None
+        return None
+
     next_lastest_chapter_num = lastest_chapter.chapter_num + 1
     return next_lastest_chapter_num
 
