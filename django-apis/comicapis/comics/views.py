@@ -1,4 +1,3 @@
-import datetime
 from django.conf import settings
 from django.db.models import F
 from rest_framework import generics, permissions, status, viewsets
@@ -9,9 +8,9 @@ from rest_framework.views import APIView
 from .models import Category, Chapter, Comic, ComicView, Comment, Rating, User
 from .paginators import BasePagination
 from .serializers import (CategorySerializer, ChapterSerializer,
-                          ComicDetailSerializer, ComicDetailTypeLessSerializer, ComicSerializer,
-                          ComicViewSerializer, CommentSerializer,
-                          RatingSerializer, UserSerializer)
+                          ComicDetailSerializer, ComicDetailTypeLessSerializer,
+                          ComicSerializer, ComicViewSerializer,
+                          CommentSerializer, RatingSerializer, UserSerializer)
 
 
 class CategoryViewSet(viewsets.ViewSet, generics.ListAPIView):
@@ -169,7 +168,6 @@ class CommentViewSet(viewsets.ViewSet, generics.UpdateAPIView, generics.DestroyA
 
     def get_permissions(self):
         if self.action in ['get_replies']:
-            print('test')
             return [permissions.AllowAny()]
         else:
             return [permissions.IsAuthenticated()]

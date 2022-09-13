@@ -66,7 +66,7 @@ class ChapterAdmin(admin.ModelAdmin):
 
 
 class ChapterImageAdmin(admin.ModelAdmin):
-    list_display = ["chapter", "get_chapter", "thumbnail"]
+    list_display = ["chapter", "thumbnail"]
     list_filter = ('chapter__id', )
     search_fields = ["chapter__id"]
 
