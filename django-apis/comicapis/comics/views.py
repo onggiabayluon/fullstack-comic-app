@@ -1,21 +1,33 @@
 from django.conf import settings
 from django.db.models import F
 from rest_framework import generics, permissions, status, viewsets
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import Category, Chapter, Comic, ComicView, Comment, Rating, User
 from .paginators import BasePagination
 from .serializers import (CategorySerializer, ChapterSerializer,
                           ComicDetailSerializer, ComicDetailTypeLessSerializer,
                           ComicSerializer, ComicViewSerializer,
-                          CommentSerializer, RatingSerializer, UserSerializer)
+                          CommentSerializer, MyTokenObtainPairSerializer,
+                          RatingSerializer, RegisterSerializer, UserSerializer)
+
+"""
+Register View   : api/
+"""
 
 
-class CategoryViewSet(viewsets.ViewSet, generics.ListAPIView):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = RegisterSerializer
 
 
 """
@@ -25,6 +37,11 @@ Comment List : comics/{slug}/comments
 Add comment  : comics/{slug}/add-comment
 rate comic   : comics/{slug}/rating
 """
+
+
+class CategoryViewSet(viewsets.ViewSet, generics.ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
 
 
 class ComicViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIView):

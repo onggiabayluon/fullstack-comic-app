@@ -1,7 +1,54 @@
+from django.contrib.auth.password_validation import validate_password
+from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
-from .models import Category, Chapter, ChapterImage, Comic, ComicView, Comment, Rating, User
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+from .models import (Category, Chapter, ChapterImage, Comic, ComicView,
+                     Comment, Rating, User)
 
 
+# Authentication serializer
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    # create a token (more specifically access & refresh tokens)
+    # if valid username & password are provided.
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        # Add custom claims
+        token['username'] = user.username
+        token['email'] = user.email
+        # ...
+        return token
+
+
+class RegisterSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(
+        write_only=True, required=True, validators=[validate_password])
+    password2 = serializers.CharField(write_only=True, required=True)
+
+    class Meta:
+        model = User
+        fields = ('username', 'password', 'password2')
+
+    def validate(self, attrs):
+        if attrs['password'] != attrs['password2']:
+            raise serializers.ValidationError(
+                {"password": "Password fields didn't match."})
+
+        return attrs
+
+    def create(self, validated_data):
+        user = User.objects.create(
+            username=validated_data['username']
+        )
+
+        user.set_password(validated_data['password'])
+        user.save()
+
+        return user
+
+
+# Custom serializer
 class UserSerializer(ModelSerializer):
     class Meta:
         model = User
@@ -12,6 +59,25 @@ class UserLessSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = ["username"]
+
+
+class UserSerializer(ModelSerializer):
+    # overriding create
+    def create(self, validated_data):
+        # Hashing password whenever creating new user
+        user = User(**validated_data)
+        user.set_password(user.password)
+        user.save()
+
+        return user
+
+    class Meta:
+        model = User
+        fields = ["id", "first_name", "last_name", "avatar",
+                  "username", "password", "email", "date_joined"]
+        extra_kwargs = {
+            'password': {'write_only': 'true'}
+        }
 
 
 class CategorySerializer(ModelSerializer):
@@ -112,22 +178,3 @@ class ComicViewSerializer(ModelSerializer):
     class Meta:
         model = ComicView
         fields = ["id", "views", "comic"]
-
-
-class UserSerializer(ModelSerializer):
-    # overriding create
-    def create(self, validated_data):
-        # Hashing password whenever creating new user
-        user = User(**validated_data)
-        user.set_password(user.password)
-        user.save()
-
-        return user
-
-    class Meta:
-        model = User
-        fields = ["id", "first_name", "last_name", "avatar",
-                  "username", "password", "email", "date_joined"]
-        extra_kwargs = {
-            'password': {'write_only': 'true'}
-        }
