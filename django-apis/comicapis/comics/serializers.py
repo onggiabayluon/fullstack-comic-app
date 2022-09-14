@@ -1,4 +1,7 @@
+from datetime import datetime
+
 from django.contrib.auth.password_validation import validate_password
+from django.db.models.fields.files import ImageFieldFile
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -7,17 +10,38 @@ from .models import (Category, Chapter, ChapterImage, Comic, ComicView,
                      Comment, Rating, User)
 
 
+def encode_imagefield(obj):
+    """
+    Extended encoder function that helps to serialize dates and images
+    """
+    # if isinstance(obj, datetime.date):
+    #     try:
+    #         return obj.strftime('%Y-%m-%d')
+    #     except ValueError:
+    #         return ''
+
+    if isinstance(obj, ImageFieldFile):
+        try:
+            return obj.path
+        except ValueError:
+            return ''
+
+    raise TypeError(repr(obj) + " is not JSON serializable")
+
 # Authentication serializer
+
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     # create a token (more specifically access & refresh tokens)
     # if valid username & password are provided.
+
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
         # Add custom claims
         token['username'] = user.username
         token['email'] = user.email
-        # ...
+        token['avatar'] = encode_imagefield(user.avatar)
         return token
 
 

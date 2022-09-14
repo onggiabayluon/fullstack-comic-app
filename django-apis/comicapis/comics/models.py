@@ -1,14 +1,15 @@
+from autoslug import AutoSlugField
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from autoslug import AutoSlugField
 from django.utils.text import slugify
-
 
 # Notes:
 # null=false mean column need to have value in db
 # blank=false mean column need to have value in form (admin or custom form)
 
 # Cloudinary default location upload
+
+
 def cloudinary_image_path(instance, filename):
     # Upload thumbnail to: /comics/{comic_slug}/thumbnail
     if isinstance(instance, Comic):
@@ -17,8 +18,9 @@ def cloudinary_image_path(instance, filename):
         return '/'.join(filter(None, ("comics", comic_slug, "thumbnail", filename)))
     # Upload thumbnail to: /users/{id}/thumbnail
     if isinstance(instance, User):
+        print(filename)
         user = instance
-        user_id = user.id
+        user_id = str(user.id)
         return '/'.join(filter(None, ("users", user_id, "thumbnail", filename)))
     # Upload images to: /comics/{comic_slug}/{chapter_slug}
     if isinstance(instance, ChapterImage):
