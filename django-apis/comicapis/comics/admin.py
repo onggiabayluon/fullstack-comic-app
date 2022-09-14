@@ -1,7 +1,7 @@
-from django.contrib import admin
 import nested_admin
+from django.contrib import admin
 
-from .models import Category, Comic, Chapter, ChapterImage
+from .models import Category, Chapter, ChapterImage, Comic, User
 
 # Inline Classes
 
@@ -78,6 +78,7 @@ class ChapterImageAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(Category)
+admin.site.register(User)
 admin.site.register(Comic, ComicAdmin)
 admin.site.register(ChapterImage, ChapterImageAdmin)
 admin.site.register(Chapter, ChapterAdmin)
