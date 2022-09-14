@@ -1,5 +1,22 @@
 import { Fragment } from "react";
-import DefaultLayout from "~/layouts";
+import { UserProvider } from "~/contexts/UserContext";
+import DefaultLayout, { HeaderOnly } from "~/layouts";
+
+export const layouts = {
+  comicDetail: {
+    layout: HeaderOnly,
+  },
+  chapterDetail: {
+    layout: HeaderOnly,
+  },
+  login: {
+    layout: HeaderOnly,
+  },
+  register: {
+    layout: HeaderOnly,
+  },
+  categories: {},
+};
 
 function getLayout(selectedLayout, page) {
   // check if layout is specify in publicRoutes || fallback Defaultlayout
@@ -11,7 +28,11 @@ function getLayout(selectedLayout, page) {
     Layout = Fragment;
   }
 
-  return <Layout>{page}</Layout>;
+  return (
+    <UserProvider>
+      <Layout>{page}</Layout>
+    </UserProvider>
+  );
 }
 
 export default getLayout;

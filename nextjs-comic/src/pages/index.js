@@ -1,9 +1,9 @@
-import { publicRoutes } from "~/routes";
-import Section from "~/components/Section";
-import ComicCard from "~/components/ComicCard";
-import Carousel from "~/components/Carousel";
-import ComicCardV2 from "~/components/ComicCardV2";
 import { useRef } from "react";
+import Carousel from "~/components/Carousel";
+import ComicCard from "~/components/ComicCard";
+import ComicCardV2 from "~/components/ComicCardV2";
+import Section from "~/components/Section";
+import { publicRoutes } from "~/routes";
 import utils from "~/utils";
 
 export default function Home() {
@@ -42,115 +42,6 @@ export default function Home() {
             ></ComicCard>
           ))}
         </Section>
-
-        {/* <div className="container">
-          <div className="mini-card">
-            <div className="image"></div>
-            <div className="text">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Laboriosam quod quaerat harum dolore debitis minus voluptatem
-              possimus nulla?
-            </div>
-          </div>
-
-          <div className="mini-card">
-            <div className="image"></div>
-            <div className="text">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Laboriosam quod quaerat harum dolore debitis minus voluptatem
-              possimus nulla?
-            </div>
-          </div>
-        </div>
-
-        <div className="container">
-          <div className="mini-card">
-            <div className="image"></div>
-            <div className="text">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Laboriosam quod quaerat harum dolore debitis minus voluptatem
-              possimus nulla?
-            </div>
-          </div>
-          <div className="mini-card">
-            <div className="image"></div>
-            <div className="text">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Laboriosam quod quaerat harum dolore debitis minus voluptatem
-              possimus nulla?
-            </div>
-          </div>
-          <div className="mini-card">
-            <div className="image"></div>
-            <div className="text">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Laboriosam quod quaerat harum dolore debitis minus voluptatem
-              possimus nulla?
-            </div>
-          </div>
-          <div className="mini-card">
-            <div className="image"></div>
-            <div className="text">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Laboriosam quod quaerat harum dolore debitis minus voluptatem
-              possimus nulla?
-            </div>
-          </div>
-          <div className="mini-card">
-            <div className="image"></div>
-            <div className="text">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Laboriosam quod quaerat harum dolore debitis minus voluptatem
-              possimus nulla?
-            </div>
-          </div>
-          <div className="mini-card">
-            <div className="image"></div>
-            <div className="text">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Laboriosam quod quaerat harum dolore debitis minus voluptatem
-              possimus nulla?
-            </div>
-          </div>
-        </div>
-
-        <div className="container">
-          <div className="mini-card">
-            <div className="image"></div>
-            <div className="text">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Laboriosam quod quaerat harum dolore debitis minus voluptatem
-              possimus nulla?
-            </div>
-          </div>
-          <div className="mini-card">
-            <div className="image"></div>
-            <div className="text">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Laboriosam quod quaerat harum dolore debitis minus voluptatem
-              possimus nulla?
-            </div>
-          </div>
-          <div className="mini-card">
-            <div className="image"></div>
-            <div className="text">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Laboriosam quod quaerat harum dolore debitis minus voluptatem
-              possimus nulla?
-            </div>
-          </div>
-        </div>
-
-        <div className="container">
-          <div className="mini-card">
-            <div className="image"></div>
-            <div className="text">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Laboriosam quod quaerat harum dolore debitis minus voluptatem
-              possimus nulla?
-            </div>
-          </div>
-        </div> */}
       </div>
     </div>
   );

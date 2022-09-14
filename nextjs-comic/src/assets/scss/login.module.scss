@@ -1,0 +1,35 @@
+.screen {
+  height: 560px;
+  width: 260px;
+
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: wheat;
+}
+.svg {
+  z-index: 1;
+  position: relative;
+  color: white;
+  top: 34px;
+  left: 20px;
+  width: 10px;
+  height: 22px;
+}
+.heading {
+  position: relative;
+  z-index: 1;
+  color: white;
+  left: 20px;
+  top: 95px;
+  height: 52px;
+  width: 93px;
+  font-weight: 600;
+  font-size: 2.1rem;
+  line-height: 2.7rem;
+}
+.ripple {
+  position: absolute;
+  top: -32px;
+  z-index: 0;
+}

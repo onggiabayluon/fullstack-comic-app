@@ -1,27 +1,29 @@
-import classNames from "classnames/bind";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Tippy from "@tippyjs/react";
+import classNames from "classnames/bind";
 import "tippy.js/dist/tippy.css";
 
-import MyImage from "~/components/MyImage";
-import config from "~/config";
-import Button from "~/components/Button";
-import styles from "./Header.module.scss";
 import images from "~/assets/images";
+import Button from "~/components/Button";
+import MyImage from "~/components/MyImage";
 import Menu from "~/components/Popper/Menu";
+import config from "~/config";
 import Search from "../Search";
+import styles from "./Header.module.scss";
 
-import { InboxIcon, MessageIcon, UploadIcon } from "~/components/Icons";
 import Link from "next/link";
-import Image from "next/image";
-import { memo, useEffect, useImperativeHandle, useRef } from "react";
-import { MENU_ITEMS, userMenu } from "~/config/HeaderMenuItems";
+import { memo, useContext, useEffect, useRef } from "react";
+import { InboxIcon, MessageIcon, UploadIcon } from "~/components/Icons";
+import { LOGIN_ITEMS, MENU_ITEMS, userMenu } from "~/config/HeaderMenuItems";
+import UserContext from "~/contexts/UserContext";
+import useModal from "~/hooks/useModel";
 const cx = classNames.bind(styles);
 
 function Header({ sidebarRef, hasHamburger = true }) {
-  const currentUser = true;
+  const { user: currentUser } = useContext(UserContext);
   const logoRef = useRef(null);
+  const { isShowing, toggle } = useModal();
 
   useEffect(() => {
     console.log("header");
@@ -91,7 +93,20 @@ function Header({ sidebarRef, hasHamburger = true }) {
           ) : (
             <>
               <Button text>Upload</Button>
-              <Button primary>Log in</Button>
+              <Menu
+                items={LOGIN_ITEMS}
+                onChange={handleMenuChange}
+                isLoginWrapper
+                toggle={toggle}
+                isShowing={isShowing}
+                width="460"
+              >
+                <div id="parent">
+                  <Button primary onClick={toggle}>
+                    Log in
+                  </Button>
+                </div>
+              </Menu>
             </>
           )}
 
@@ -104,13 +119,14 @@ function Header({ sidebarRef, hasHamburger = true }) {
                 <MyImage
                   className={cx("user-avatar")}
                   src="https://images.unsplash.com/photo-1481349518771-20055b2a7b24?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1539&q=80&w=auto&h=40"
-                  alt="Nguyen Van A"
+                  alt={currentUser.username}
                   width={32}
                   height={32}
+                  hasBlur={false}
                 />
               </span>
             ) : (
-              <button className={cx("more-btn")}>
+              <button className={cx("more-btn", "svg")}>
                 <FontAwesomeIcon icon={faEllipsisVertical} />
               </button>
             )}
@@ -121,4 +137,4 @@ function Header({ sidebarRef, hasHamburger = true }) {
   );
 }
 
-export default Header;
+export default memo(Header);

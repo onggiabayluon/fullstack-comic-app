@@ -1,10 +1,10 @@
 import ComicDetail from "~/layouts/components/ComicDetail";
-import { publicRoutes } from "~/routes";
+import { layouts } from "~/utils/getLayout";
 
 function ComicDetailPage() {
   return <ComicDetail />;
 }
 
-ComicDetailPage.layout = publicRoutes.comicDetail.layout;
+ComicDetailPage.layout = layouts.comicDetail.layout;
 
 export default ComicDetailPage;
