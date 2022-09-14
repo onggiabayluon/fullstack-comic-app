@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import Link from "next/link";
+import PropTypes from "prop-types";
 import styles from "./Button.module.scss";
 
 const cx = classNames.bind(styles);
@@ -16,6 +16,8 @@ function Button({
   small = false,
   large = false,
   block = false,
+  black = false,
+  iconLeft = false,
   children,
   className,
   leftIcon,
@@ -56,6 +58,8 @@ function Button({
     small,
     large,
     block,
+    black,
+    iconLeft,
   });
 
   return (

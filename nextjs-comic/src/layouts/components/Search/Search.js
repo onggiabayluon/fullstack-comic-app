@@ -1,16 +1,15 @@
-import { useEffect, useState, useRef, useCallback } from "react";
 import { faCircleXmark, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import HeadlessTippy from "@tippyjs/react/headless";
 import classNames from "classnames/bind";
 import debounce from "lodash.debounce";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-import * as searchServices from "~/services/searchService";
-import { Wrapper as PopperWrapper } from "~/components/Popper";
-import { SearchIcon } from "~/components/Icons";
-import styles from "./Search.module.scss";
 import ComicSearchCard from "~/components/ComicSearchCard";
-import { comic } from "~/utils/dummyData";
+import { SearchIcon } from "~/components/Icons";
+import { Wrapper as PopperWrapper } from "~/components/Popper";
+import * as searchServices from "~/services/searchService";
+import styles from "./Search.module.scss";
 const cx = classNames.bind(styles);
 
 const defaultFnc = () => {};
@@ -40,6 +39,7 @@ function Search({ toggleLogoStateBySearchState = defaultFnc }) {
         const result = await searchServices.search(searchValue);
 
         setSearchResult(result);
+        setsearchExpand(!searchExpand);
         setLoading(false);
       };
 
@@ -91,8 +91,8 @@ function Search({ toggleLogoStateBySearchState = defaultFnc }) {
             <PopperWrapper>
               <h4 className={cx("search-title")}>Comics</h4>
               {searchResult?.length > 0 &&
-                searchResult.map((result) => (
-                  <ComicSearchCard key={result.id} data={result} />
+                searchResult.map((result, key) => (
+                  <ComicSearchCard key={key} data={result} />
                 ))}
             </PopperWrapper>
           </div>

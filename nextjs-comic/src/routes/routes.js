@@ -1,7 +1,5 @@
-import config from "~/config";
-import { HeaderOnly } from "~/layouts";
-
 // Layouts
+import config from "~/config";
 
 // Pages
 const publicRoutes = {
@@ -10,7 +8,6 @@ const publicRoutes = {
     path: config.routes.comicDetail,
     getDynamicPath: (comicSlug) =>
       `/${config.routes.comicDetail.split("/")[1]}/${comicSlug}`,
-    layout: HeaderOnly,
   },
   chapterDetail: {
     path: config.routes.chapterDetail,
@@ -18,12 +15,17 @@ const publicRoutes = {
       `/${
         config.routes.chapterDetail.split("/")[1]
       }/${comicSlug}/${chapterSlug}`,
-    layout: HeaderOnly,
   },
   categories: {
     path: config.routes.categories,
     getDynamicPath: (cateName) =>
       `/${config.routes.categories.split("/")[1]}/${cateName}`,
+  },
+  login: {
+    path: config.routes.login,
+  },
+  logout: {
+    path: config.routes.logout,
   },
 };
 

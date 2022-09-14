@@ -29,6 +29,18 @@
 .p-1 {
   padding: 1rem;
 }
+.p-2 {
+  padding: 2rem;
+}
+/* Horizontal margins */
+.margin-left,
+.margin-left--md {
+  margin-left: var(--space-md);
+}
+
+.margin-left--sm {
+  margin-left: var(--space-sm);
+}
 /* vertical margins */
 .margin-top,
 .margin-top--md {

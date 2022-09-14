@@ -1,8 +1,9 @@
-import PropTypes from "prop-types";
 import classNames from "classnames/bind";
-import styles from "./ComicSearchCard.module.scss";
 import Link from "next/link";
+import PropTypes from "prop-types";
 import MyImage from "~/components/MyImage";
+import { publicRoutes } from "~/routes";
+import styles from "./ComicSearchCard.module.scss";
 
 const cx = classNames.bind(styles);
 
@@ -13,7 +14,7 @@ function ComicSearchCard({ data }) {
         <a className={cx("avatar-wrapper")}>
           <MyImage
             className={cx("card__image")}
-            src={data.src}
+            src={data.thumbnail}
             alt={data.title}
             width={50}
             height={50}
@@ -26,13 +27,16 @@ function ComicSearchCard({ data }) {
             <ul className={cx("chapter-wrapper")}>
               {data.chapters?.slice(0, 2).map((chapter) => (
                 <Link
-                  key={chapter.chapterNum}
-                  href={data.slug + "/" + chapter.slug}
+                  key={chapter.chapter_num}
+                  href={publicRoutes.chapterDetail.getDynamicPath(
+                    data.slug,
+                    chapter.slug
+                  )}
                 >
                   <li className={cx("chapter")} style={{}}>
                     C.
                     <span className={cx("chapter-span")}>
-                      {chapter.chapterNum}
+                      {chapter.chapter_num}
                     </span>
                   </li>
                 </Link>

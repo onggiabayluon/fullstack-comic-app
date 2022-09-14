@@ -1,7 +1,7 @@
-import styles from "./MyImage.module.scss";
 import classNames from "classnames/bind";
 import Image from "next/image";
 import { blur } from "../Shimmer/Shimmer";
+import styles from "./MyImage.module.scss";
 
 const cx = classNames.bind(styles);
 
@@ -14,6 +14,7 @@ export default function MyImage({
   objectFit = "cover",
   layout,
   priority,
+  hasBlur = true,
 }) {
   const classes = cx("card__card", {
     [className]: className,
@@ -29,7 +30,7 @@ export default function MyImage({
       objectFit={objectFit}
       layout={layout}
       priority={priority}
-      placeholder="blur"
+      placeholder={hasBlur ? "blur" : ""}
       blurDataURL={blur}
     />
   );

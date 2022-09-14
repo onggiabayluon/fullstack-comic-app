@@ -1,6 +1,4 @@
 {
-  // "editor.tabCompletion": "onlySnippets",
-  // "editor.snippetSuggestions": "top",
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "emmet.triggerExpansionOnTab": true,
