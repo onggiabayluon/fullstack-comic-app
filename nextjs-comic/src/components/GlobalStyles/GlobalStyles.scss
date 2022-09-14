@@ -30,6 +30,7 @@
   --black: #000;
   --white: #fff;
   --text-color: #3d3d3d;
+  --text-danger: #dc3545 !important;
   --light-color: #bbb;
   --border-color: #eaeaea;
   --light-color-hover: rgb(204, 204, 204);
@@ -229,8 +230,8 @@ ul {
   padding: 10px;
   border: 1px solid var(--border-color);
   border-radius: 4px;
-  width: var(--button-icon-width);
-  height: var(--button-icon-height);
+  // width: var(--button-icon-width);
+  // height: var(--button-icon-height);
   cursor: pointer;
 
   &:hover {
@@ -276,6 +277,10 @@ ul {
   width: var(--button-icon-width);
   height: var(--button-icon-height);
 }
+.svg {
+  width: 22px;
+  height: 31px;
+}
 
 // Comment Styles ------------
 .error-msg {
@@ -317,7 +322,7 @@ ul {
 }
 
 .comment-stack {
-  margin: 0.5rem 0;
+  margin: 1rem 0;
 }
 
 .comment-stack:last-child {
@@ -457,4 +462,110 @@ ul {
 
 .btn[disabled] {
   --color: hsl(var(--hue), 20%, 74%);
+}
+
+// Modal
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1040;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  opacity: 0.5;
+}
+
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  outline: 0;
+}
+
+.modal {
+  z-index: 100;
+  background: white;
+  position: relative;
+  margin: 1.75rem auto;
+  border-radius: 10px;
+  // max-width: 500px;
+  // width: 80%;
+  padding: 2rem 2rem 0rem 2rem;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: flex-end;
+}
+.modal-info {
+  position: relative;
+  .back-btn {
+    position: absolute;
+    left: -10px;
+    bottom: 17px;
+  }
+}
+
+.modal-close-button {
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  opacity: 0.3;
+  cursor: pointer;
+  border: none;
+}
+.modal-text {
+  cursor: pointer;
+  font-weight: 600;
+  :hover {
+    color: var(--white);
+    border-color: var(--primary);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.06)),
+      var(--primary);
+  }
+}
+.login-btn {
+  width: 80%;
+  margin: auto;
+  display: flex;
+  justify-content: flex-start;
+  margin: 1rem auto !important;
+}
+
+button {
+  font-size: 0.9rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 3px;
+  padding: 0.3rem 1rem;
+  margin-left: 0.5rem;
+}
+
+.button-default {
+  background: #247ba0;
+  color: #fff;
+}
+.text-center {
+  text-align: center;
+}
+.text-primary {
+  color: var(--primary);
+}
+
+.back-btn {
+  width: 13px;
+  margin: 3px 22px;
+  height: 100%;
+  background-color: transparent;
+  cursor: pointer;
+}
+.text-danger {
+  color: var(--text-danger);
 }

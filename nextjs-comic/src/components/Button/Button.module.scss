@@ -59,6 +59,11 @@
   }
 }
 
+.disabled {
+  color: rgba(22, 24, 35, 0.34);
+  background-color: rgba(22, 24, 35, 0.06);
+}
+
 .outline {
   color: var(--primary);
   border-color: currentColor;
@@ -86,6 +91,24 @@
   min-width: 140px;
 }
 .block {
+  width: 100%;
   display: block;
   text-align: center;
+}
+.black {
+  color: var(--black);
+}
+.iconLeft {
+  .icon:first-child {
+    padding: 0rem 1rem;
+    margin-right: 2rem !important;
+  }
+  @media (max-width: 550px) {
+    .title {
+      padding-left: 1rem !important;
+    }
+  }
+  .title {
+    padding-left: 5rem;
+  }
 }

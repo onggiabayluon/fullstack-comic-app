@@ -1,12 +1,12 @@
-import styles from "./Section.module.scss";
-import classNames from "classnames/bind";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classNames from "classnames/bind";
 import Link from "next/link";
 import { Fragment } from "react";
+import styles from "./Section.module.scss";
 
 const cx = classNames.bind(styles);
 
@@ -51,14 +51,18 @@ export default function Section({
         {hasNav && (
           <div className={cx("section__nav")}>
             <FontAwesomeIcon
-              className="right icon"
+              className="right "
               icon={faChevronLeft}
               onClick={() => passRef.current?.slickPrev()}
+              width={15}
+              height={12}
             />
             <FontAwesomeIcon
-              className="left icon"
+              className="left "
               icon={faChevronRight}
               onClick={() => passRef.current?.slickNext()}
+              width={15}
+              height={12}
             />
           </div>
         )}

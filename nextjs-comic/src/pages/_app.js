@@ -1,5 +1,5 @@
-import getLayout from "~/utils/getLayout";
 import "~/components/GlobalStyles/GlobalStyles.scss";
+import getLayout from "~/utils/getLayout";
 
 export default function MyApp({ Component, pageProps }) {
   // Use the layout defined at the page level, if available

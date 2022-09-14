@@ -36,4 +36,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ## Trick to convert HTML className into module class (regex search)
 
 Search: className="(.+?)"
-Replace: className={cx(`$1`)}
+Replace: className={cx("$1")}

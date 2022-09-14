@@ -217,5 +217,15 @@ export const comic = {
       reply_to: 1,
       created_date: "2022-09-09 14:41:45",
     },
+    {
+      id: 4,
+      content: "This a child of a reply",
+      creator: {
+        id: "user-1",
+        name: "DucHuy",
+      },
+      reply_to: 3,
+      created_date: "2022-09-09 14:41:45",
+    },
   ],
 };
