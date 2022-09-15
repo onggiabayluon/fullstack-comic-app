@@ -1,12 +1,11 @@
-import styles from "./ComicCardV2.module.scss";
 import classNames from "classnames/bind";
 import MyImage from "~/components/MyImage";
+import styles from "./ComicCardV2.module.scss";
 
 const cx = classNames.bind(styles);
 
 function ComicCardV2({
-  src,
-  alt = "No title",
+  comic,
   layout = "fill",
   objectFit = "cover",
   width = 0,
@@ -22,8 +21,8 @@ function ComicCardV2({
         >
           <MyImage
             className={cx("card__image")}
-            src={src}
-            alt={alt}
+            src={comic.src}
+            alt={comic.alt}
             priority={priority}
             layout={layout}
             objectFit={objectFit}

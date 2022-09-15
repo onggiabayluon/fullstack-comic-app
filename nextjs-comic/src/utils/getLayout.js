@@ -3,6 +3,7 @@ import { UserProvider } from "~/contexts/UserContext";
 import DefaultLayout, { HeaderOnly } from "~/layouts";
 
 export const layouts = {
+  home: {},
   comicDetail: {
     layout: HeaderOnly,
   },

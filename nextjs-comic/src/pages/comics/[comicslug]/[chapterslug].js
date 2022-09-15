@@ -1,3 +1,5 @@
+import { layouts } from "~/utils/getLayout";
+
 function ChapterDetailPage() {
   return (
     <main>
@@ -7,3 +9,5 @@ function ChapterDetailPage() {
 }
 
 export default ChapterDetailPage;
+
+ChapterDetailPage.layout = layouts.chapterDetail.layout;

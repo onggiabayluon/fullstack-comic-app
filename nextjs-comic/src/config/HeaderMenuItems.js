@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import LoginForm from "~/components/LoginForm";
 import Footer from "~/components/Popper/Menu/Footer";
 
-const LOGIN_FOOTER = {
+export const LOGIN_FOOTER = {
   title: "Login",
   description: "Already have an account?",
   type: "footer",
@@ -20,7 +20,7 @@ const LOGIN_FOOTER = {
   comp: Footer,
 };
 
-const SIGNUP_ITEMS = [
+export const SIGNUP_ITEMS = [
   {
     icon: (
       <FontAwesomeIcon
@@ -36,7 +36,7 @@ const SIGNUP_ITEMS = [
   LOGIN_FOOTER,
 ];
 
-const SIGNUP_FOOTER = {
+export const SIGNUP_FOOTER = {
   title: "Sign up",
   description: "Don’t have an account?",
   type: "footer",
@@ -46,7 +46,7 @@ const SIGNUP_FOOTER = {
     data: SIGNUP_ITEMS,
   },
 };
-const LOGIN_ITEMS = [
+export const LOGIN_ITEMS = [
   {
     icon: (
       <FontAwesomeIcon width={20} height={20} icon={faUser}></FontAwesomeIcon>

@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { comic as comicDummy } from "~/utils/dummyData";
 
-function useComic() {
-  const [comic, setComic] = useState(comicDummy);
+function useComic(initValue) {
+  const [comic, setComic] = useState(initValue);
   const [comments, setComments] = useState([]);
 
   const commentsByParentId = useMemo(() => {

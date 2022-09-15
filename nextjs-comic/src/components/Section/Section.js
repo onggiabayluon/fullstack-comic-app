@@ -21,7 +21,7 @@ export default function Section({
   container = false,
   spacing = false,
   extraClasses,
-  passRef = {},
+  onSliderRef = {},
 }) {
   let LinkComp = Fragment;
   if (href) {
@@ -53,14 +53,14 @@ export default function Section({
             <FontAwesomeIcon
               className="right "
               icon={faChevronLeft}
-              onClick={() => passRef.current?.slickPrev()}
+              onClick={() => onSliderRef.current?.slickPrev()}
               width={15}
               height={12}
             />
             <FontAwesomeIcon
               className="left "
               icon={faChevronRight}
-              onClick={() => passRef.current?.slickNext()}
+              onClick={() => onSliderRef.current?.slickNext()}
               width={15}
               height={12}
             />

@@ -1,8 +1,9 @@
 export const comics = [
   {
+    id: 1,
     src: "/GoblinSlayer.jpg",
     alt: "GoblinSlayer",
-    slug: "goblin-slayer",
+    slug: "goblin-slayer-1",
     chapters: [
       {
         id: 1,
@@ -27,9 +28,10 @@ export const comics = [
     created_date: "1 Mins ago",
   },
   {
+    id: 2,
     src: "/GoblinSlayer.jpg",
     alt: "GoblinSlayer",
-    slug: "goblin-slayer",
+    slug: "goblin-slayer-2",
     chapters: [
       {
         id: 1,
@@ -54,9 +56,10 @@ export const comics = [
     created_date: "1 Mins ago",
   },
   {
+    id: 3,
     src: "/GoblinSlayer.jpg",
     alt: "GoblinSlayer",
-    slug: "goblin-slayer",
+    slug: "goblin-slayer-3",
     chapters: [
       {
         id: 1,
@@ -81,9 +84,10 @@ export const comics = [
     created_date: "1 Mins ago",
   },
   {
+    id: 4,
     src: "/GoblinSlayer.jpg",
     alt: "GoblinSlayer",
-    slug: "goblin-slayer",
+    slug: "goblin-slayer-4",
     chapters: [
       {
         id: 1,
@@ -108,9 +112,10 @@ export const comics = [
     created_date: "1 Mins ago",
   },
   {
+    id: 5,
     src: "/GoblinSlayer.jpg",
     alt: "GoblinSlayer",
-    slug: "goblin-slayer",
+    slug: "goblin-slayer-5",
     chapters: [
       {
         id: 1,

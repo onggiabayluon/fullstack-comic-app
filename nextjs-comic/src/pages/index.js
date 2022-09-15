@@ -2,49 +2,63 @@ import { useRef } from "react";
 import Carousel from "~/components/Carousel";
 import ComicCard from "~/components/ComicCard";
 import ComicCardV2 from "~/components/ComicCardV2";
+import ComicList from "~/components/ComicList";
 import Section from "~/components/Section";
-import { publicRoutes } from "~/routes";
 import utils from "~/utils";
+import { layouts } from "~/utils/getLayout";
 
-export default function Home() {
+export default function Home({ comics }) {
   // Get slider ref from [Carousel component] then pass ref to [Section component]
   const sliderRef = useRef(null);
 
-  const comics = utils.dummyData.comics;
+  const SLIDER_LIMIT = 5;
 
   return (
     <div className="primary">
       <div className="wrapper">
         {/* Recommends Section */}
-        <Section title="Recommends" passRef={sliderRef} hasNav>
+        <Section title="Recommends" onSliderRef={sliderRef} hasNav>
           <Carousel ref={sliderRef}>
-            {[1, 2, 3, 4, 5].map((comic, key) => (
+            {comics?.slice(0, SLIDER_LIMIT).map((comic, key) => (
               <ComicCardV2
-                key={key}
-                src={"/GoblinSlayer.jpg"}
+                key={comic.id}
+                comic={comic}
                 width={200}
                 height={300}
                 priority
-              ></ComicCardV2>
+              />
             ))}
           </Carousel>
         </Section>
 
         {/* Lastest Update Section */}
         <Section title="Lastest Update" doubleLayoutGrid>
-          {comics.map((comic, index) => (
-            <ComicCard
-              key={index}
-              comic={comic}
-              {...((index == 0 || index == 1) && { borderTop: true })}
-              borderBottom
-              className={"comic-card__card"}
-            ></ComicCard>
-          ))}
+          <ComicList
+            comics={comics}
+            Component={ComicCard}
+            className={"comic-card__card"}
+            borderBottom
+            hasBorder
+          />
         </Section>
       </div>
     </div>
   );
 }
 
-Home.layout = publicRoutes.home.layout;
+export async function getStaticProps() {
+  // const comics = getComics();
+  const comics = utils.dummyData.comics;
+
+  return {
+    props: {
+      comics,
+    },
+    // Next.js will attempt to re-generate the page:
+    // - When a request comes in
+    // - At most once every 1 minutes
+    revalidate: parseInt(process.env.NEXT_PUBLIC_REVALIDATE_IN_1_MINUTE),
+  };
+}
+
+Home.layout = layouts.home.layout;
