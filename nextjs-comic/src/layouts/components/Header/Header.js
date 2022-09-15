@@ -15,7 +15,11 @@ import styles from "./Header.module.scss";
 import Link from "next/link";
 import { memo, useContext, useEffect, useRef } from "react";
 import { InboxIcon, MessageIcon, UploadIcon } from "~/components/Icons";
-import { LOGIN_ITEMS, MENU_ITEMS, userMenu } from "~/config/HeaderMenuItems";
+import {
+  AUTHENTICATION_ITEMS,
+  MENU_ITEMS,
+  userMenu,
+} from "~/config/HeaderMenuItems";
 import UserContext from "~/contexts/UserContext";
 import useModal from "~/hooks/useModel";
 const cx = classNames.bind(styles);
@@ -94,7 +98,7 @@ function Header({ sidebarRef, hasHamburger = true }) {
             <>
               <Button text>Upload</Button>
               <Menu
-                items={LOGIN_ITEMS}
+                items={AUTHENTICATION_ITEMS}
                 onChange={handleMenuChange}
                 isLoginWrapper
                 toggle={toggle}

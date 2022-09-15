@@ -12,6 +12,7 @@ function Wrapper({
   className,
   title,
   onBack,
+  onRenderfooter,
 }) {
   return isLoginWrapper ? (
     <LoginWrapper
@@ -19,6 +20,7 @@ function Wrapper({
       toggle={toggle}
       title={title}
       onBack={onBack}
+      onRenderfooter={onRenderfooter}
     >
       {children}
     </LoginWrapper>
@@ -63,10 +65,7 @@ function LoginWrapper(props) {
             <h2 className="text-center">{props.title || "Login"}</h2>
           </div>
           <div className="modal-body">{props.children}</div>
-          <div className="text-center border-top margin-top--md p-2">
-            Don’t have an account?
-            <a className="margin-left--sm text-primary modal-text">Sign up</a>
-          </div>
+          {props.onRenderfooter}
         </div>
       </div>
     </div>

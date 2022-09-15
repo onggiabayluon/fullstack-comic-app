@@ -23,36 +23,74 @@ function Menu({
 
   const lastMenuItem = history[history.length - 1];
 
+  const handleHistoryBack = () => {
+    setHistory((prev) => prev.slice(0, history.length - 1));
+  };
+
+  const backToHistoryRoot = () => {
+    setHistory((prev) => prev.slice(0, 1));
+  };
+
   const renderItems = () => {
     return lastMenuItem.data.map((item, index) => {
+      function handleMenuItemClick() {
+        const hasChilren = !!item.children;
+        // Nếu có children thì đẩy phần tử con vào array
+        if (hasChilren) {
+          setHistory((prev) => [...prev, item.children]);
+        } else {
+          // không có thì xử lý item hiện tại
+          onChange(item);
+        }
+      }
       return (
+        // Each Component will pass into here
         <MenuItem
           key={index}
           data={item}
           className={item.className}
-          props={
-            item.className
-              ? { outline: true, black: true, iconLeft: true }
-              : null
+          onClick={
+            item.type == "footer" && item.isBackToRoot
+              ? backToHistoryRoot
+              : handleMenuItemClick
           }
-          onClick={() => {
-            const hasChilren = !!item.children;
-
-            // Nếu có children thì đẩy phần tử con vào array
-            if (hasChilren) {
-              setHistory((prev) => [...prev, item.children]);
-            } else {
-              // không có thì xử lý item hiện tại
-              onChange(item);
-            }
-          }}
+          props={
+            item.className && { outline: true, black: true, iconLeft: true }
+          }
         />
       );
     });
   };
 
-  const handleBack = () => {
-    setHistory((prev) => prev.slice(0, history.length - 1));
+  // const handleRenderFooter (){
+
+  // }
+
+  const handleTippyRender = (attrs) => {
+    return (
+      <div
+        className={cx("menu-list")}
+        tabIndex="-1"
+        {...attrs}
+        style={{ width: width + "px" }}
+      >
+        <PopperWrapper
+          className={cx("menu-popper")}
+          isLoginWrapper={isLoginWrapper}
+          toggle={toggle}
+          title={lastMenuItem && lastMenuItem.title}
+          onBack={lastMenuItem && handleHistoryBack}
+        >
+          {history?.length > 1 && !isLoginWrapper && (
+            <Header
+              title={lastMenuItem.title}
+              onBack={handleHistoryBack}
+            ></Header>
+          )}
+          <div className={cx("menu-scrollable")}>{renderItems()}</div>
+        </PopperWrapper>
+      </div>
+    );
   };
 
   return (
@@ -62,29 +100,9 @@ function Menu({
         interactive
         delay={[0, 700]}
         placement="bottom-end"
+        onHide={backToHistoryRoot}
+        render={handleTippyRender}
         {...(toggle ? { visible: isShowing } : (hideOnClick = { hideOnClick }))}
-        render={(attrs) => (
-          <div
-            className={cx("menu-list")}
-            tabIndex="-1"
-            {...attrs}
-            style={{ width: width + "px" }}
-          >
-            <PopperWrapper
-              className={cx("menu-popper")}
-              isLoginWrapper={isLoginWrapper}
-              toggle={toggle}
-              title={lastMenuItem && lastMenuItem.title}
-              onBack={lastMenuItem && handleBack}
-            >
-              {history?.length > 1 && !isLoginWrapper && (
-                <Header title={lastMenuItem.title} onBack={handleBack}></Header>
-              )}
-              <div className={cx("menu-scrollable")}>{renderItems()}</div>
-            </PopperWrapper>
-          </div>
-        )}
-        onHide={() => setHistory((prev) => prev.slice(0, 1))}
       >
         {children}
       </Tippy>

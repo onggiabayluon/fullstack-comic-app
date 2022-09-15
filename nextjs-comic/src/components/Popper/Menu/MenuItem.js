@@ -11,8 +11,14 @@ function MenuItem({ data, onClick, className, props }) {
     [className]: className,
     separate: data.separate,
   });
+  const footerData = {
+    title: data.title,
+    description: data.description,
+    onClick: onClick,
+  };
+  // Login or register Comp
   return Comp ? (
-    <Comp></Comp>
+    <Comp {...(data.type == "footer" && { ...footerData })}></Comp>
   ) : (
     <Button
       className={classes}
