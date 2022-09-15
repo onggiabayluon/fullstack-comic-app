@@ -1,11 +1,11 @@
-import PropTypes from "prop-types";
 import classNames from "classnames/bind";
-import Header from "~/layouts/components/Header";
+import PropTypes from "prop-types";
+import { useEffect, useRef } from "react";
 import Footer from "~/layouts/components/Footer";
+import Header from "~/layouts/components/Header";
 import Sidebar from "~/layouts/components/Sidebar";
-import styles from "./DefaultLayout.module.scss";
-import { useEffect, useState, useCallback, useRef } from "react";
 import Content from "../components/Content";
+import styles from "./DefaultLayout.module.scss";
 
 const cx = classNames.bind(styles);
 
