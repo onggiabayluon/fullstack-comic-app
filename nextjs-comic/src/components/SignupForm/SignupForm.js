@@ -1,14 +1,13 @@
 import classNames from "classnames/bind";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Button from "~/components/Button";
-import UserContext from "~/contexts/UserContext";
 import styles from "./LoginForm.module.scss";
 
 const cx = classNames.bind(styles);
 
-function LoginForm() {
-  const { loginUser } = useContext(UserContext);
+function SignupForm() {
+  // const { loginUser } = useContext(UserContext);
 
   const { register, handleSubmit, formState, reset, watch } = useForm({
     mode: "onChange",
@@ -28,7 +27,7 @@ function LoginForm() {
     const formData = new FormData(e.target);
     const { username, password } = Object.fromEntries(formData); // convert the FormData object to a JSON object
 
-    return loginUser(username, password);
+    // return loginUser(username, password);
   };
 
   return (
@@ -66,6 +65,29 @@ function LoginForm() {
       </div>
 
       <div className={cx("input-container")}>
+        <input
+          type="password"
+          {...register("password2", {
+            minLength: {
+              value: 6,
+              message: "Confirm password is too short (min: 6)",
+            },
+            required: { value: true, message: "Confirm password is required" },
+            validate: (val) => {
+              if (watch("password") != val) {
+                return "Your passwords do no match";
+              }
+            },
+          })}
+          className={cx("input")}
+          placeholder="Confirm password"
+        />
+        {formState.errors.password2 && (
+          <p className="text-danger">{formState.errors.password2.message}</p>
+        )}
+      </div>
+
+      <div className={cx("input-container")}>
         <div className={cx("description-container")}>
           <label className={cx("label-light")}>Forgot password?</label>
         </div>
@@ -84,4 +106,4 @@ function LoginForm() {
   );
 }
 
-export default LoginForm;
+export default SignupForm;
