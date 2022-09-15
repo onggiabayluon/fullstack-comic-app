@@ -8,7 +8,7 @@ export default function Custom404() {
       <iframe
         src="https://giphy.com/embed/l2JehQ2GitHGdVG9y"
         width="480"
-        height="362"
+        height="360"
         frameBorder="0"
         allowFullScreen
       ></iframe>
