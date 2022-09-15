@@ -10,8 +10,43 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import LoginForm from "~/components/LoginForm";
+import Footer from "~/components/Popper/Menu/Footer";
 
-export const LOGIN_ITEMS = [
+const LOGIN_FOOTER = {
+  title: "Login",
+  description: "Already have an account?",
+  type: "footer",
+  isBackToRoot: true,
+  comp: Footer,
+};
+
+const SIGNUP_ITEMS = [
+  {
+    icon: (
+      <FontAwesomeIcon
+        width={20}
+        height={20}
+        icon={faFacebook}
+      ></FontAwesomeIcon>
+    ),
+    title: "test children register",
+    className: "login-btn",
+  },
+  //Footer
+  LOGIN_FOOTER,
+];
+
+const SIGNUP_FOOTER = {
+  title: "Sign up",
+  description: "Don’t have an account?",
+  type: "footer",
+  comp: Footer,
+  children: {
+    title: "Sign up",
+    data: SIGNUP_ITEMS,
+  },
+};
+const LOGIN_ITEMS = [
   {
     icon: (
       <FontAwesomeIcon width={20} height={20} icon={faUser}></FontAwesomeIcon>
@@ -19,12 +54,14 @@ export const LOGIN_ITEMS = [
     title: "Use email / username",
     className: "login-btn",
     children: {
-      title: "Log in",
+      title: "Login",
       data: [
         {
-          type: "Login",
+          type: "login",
           comp: LoginForm,
         },
+        //Footer
+        SIGNUP_FOOTER,
       ],
     },
   },
@@ -46,7 +83,12 @@ export const LOGIN_ITEMS = [
     title: "Continue with Facebook",
     className: "login-btn",
   },
+
+  //Footer
+  SIGNUP_FOOTER,
 ];
+
+export const AUTHENTICATION_ITEMS = [...LOGIN_ITEMS];
 
 export const MENU_ITEMS = [
   {
