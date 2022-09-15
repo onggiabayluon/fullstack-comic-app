@@ -61,8 +61,6 @@ export const UserProvider = ({ children }) => {
     logoutUser,
   };
 
-  console.log(user);
-
   useUpdateEffect(() => {
     // if (authTokens) {
     //   setUser(jwt_decode(authTokens.access));
