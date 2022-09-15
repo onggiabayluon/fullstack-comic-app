@@ -69,8 +69,6 @@ export const UserProvider = ({ children }) => {
   }, [authTokens, loading, setUser]);
 
   return (
-    <UserContext.Provider value={contextData}>
-      {loading ? null : children}
-    </UserContext.Provider>
+    <UserContext.Provider value={contextData}>{children}</UserContext.Provider>
   );
 };
