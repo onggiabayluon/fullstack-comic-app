@@ -50,20 +50,19 @@ export default function Section({
         </div>
         {hasNav && (
           <div className={cx("section__nav")}>
-            <FontAwesomeIcon
-              className="right "
-              icon={faChevronLeft}
+            <span
+              className="right d-flex"
               onClick={() => onSliderRef.current?.slickPrev()}
-              width={15}
-              height={12}
-            />
-            <FontAwesomeIcon
-              className="left "
-              icon={faChevronRight}
+            >
+              <FontAwesomeIcon icon={faChevronLeft} width={10} height={10} />
+            </span>
+
+            <span
+              className="left d-flex"
               onClick={() => onSliderRef.current?.slickNext()}
-              width={15}
-              height={12}
-            />
+            >
+              <FontAwesomeIcon icon={faChevronRight} width={10} height={10} />
+            </span>
           </div>
         )}
       </div>

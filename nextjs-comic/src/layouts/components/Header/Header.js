@@ -96,7 +96,6 @@ function Header({ sidebarRef, hasHamburger = true }) {
             </>
           ) : (
             <>
-              <Button text>Upload</Button>
               <Menu
                 items={AUTHENTICATION_ITEMS}
                 onChange={handleMenuChange}

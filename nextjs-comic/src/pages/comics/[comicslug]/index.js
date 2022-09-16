@@ -155,14 +155,14 @@ function ComicDetail({ comicProp }) {
                 />
                 <em className={cx("value", "view_value")}>726.4M</em>
               </li>
-              <li>
+              <li className={"d-flex align-items-center"}>
                 <FontAwesomeIcon
                   className={cx("ico", "ico_subscribe")}
                   icon={faPersonCirclePlus}
                 />
                 <em className={cx("value", "subscribe_value")}>2.3M</em>
               </li>
-              <li>
+              <li className={"d-flex align-items-center"}>
                 <FontAwesomeIcon
                   className={cx("ico", "ico_grade")}
                   icon={faStar}
@@ -200,7 +200,6 @@ function ComicDetail({ comicProp }) {
       <Section title="Comments" className="comments-box" container spacing>
         {/* Comment Form */}
         <CommentForm
-          autoFocus
           loading={loading}
           error={error}
           onSubmit={onCommentCreate}
