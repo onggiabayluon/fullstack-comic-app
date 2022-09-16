@@ -21,7 +21,7 @@ const Carousel = forwardRef((props, ref) => {
     autoplay: true,
     autoplaySpeed: 5000,
     // initialSlide: 1,
-    fade: true,
+    // fade: false,
     mobileFirst: true,
 
     responsive: [
@@ -31,7 +31,7 @@ const Carousel = forwardRef((props, ref) => {
           slidesToShow: breakpoint.md,
           slidesToScroll: breakpoint.md,
           mobileFirst: true,
-          fade: true,
+          // fade: false,
         },
       },
       {
@@ -40,7 +40,7 @@ const Carousel = forwardRef((props, ref) => {
           slidesToShow: breakpoint.xl,
           slidesToScroll: breakpoint.xl,
           mobileFirst: false,
-          fade: false,
+          // fade: false,
         },
       },
       {
@@ -49,7 +49,7 @@ const Carousel = forwardRef((props, ref) => {
           slidesToShow: breakpoint.xxl,
           slidesToScroll: breakpoint.xxl,
           mobileFirst: false,
-          fade: false,
+          // fade: false,
         },
       },
     ],

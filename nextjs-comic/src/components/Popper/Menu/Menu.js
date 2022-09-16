@@ -102,7 +102,7 @@ function Menu({
         placement="bottom-end"
         onHide={backToHistoryRoot}
         render={handleTippyRender}
-        {...(toggle ? { visible: isShowing } : (hideOnClick = { hideOnClick }))}
+        {...(toggle ? { visible: isShowing } : { hideOnClick: hideOnClick })}
       >
         {children}
       </Tippy>
