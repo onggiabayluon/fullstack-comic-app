@@ -14,9 +14,10 @@ export default function MyImage({
   width,
   height,
   className,
-  fill = false,
   priority,
+  fill = false,
   hasBlur = true,
+  unoptimized = true,
 }) {
   const classes = cx("card__card", {
     [className]: className,
@@ -32,15 +33,16 @@ export default function MyImage({
   return (
     <LinkWrapper {...(href && { href: href })}>
       <Image
+        {...(fill && { fill: true })}
         className={classes}
         src={src}
         alt={alt}
         width={width}
         height={height}
-        {...(fill && { fill: true })}
         priority={priority}
         placeholder={hasBlur ? "blur" : ""}
         blurDataURL={blur}
+        unoptimized={unoptimized}
       />
     </LinkWrapper>
   );

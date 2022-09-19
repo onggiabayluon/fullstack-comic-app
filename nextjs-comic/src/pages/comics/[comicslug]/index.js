@@ -9,8 +9,7 @@ import { faEye, faStar } from "@fortawesome/free-regular-svg-icons";
 import classNames from "classnames/bind";
 import Link from "next/link";
 import styles from "~/assets/scss/ComicDetail.module.scss";
-import ChapterList from "~/components/ChapterList";
-import ComicCardTets from "~/components/ComicCard/ComicCard";
+import ComicCard from "~/components/ComicCard/ComicCard";
 import CommentForm from "~/components/CommentForm";
 import CommentList from "~/components/CommentList";
 import MyImage from "~/components/MyImage";
@@ -124,16 +123,21 @@ function ComicDetail({ comicProp }) {
             </div>
 
             <ul className={cx("card-list")}>
-              <ChapterList
-                comic={comic}
-                width={73}
-                height={73}
-                Component={ComicCardTets}
-                borderBottom
-                hasBorder
-                isChapterStyle
-                globalClasses={"card-hover"}
-              />
+              {comic.chapters.map((chapter, index) => (
+                <ComicCard
+                  key={chapter.id}
+                  src={comic.src}
+                  index={index}
+                  chapter={chapter}
+                  href={publicRoutes.chapterDetail.getDynamicPath(
+                    comic.slug,
+                    chapter.chapterSlug
+                  )}
+                  {...(index == 0 && { borderTop: true })}
+                  borderBottom
+                  className={cx("card", "card-hover")}
+                ></ComicCard>
+              ))}
             </ul>
           </div>
 

@@ -2,11 +2,22 @@
 // Math.abs : Trị tuyệt đối |-2| = 2
 // src: https://blog.webdevsimplified.com/2020-07/relative-time-format/
 
+export let formatter;
 const LANGUAGE = "en";
+const isSupported = !(
+  Intl === void 0 || typeof Intl.RelativeTimeFormat !== "function"
+);
 
-const formatter = new Intl.RelativeTimeFormat(LANGUAGE, {
-  numeric: "auto",
-});
+formatter = isSupported
+  ? // Browser  compatible
+    (formatter = new Intl.RelativeTimeFormat(LANGUAGE, {
+      numeric: "auto",
+    }))
+  : // Browser not compatible
+    (formatter = new Intl.DateTimeFormat(undefined, {
+      dateStyle: "medium",
+      timeStyle: "short",
+    }));
 
 const DIVISIONS = [
   { amount: 60, name: "seconds" },
@@ -21,6 +32,8 @@ const DIVISIONS = [
 const dateDiffInSecond = (date, today) => (Date.parse(date) - today) / 1000;
 
 export function formatTimeAgo(date) {
+  if (!isSupported) return formatter.format(new Date(date.replace(/-/g, "/")));
+
   let duration = dateDiffInSecond(date, new Date());
 
   for (let i = 0; i <= DIVISIONS.length; i++) {
