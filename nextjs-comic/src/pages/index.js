@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import Carousel from "~/components/Carousel";
-import ComicCardTets from "~/components/ComicCard/ComicCard";
+import ComicCard from "~/components/ComicCard";
 import ComicCardV2 from "~/components/ComicCardV2";
 import ComicList from "~/components/ComicList";
 import Section from "~/components/Section";
@@ -23,9 +23,9 @@ export default function Home({ comics }) {
               <ComicCardV2
                 key={comic.id}
                 comic={comic}
-                width={200}
-                height={300}
-                fill={false}
+                // width={200}
+                // height={300}
+                fill
                 priority
               />
             ))}
@@ -33,20 +33,11 @@ export default function Home({ comics }) {
         </Section>
 
         {/* Lastest Update Section */}
-        {/* <Section title="Lastest Update" doubleLayoutGrid>
+        <Section title="Lastest Update" doubleLayoutGrid>
           <ComicList
             comics={comics}
             Component={ComicCard}
             className={"comic-card__card"}
-            borderBottom
-            hasBorder
-          />
-        </Section> */}
-
-        <Section title="Lastest Update" doubleLayoutGrid>
-          <ComicList
-            comics={comics}
-            Component={ComicCardTets}
             borderBottom
             hasBorder
           />

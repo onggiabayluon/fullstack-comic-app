@@ -2,6 +2,7 @@ import Tippy from "@tippyjs/react/headless";
 import classNames from "classnames/bind";
 import { useState } from "react";
 import { Wrapper as PopperWrapper } from "~/components/Popper";
+import useMediaQuery from "~/hooks/useMediaQuery";
 import Header from "./Header";
 import styles from "./Menu.module.scss";
 import MenuItem from "./MenuItem";
@@ -21,6 +22,8 @@ function Menu({
 }) {
   const [history, setHistory] = useState([{ data: items }]);
 
+  const isMobile = useMediaQuery("(max-width: 500px)");
+
   const lastMenuItem = history[history.length - 1];
 
   const handleHistoryBack = () => {
@@ -31,7 +34,7 @@ function Menu({
     setHistory((prev) => prev.slice(0, 1));
   };
 
-  const renderItems = () => {
+  const renderMenuItems = () => {
     return lastMenuItem.data.map((item, index) => {
       function handleMenuItemClick() {
         const hasChilren = !!item.children;
@@ -72,7 +75,7 @@ function Menu({
         className={cx("menu-list")}
         tabIndex="-1"
         {...attrs}
-        style={{ width: width + "px" }}
+        style={isMobile ? { width: "330px" } : { width: width + "px" }}
       >
         <PopperWrapper
           className={cx("menu-popper")}
@@ -87,7 +90,7 @@ function Menu({
               onBack={handleHistoryBack}
             ></Header>
           )}
-          <div className={cx("menu-scrollable")}>{renderItems()}</div>
+          <div className={cx("menu-scrollable")}>{renderMenuItems()}</div>
         </PopperWrapper>
       </div>
     );
@@ -99,6 +102,7 @@ function Menu({
       <Tippy
         interactive
         delay={[0, 700]}
+        offset={isMobile ? [50, 0] : [0, 0]}
         placement="bottom-end"
         onHide={backToHistoryRoot}
         render={handleTippyRender}

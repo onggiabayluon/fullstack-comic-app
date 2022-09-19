@@ -4,13 +4,7 @@ import styles from "./ComicCardV2.module.scss";
 
 const cx = classNames.bind(styles);
 
-function ComicCardV2({
-  comic,
-  width = 0,
-  height = 0,
-  priority = false,
-  fill = false,
-}) {
+function ComicCardV2({ comic, width, height, priority = false, fill = false }) {
   return (
     <div className={cx(`big`)}>
       <article className={cx(`card`)}>

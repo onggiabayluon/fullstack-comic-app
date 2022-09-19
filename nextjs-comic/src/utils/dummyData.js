@@ -9,7 +9,7 @@ export const comics = [
         id: 1,
         chapter_num: "01",
         chapter_slug: "chapter-1",
-        created_date: "Aug 31, 2022",
+        created_date: "Jan 30, 2022",
         like: "26.576",
       },
       {
@@ -25,7 +25,7 @@ export const comics = [
       { id: 1, name: "Sonen" },
       { id: 2, name: "Adventure" },
     ],
-    created_date: "2022-09-09 14:41:45",
+    created_date: "2022-07-09 14:41:45",
   },
   {
     id: 2,
@@ -53,7 +53,7 @@ export const comics = [
       { id: 1, name: "Sonen" },
       { id: 2, name: "Adventure" },
     ],
-    created_date: "2022-09-09 14:41:45",
+    created_date: "2022-09-19 14:41:45",
   },
   {
     id: 3,
