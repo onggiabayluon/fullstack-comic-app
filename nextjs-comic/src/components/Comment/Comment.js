@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useComic from "~/hooks/useComic";
 
-import { formatDate } from "~/utils/dateFormatter";
+import { formatTimeAgo } from "~/utils/dateFormatter";
 import CommentList from "../CommentList";
 
 function Comment({
@@ -22,7 +22,7 @@ function Comment({
       <div className="comment">
         <div className="header">
           <span className="name">{user.name}</span>
-          <span className="date">{formatDate(createdAt)}</span>
+          <span className="date">{formatTimeAgo(createdAt)}</span>
         </div>
 
         <div className="message">{message}</div>
