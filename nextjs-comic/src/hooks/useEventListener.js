@@ -9,6 +9,7 @@ export default function useEventListener(eventType, callback, element) {
 
   useEffect(() => {
     const isBrowser = (() => typeof window !== "undefined")();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     element = isBrowser ? window : null;
 
     if (element == null) return;

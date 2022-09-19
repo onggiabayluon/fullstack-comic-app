@@ -78,7 +78,15 @@ function ComicDetail({ comicProp }) {
   return (
     <main className={cx("content-wrapper")}>
       <section className={cx("detail-background")}>
-        <MyImage className={"box-img"} src={comic.src} alt={comic.alt} fill />
+        <MyImage
+          className={"box-img"}
+          src={comic.src}
+          alt={comic.alt}
+          // width={1000}
+          // height={321}
+          priority
+          fill
+        />
       </section>
 
       <Section className={cx("detail-box")} container>
