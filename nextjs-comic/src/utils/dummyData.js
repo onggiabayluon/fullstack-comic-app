@@ -7,15 +7,15 @@ export const comics = [
     chapters: [
       {
         id: 1,
-        chapterNum: "01",
-        chapterSlug: "chapter-1",
+        chapter_num: "01",
+        chapter_slug: "chapter-1",
         created_date: "Aug 31, 2022",
         like: "26.576",
       },
       {
         id: 2,
-        chapterNum: "02",
-        chapterSlug: "chapter-2",
+        chapter_num: "02",
+        chapter_slug: "chapter-2",
         created_date: "Aug 31, 2022",
         like: "26.576",
       },
@@ -25,7 +25,7 @@ export const comics = [
       { id: 1, name: "Sonen" },
       { id: 2, name: "Adventure" },
     ],
-    created_date: "1 Mins ago",
+    created_date: "2022-09-09 14:41:45",
   },
   {
     id: 2,
@@ -35,15 +35,15 @@ export const comics = [
     chapters: [
       {
         id: 1,
-        chapterNum: "01",
-        chapterSlug: "chapter-1",
+        chapter_num: "01",
+        chapter_slug: "chapter-1",
         created_date: "Aug 31, 2022",
         like: "26.576",
       },
       {
         id: 2,
-        chapterNum: "02",
-        chapterSlug: "chapter-2",
+        chapter_num: "02",
+        chapter_slug: "chapter-2",
         created_date: "Aug 31, 2022",
         like: "26.576",
       },
@@ -53,7 +53,7 @@ export const comics = [
       { id: 1, name: "Sonen" },
       { id: 2, name: "Adventure" },
     ],
-    created_date: "1 Mins ago",
+    created_date: "2022-09-09 14:41:45",
   },
   {
     id: 3,
@@ -63,15 +63,15 @@ export const comics = [
     chapters: [
       {
         id: 1,
-        chapterNum: "01",
-        chapterSlug: "chapter-1",
+        chapter_num: "01",
+        chapter_slug: "chapter-1",
         created_date: "Aug 31, 2022",
         like: "26.576",
       },
       {
         id: 2,
-        chapterNum: "02",
-        chapterSlug: "chapter-2",
+        chapter_num: "02",
+        chapter_slug: "chapter-2",
         created_date: "Aug 31, 2022",
         like: "26.576",
       },
@@ -81,7 +81,7 @@ export const comics = [
       { id: 1, name: "Sonen" },
       { id: 2, name: "Adventure" },
     ],
-    created_date: "1 Mins ago",
+    created_date: "2022-09-09 14:41:45",
   },
   {
     id: 4,
@@ -91,15 +91,15 @@ export const comics = [
     chapters: [
       {
         id: 1,
-        chapterNum: "01",
-        chapterSlug: "chapter-1",
+        chapter_num: "01",
+        chapter_slug: "chapter-1",
         created_date: "Aug 31, 2022",
         like: "26.576",
       },
       {
         id: 2,
-        chapterNum: "02",
-        chapterSlug: "chapter-2",
+        chapter_num: "02",
+        chapter_slug: "chapter-2",
         created_date: "Aug 31, 2022",
         like: "26.576",
       },
@@ -109,7 +109,7 @@ export const comics = [
       { id: 1, name: "Sonen" },
       { id: 2, name: "Adventure" },
     ],
-    created_date: "1 Mins ago",
+    created_date: "2022-09-09 14:41:45",
   },
   {
     id: 5,
@@ -119,22 +119,22 @@ export const comics = [
     chapters: [
       {
         id: 1,
-        chapterNum: "01",
-        chapterSlug: "chapter-1",
+        chapter_num: "01",
+        chapter_slug: "chapter-1",
         created_date: "Aug 31, 2022",
         like: "26.576",
       },
       {
         id: 2,
-        chapterNum: "02",
-        chapterSlug: "chapter-2",
+        chapter_num: "02",
+        chapter_slug: "chapter-2",
         created_date: "Aug 31, 2022",
         like: "26.576",
       },
       {
         id: 3,
-        chapterNum: "03",
-        chapterSlug: "chapter-3",
+        chapter_num: "03",
+        chapter_slug: "chapter-3",
         created_date: "Aug 31, 2022",
         like: "26.576",
       },
@@ -144,7 +144,7 @@ export const comics = [
       { id: 1, name: "Sonen" },
       { id: 2, name: "Adventure" },
     ],
-    created_date: "1 Mins ago",
+    created_date: "2022-09-09 14:41:45",
   },
 ];
 
@@ -158,29 +158,29 @@ export const comic = {
   chapters: [
     {
       id: 1,
-      chapterNum: "01",
-      chapterSlug: "chapter-1",
-      created_date: "Aug 31, 2022",
+      chapter_num: "01",
+      chapter_slug: "chapter-1",
+      created_date: "2022-09-18 08:41:45",
       like: "26.576",
     },
     {
       id: 2,
-      chapterNum: "02",
-      chapterSlug: "chapter-2",
+      chapter_num: "02",
+      chapter_slug: "chapter-2",
       created_date: "Aug 31, 2022",
       like: "26.576",
     },
     {
       id: 3,
-      chapterNum: "03",
-      chapterSlug: "chapter-3",
+      chapter_num: "03",
+      chapter_slug: "chapter-3",
       created_date: "Aug 31, 2022",
       like: "26.576",
     },
     {
       id: 4,
-      chapterNum: "04",
-      chapterSlug: "chapter-4",
+      chapter_num: "04",
+      chapter_slug: "chapter-4",
       created_date: "Aug 31, 2022",
       like: "26.576",
     },
@@ -190,7 +190,7 @@ export const comic = {
     { id: 1, name: "Sonen" },
     { id: 2, name: "Adventure" },
   ],
-  created_date: "1 Mins ago",
+  created_date: "2022-09-09 14:41:45",
   comments: [
     {
       id: 1,

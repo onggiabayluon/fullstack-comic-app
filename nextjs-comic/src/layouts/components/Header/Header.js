@@ -66,7 +66,7 @@ function Header({ sidebarRef, hasHamburger = true }) {
       {/* Logo */}
       <Link href={config.routes.home}>
         <a ref={logoRef} className={cx("logo-link")}>
-          <MyImage src={images.logo} alt="Tiktok" />
+          <MyImage src={images.logo} alt="Tiktok" width={118} height={42} />
         </a>
       </Link>
       <div className={cx("inner")}>

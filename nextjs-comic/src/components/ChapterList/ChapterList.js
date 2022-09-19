@@ -1,16 +1,18 @@
-function ComicList({
-  comics = [],
+function ChapterList({
+  comic = [],
   limit,
   hasBorder,
   Component,
   href,
   ...passProps
 }) {
-  return comics
-    ? comics.slice(0, limit).map((comic, index) => (
+  return comic.chapters
+    ? comic.chapters.slice(0, limit).map((chapter, index) => (
         <Component
-          key={comic.id}
+          key={chapter.id}
           comic={comic}
+          chapter={chapter}
+          index={index + 1}
           {...passProps}
           {...(hasBorder && {
             ...((index == 0 || index == 1) && { borderTop: true }),
@@ -20,4 +22,4 @@ function ComicList({
     : null;
 }
 
-export default ComicList;
+export default ChapterList;

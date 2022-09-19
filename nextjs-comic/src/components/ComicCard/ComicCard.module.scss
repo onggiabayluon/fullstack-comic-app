@@ -1,179 +1,129 @@
-.comic-card {
-  $this: &;
-
-  &__card {
-    --spacing: 0.7rem;
-    --column: 80px;
-    display: grid;
-    overflow: hidden;
-    grid-template-columns: var(--column) 1fr;
-    // grid-template-rows: auto 1fr;
-    width: 100%;
-    height: auto;
-
-    // border-radius: 15px;
-    background: white;
-    position: relative;
-    contain: style layout inline-size;
-    padding: var(--spacing) 0;
-
-    // gap: var(--gap);
-    // --gap: 3qi;
-    > #{$this}__figcaption {
-      padding: 0 var(--gap) var(--gap) var(--gap);
+.cardSearch {
+  padding: 0 !important;
+  .card {
+    &__left {
+      padding: 1rem 0 0.5rem 1rem;
     }
-
-    &:nth-child(-n + 2) {
-      // padding-bottom: 0;
-      padding-top: var(--spacing);
+    &__thumbnail {
+      min-width: 50px;
+      min-height: 50px;
     }
-    &:nth-last-of-type(-n + 2) {
-      padding-bottom: var(--spacing);
-      // padding-top: 0;
+    &__title {
+      line-height: 15px;
     }
   }
-
-  &__left {
-    display: inherit;
-    a {
-      height: 80px;
+}
+.cardChapter {
+  padding: 0 !important;
+  .timer {
+    &__text {
+      margin-left: auto;
+      font-size: var(--font-size);
+      color: #b1b1b1;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+    }
+    &__icon {
+      margin-bottom: 0.3rem;
+      margin-right: 0.5rem;
     }
   }
+  .card {
+    &__body {
+      display: flex;
+    }
+    &__thumbnail {
+      max-width: 73px;
+      max-height: 73px;
+      min-width: 73px;
+      min-height: 73px;
+    }
+    &__likearea {
+      margin-left: 2rem;
+      font-size: var(--font-size);
+      color: #b1b1b1;
+      letter-spacing: 1px;
+    }
+    &__like-ico {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+      margin: 0px 5px 0 0;
+    }
+    &__index {
+      margin: -2px 0px 0px 26px;
+      font-size: var(--font-size);
+      color: var(--text-color);
+      letter-spacing: 1px;
+      text-align: right;
+    }
+  }
+}
+
+.card {
+  --spacing: 0.7rem;
+
+  display: flex;
+  padding: var(--spacing) 0;
 
   &__right {
-    display: inherit;
-    margin: 0 1.4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
   }
-
+  &__header {
+    display: flex;
+    align-items: center;
+  }
+  &__thumbnail {
+    min-width: 80px;
+    min-height: 80px;
+  }
   &__title {
     font-size: 16px;
     line-height: 29px;
     font-weight: 700;
     width: 100%;
+    margin: 0.15rem 0;
   }
-  &__chapters {
+}
+.tag {
+  &__list {
     display: flex;
-    .chapter + .chapter {
+    flex-direction: row;
+  }
+  &__item {
+    font-size: 14px;
+    line-height: 21px;
+    + .tag__item {
       margin-left: 10px;
     }
-    .chapter {
-      cursor: pointer;
-    }
-    .chapter:hover {
-      text-decoration: underline;
-    }
   }
 }
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-
-.tag {
-  font-size: 14px;
-  line-height: 21px;
-}
-.tag + .tag {
-  margin-left: 10px;
+.chapter {
+  &__list {
+    display: flex;
+    flex-direction: row;
+  }
+  &__item {
+    + .chapter__item {
+      margin-left: 10px;
+    }
+  }
 }
 
 .timer {
   display: flex;
   align-items: center;
+  margin-left: auto;
+  &__icon {
+  }
   &__text {
     font-size: 13px;
     line-height: 21px;
     margin-left: 7px;
-  }
-  &__icon {
-    width: 15px;
-    height: 15px;
-  }
-}
-
-// -------------- Card --------------- //
-
-.card {
-  --font-size: 17px;
-
-  :hover {
-    background-color: var(--background-secondary);
-  }
-
-  &__link {
-    position: relative;
-    display: flex;
-    align-items: center;
-    color: var(--white);
-    height: 73px;
-    white-space: nowrap;
-    cursor: pointer;
-  }
-
-  &__thumbnail {
-    position: relative;
-    padding: 0;
-    width: 83px;
-    height: 73px;
-    overflow: hidden;
-    .img {
-      max-width: 100%;
-      max-height: 100%;
-      display: block;
-      object-fit: cover;
-      object-position: top;
-    }
-  }
-
-  &__info-wrapper {
-    display: flex;
-    width: 100%;
-    margin: 0 12px;
-  }
-
-  &__num {
-    color: #3d3d3d;
-    font-size: var(--font-size);
-  }
-  &__date {
-    margin-left: auto;
-    font-size: var(--font-size);
-    color: #b1b1b1;
-    letter-spacing: 1px;
-    display: flex;
-    align-items: center;
-  }
-  &__likearea {
-    margin-left: 2rem;
-    font-size: var(--font-size);
-    color: #b1b1b1;
-    letter-spacing: 1px;
-  }
-  &__like-ico {
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-    margin: 0px 5px 0 0;
-  }
-  &__like-num {
-  }
-  &__index {
-    margin: -2px 0px 0px 26px;
-    font-size: var(--font-size);
-    color: var(--text-color);
-    letter-spacing: 1px;
-    text-align: right;
-  }
-
-  @media (max-width: 550px) {
-    --font-size: 13px;
-    &__thumbnail {
-      display: none;
-    }
-    &__date {
-      font-size: 12px;
-    }
   }
 }
 
@@ -183,7 +133,6 @@
 .borderBottom {
   border-bottom: 1px solid var(--border-color);
 }
-
 .hover {
   background-color: var(--background-secondary);
 }

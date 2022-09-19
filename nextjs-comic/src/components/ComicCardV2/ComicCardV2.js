@@ -6,11 +6,10 @@ const cx = classNames.bind(styles);
 
 function ComicCardV2({
   comic,
-  layout = "fill",
-  objectFit = "cover",
   width = 0,
   height = 0,
   priority = false,
+  fill = false,
 }) {
   return (
     <div className={cx(`big`)}>
@@ -22,10 +21,11 @@ function ComicCardV2({
           <MyImage
             className={cx("card__image")}
             src={comic.src}
-            alt={comic.alt}
+            alt={comic.title}
             priority={priority}
-            layout={layout}
-            objectFit={objectFit}
+            fill={fill}
+            width={width}
+            height={height}
           />
         </div>
         <div className={cx(`card-content`)}>
