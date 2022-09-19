@@ -4,8 +4,8 @@ import HeadlessTippy from "@tippyjs/react/headless";
 import classNames from "classnames/bind";
 import debounce from "lodash.debounce";
 import { useCallback, useEffect, useRef, useState } from "react";
-import ComicCardTets from "~/components/ComicCard/ComicCard";
 import ComicList from "~/components/ComicList";
+import ComicSearchCard from "~/components/ComicSearchCard";
 
 import { SearchIcon } from "~/components/Icons";
 import { Wrapper as PopperWrapper } from "~/components/Popper";
@@ -96,10 +96,9 @@ function Search({ toggleLogoStateBySearchState = defaultFnc }) {
               {searchResult?.length > 0 && (
                 <ComicList
                   comics={comics}
-                  Component={ComicCardTets}
+                  Component={ComicSearchCard}
                   width={50}
                   height={50}
-                  isSearchStyle
                 />
               )}
             </PopperWrapper>

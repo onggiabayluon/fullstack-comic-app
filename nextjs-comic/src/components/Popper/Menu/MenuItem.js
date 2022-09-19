@@ -16,9 +16,14 @@ function MenuItem({ data, onClick, className, props }) {
     description: data.description,
     onClick: onClick,
   };
+  const isFooter = data.type == "footer";
   // Login or register Comp
   return Comp ? (
-    <Comp {...(data.type == "footer" && { ...footerData })}></Comp>
+    isFooter ? (
+      <Comp {...(isFooter && { ...footerData })}></Comp>
+    ) : (
+      <Comp></Comp>
+    )
   ) : (
     <Button
       className={classes}
