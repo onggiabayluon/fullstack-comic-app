@@ -4,11 +4,13 @@ import HeadlessTippy from "@tippyjs/react/headless";
 import classNames from "classnames/bind";
 import debounce from "lodash.debounce";
 import { useCallback, useEffect, useRef, useState } from "react";
+import ComicCardTets from "~/components/ComicCard/ComicCard";
+import ComicList from "~/components/ComicList";
 
-import ComicSearchCard from "~/components/ComicSearchCard";
 import { SearchIcon } from "~/components/Icons";
 import { Wrapper as PopperWrapper } from "~/components/Popper";
 import * as searchServices from "~/services/searchService";
+import { comics } from "~/utils/dummyData";
 import styles from "./Search.module.scss";
 const cx = classNames.bind(styles);
 
@@ -90,11 +92,21 @@ function Search({ toggleLogoStateBySearchState = defaultFnc }) {
           <div className={cx("search-result")} tabIndex="-1" {...attrs}>
             <PopperWrapper>
               <h4 className={cx("search-title")}>Comics</h4>
-              {searchResult?.length > 0 &&
-                searchResult.map((result, key) => (
-                  <ComicSearchCard key={key} data={result} />
-                ))}
+
+              {searchResult?.length > 0 && (
+                <ComicList
+                  comics={comics}
+                  Component={ComicCardTets}
+                  width={50}
+                  height={50}
+                  isSearchStyle
+                />
+              )}
             </PopperWrapper>
+
+            {/* searchResult.map((result, key) => (
+                  <ComicSearchCard key={key} data={result} />
+                ))} */}
           </div>
         )}
         onClickOutside={handleHideResult}
