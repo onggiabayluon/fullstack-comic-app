@@ -14,7 +14,7 @@ const ThemeSwitch = ({ description }) => {
       type="button"
       className={`${
         description ? 'w-full' : 'w-6'
-      } text-gray-primary m-0 flex h-auto items-center rounded p-0 font-bold sm:ml-4`}
+      } text-gray-primary m-0 flex h-6 items-center rounded p-0 font-bold sm:ml-4`}
       onClick={() => setTheme(theme === 'dark' || resolvedTheme === 'dark' ? 'light' : 'dark')}
     >
       {description && <span className="pr-4">{description}</span>}
