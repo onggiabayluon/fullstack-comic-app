@@ -1,1 +1,1 @@
-web: gunicorn comicapis.comicapis.wsgi --log-file -
+web: gunicorn --chdir comicapis comicapis.wsgi
