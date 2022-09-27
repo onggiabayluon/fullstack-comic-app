@@ -70,7 +70,7 @@ function Search() {
   return (
     <Popover className="mt-1">
       <Popover.Button ref={buttonRef}>
-        <FaSearch className="icon-primary cursor-pointer" size={18} />
+        <FaSearch className="icon-primary h-5 w-5 cursor-pointer sm:h-4 sm:w-4" size={16} />
       </Popover.Button>
 
       <Popover.Overlay
