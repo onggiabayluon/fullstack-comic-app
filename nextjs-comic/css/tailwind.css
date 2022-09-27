@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .border-theme {
+    @apply border-slate-900/10  dark:border-slate-50/[0.06];
+  }
+  .bg-slate-white {
+    @apply bg-white dark:bg-slate-700;
+  }
+  .bg-sky-hover {
+    @apply hover:bg-sky-400 hover:text-white dark:hover:bg-sky-700 dark:hover:text-white;
+  }
+  .text-slate-white {
+    @apply text-slate-700 dark:text-slate-300;
+  }
+  .text-primary {
+    @apply hover:text-primary-500 dark:text-gray-100 dark:hover:text-gray-300;
+  }
+  .text-gray-primary {
+    @apply text-gray-900 hover:text-gray-600 dark:text-gray-100 dark:hover:text-gray-300;
+  }
+  .icon-primary {
+    @apply rounded-md hover:text-primary-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500;
+  }
+  .bg-indigo {
+    @apply hover:bg-indigo-600 hover:text-white;
+  }
+  .bg-hover-primary {
+    @apply hover:bg-primary-400 hover:text-slate-700;
+  }
+  .icon-indigo {
+    @apply text-indigo-400;
+  }
+  .divide-slate {
+    @apply divide-slate-200 dark:divide-slate-700;
+  }
+}
+
+.task-list-item::before {
+  @apply hidden;
+}
+
+.task-list-item {
+  @apply list-none;
+}
+
+.footnotes {
+  @apply mt-12 border-t border-gray-200 pt-8 dark:border-gray-700;
+}
+
+.csl-entry {
+  @apply my-5;
+}
+
+/* https://stackoverflow.com/questions/61083813/how-to-avoid-internal-autofill-selected-style-to-be-applied */
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 600000s 0s, color 600000s 0s;
+}
