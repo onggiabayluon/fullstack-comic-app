@@ -14,6 +14,7 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+import django_heroku
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -27,7 +28,7 @@ SECRET_KEY = str(os.getenv(('SECRET_KEY')))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.getenv(('DEBUG')))
 
-ALLOWED_HOSTS = ["django-comic-api-2.herokuapp.com"]
+ALLOWED_HOSTS = ["django-comic-api-2.herokuapp.com", "localhost", "127.0.0.1", "fullstack-comic-app.vercel.app"]
 
 
 # Application definition
@@ -175,7 +176,7 @@ DATABASES = {
         'NAME': str(os.getenv(('DATABASE_NAME'))),
         'USER': str(os.getenv(('DATABASE_USER'))),
         'PASSWORD': str(os.getenv(('DATABASE_PASSWORD'))),
-        'HOST': ''
+        'HOST': str(os.getenv(('DATABASE_HOST')))
     },
 }
 
@@ -222,3 +223,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Setting for heroku
+django_heroku.settings(locals())
