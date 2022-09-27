@@ -81,15 +81,15 @@ OAUTH2_INFO = {
 #     'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore'
 # }
 
-# CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = True
 
 
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-    "http://127.0.0.1:3000",
-    'https://localhost:3000',
-    "https://127.0.0.1:3000",
-]
+# CORS_ORIGIN_WHITELIST = [
+#     'http://localhost:3000',
+#     "http://127.0.0.1:3000",
+#     'https://localhost:3000',
+#     "https://127.0.0.1:3000",
+# ]
 
 
 MIDDLEWARE = [
