@@ -25,9 +25,9 @@ load_dotenv()  # loads the configs from .env
 SECRET_KEY = str(os.getenv(('SECRET_KEY')))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.getenv(('DEBUG')))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["django-comic-api-2.herokuapp.com"]
 
 
 # Application definition
