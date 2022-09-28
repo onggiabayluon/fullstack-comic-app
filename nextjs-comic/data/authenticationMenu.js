@@ -95,5 +95,6 @@ export const USER_ITEMS = [
   },
   {
     title: 'Sign Out',
+    type: 'LOGOUT',
   },
 ]

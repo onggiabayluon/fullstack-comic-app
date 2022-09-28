@@ -36,6 +36,21 @@
   .divide-slate {
     @apply divide-slate-200 dark:divide-slate-700;
   }
+  /* 
+    --color-text-base: 255, 255, 255;
+    --color-text-muted: 199, 210, 254;
+    --color-text-inverted: 79, 70, 229;
+    --color-fill: 67, 56, 202;
+    --color-button-accent: 255, 255, 255;
+    --color-button-accent-hover: 238, 242, 255;
+    --color-button-muted: 99, 102, 241; 
+  */
+  .color-text-gray {
+    @apply text-gray-900 dark:text-gray-100;
+  }
+  .color-text-gray-hover {
+    @apply text-gray-900 dark:text-gray-100;
+  }
 }
 
 .task-list-item::before {
