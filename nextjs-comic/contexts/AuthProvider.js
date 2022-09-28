@@ -1,6 +1,6 @@
 import useStorage from '@/hooks/useStorage'
 import jwtDecode from 'jwt-decode'
-import { createContext, useEffect, useReducer } from 'react'
+import { createContext, useEffect, useReducer, useState } from 'react'
 
 const AuthContext = createContext()
 
@@ -26,11 +26,13 @@ export const userReducer = (state, action) => {
 }
 export const AuthProvider = ({ children }) => {
   const [authTokens, setAuthTokens, removeAuthTokens] = useStorage('authTokens', null)
+  const [loading, setLoading] = useState(true)
 
   const [state, dispatch] = useReducer(userReducer, null)
 
   const contextData = {
     state,
+    loading,
     authTokens,
     dispatch,
     setAuthTokens,
@@ -41,6 +43,7 @@ export const AuthProvider = ({ children }) => {
     if (authTokens) {
       dispatch({ type: USER_ACTIONS.LOGIN, payload: authTokens })
     }
+    setLoading(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

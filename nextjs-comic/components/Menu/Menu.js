@@ -4,9 +4,9 @@ import { Fragment, useState } from 'react'
 import { FaChevronLeft } from 'react-icons/fa'
 // import { FaChevronLeft } from 'react-icons/fa'
 
-const MenuItem = ({ onItemClick, icon, title, comp }) => {
-  const Comp = comp
-  if (comp) return <Comp />
+const MenuItem = ({ onItemClick, onCloseBtnClick, icon, title, comp }) => {
+  const Item = comp
+  if (comp) return <Item onCloseBtnClick={onCloseBtnClick} />
   return (
     <button
       onClick={onItemClick}
@@ -73,7 +73,7 @@ function Menu({ title, items, onChange }) {
                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="div"
-                    className="borde-theme mx-40 border-b pb-2 text-center text-lg font-medium leading-6 text-gray-900"
+                    className="mx-auto mb-2 pb-2 text-center text-lg font-medium leading-6 text-gray-900"
                   >
                     {shouldShowHeader && (
                       <button
@@ -85,7 +85,9 @@ function Menu({ title, items, onChange }) {
                         <FaChevronLeft size={15} />
                       </button>
                     )}
-                    <h3 className="text-xl">{lastMenuItem?.title}</h3>
+                    <h3 className="mx-auto w-fit border-b-2 border-slate-100 pb-1 text-xl">
+                      {lastMenuItem?.title}
+                    </h3>
                     <button
                       type="button"
                       className="absolute right-10 top-5 mt-[0.45rem] cursor-pointer"
@@ -108,13 +110,14 @@ function Menu({ title, items, onChange }) {
                     </button>
                   </Dialog.Title>
                   <div className="mt-2 space-y-3">
-                    {lastMenuItem?.data.map((item) => (
+                    {lastMenuItem?.data.map((item, index) => (
                       <MenuItem
                         onItemClick={() => handleMenuItemClick(item)}
-                        key={item.title}
+                        key={item.title || index}
                         icon={item.icon}
                         title={item.title}
                         comp={item.comp}
+                        onCloseBtnClick={handleCloseModal}
                       ></MenuItem>
                     ))}
                   </div>
