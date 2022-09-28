@@ -11,7 +11,9 @@ export const get = async (path, options = {}) => {
 export function makeRequest(url, options) {
   return httpRequest(url, options)
     .then((res) => res.data)
-    .catch((error) => Promise.reject(error?.response?.data?.message ?? error))
+    .catch((error) =>
+      Promise.reject(error?.response?.data?.detail ?? error?.response?.data ?? error)
+    )
 }
 
 export default httpRequest

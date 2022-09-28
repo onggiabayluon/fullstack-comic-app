@@ -1,4 +1,4 @@
-import { makeRequest } from '@/utils/httpRequest'
+import { makeRequest } from '@/lib/utils/httpRequest'
 
 export function login({ username, password }) {
   return makeRequest(`api/token/`, {

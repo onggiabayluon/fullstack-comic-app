@@ -6,9 +6,10 @@ import UserProfile from '@/components/UserProfile'
 import headerNavLinks from '@/data/headerNavLinks'
 import Logo from '@/data/logo.svg'
 import siteMetadata from 'data/siteMetadata'
+import { useEffect } from 'react'
 
 function Navbar() {
-  const currentUser = false
+  useEffect(() => console.log('navbar re-render'))
 
   return (
     <header className="top-0 z-50 mx-4 lg:mx-0 lg:px-8">
@@ -43,13 +44,13 @@ function Navbar() {
               </CustomLink>
             ))}
           </div>
-          <div className="ml-6 flex items-center space-x-4 border-0 border-slate-200 pl-6  dark:border-slate-800 sm:border-l">
+          <div className="ml-5 flex items-center space-x-4 border-0 border-slate-200 pl-6 dark:border-slate-800  sm:space-x-6 sm:border-l">
             <Search />
             <span className="hidden sm:block" aria-label="Theme Swicher">
               <ThemeSwitch />
             </span>
             <MobileNav />
-            <UserProfile user={currentUser} />
+            <UserProfile />
           </div>
         </div>
       </div>

@@ -1,16 +1,16 @@
-import { USER_ACTIONS } from "~/contexts/AuthProvider";
-import { useAuthContext } from "./useAuthContext";
+import { USER_ACTIONS } from '@/contexts/AuthProvider'
+import { useAuthContext } from './useAuthContext'
 
 export const useLogout = () => {
-  const { dispatch, setAuthTokens } = useAuthContext();
+  const { dispatch, setAuthTokens } = useAuthContext()
 
-  const logoutUser = () => {
+  const logoutUser = async () => {
     // Remove auth Token
-    setAuthTokens(null);
+    setAuthTokens(null)
 
     // Logout
-    dispatch({ type: USER_ACTIONS.LOGOUT });
-  };
+    dispatch({ type: USER_ACTIONS.LOGOUT })
+  }
 
-  return { logoutUser };
-};
+  return { logoutUser }
+}
