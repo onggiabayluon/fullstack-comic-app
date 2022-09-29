@@ -17,7 +17,7 @@ function Error({ error }) {
           clipRule="evenodd"
         ></path>
       </svg>
-      <span className="line-clamp-3 text-clip text-sm text-rose-500">{message}</span>
+      <span className="text-clip text-sm text-rose-500 line-clamp-3">{message}</span>
     </li>
   )
 }
