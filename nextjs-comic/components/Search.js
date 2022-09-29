@@ -6,7 +6,6 @@ import * as searchServices from '@/services/searchService'
 import { Popover, Transition } from '@headlessui/react'
 import debounce from 'lodash.debounce'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { FaSearch } from 'react-icons/fa'
 import Spinner from './Spinner'
 
 function Search() {
@@ -70,7 +69,23 @@ function Search() {
   return (
     <Popover className="mt-1">
       <Popover.Button ref={buttonRef}>
-        <FaSearch className="icon-primary h-5 w-5 cursor-pointer sm:h-4 sm:w-4" size={16} />
+        <span className="icon-primary">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="h-5 w-5"
+            aria-label="Search Icon"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+            />
+          </svg>
+        </span>
       </Popover.Button>
 
       <Popover.Overlay
@@ -84,7 +99,7 @@ function Search() {
         leave="transition duration-75 ease-out"
         leaveFrom="transform scale-100 opacity-100"
         leaveTo="transform scale-95 opacity-0"
-        className="fixed top-0 left-0 z-50 flex w-screen flex-col p-6"
+        className="fixed top-0 left-0 z-50 flex w-full flex-col p-6"
       >
         <Popover.Panel className="fixed top-0 left-0 z-50  contents w-screen flex-col p-6">
           <form className="group relative mx-auto w-full max-w-2xl ">
@@ -110,6 +125,7 @@ function Search() {
               type="text"
               aria-label="Filter comics"
               placeholder="Filter comics..."
+              aria-autocomplete="list"
             />
 
             {/* Spinner */}

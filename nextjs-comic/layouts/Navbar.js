@@ -33,7 +33,7 @@ function Navbar() {
         </div>
         {/* Right navlinks */}
         <div className="flex items-center text-base leading-5">
-          <div className="hidden space-x-4 sm:block sm:space-x-6">
+          <div className="hidden space-x-4 sm:block sm:space-x-6 xl:hidden">
             {headerNavLinks.map((link) => (
               <CustomLink
                 key={link.title}

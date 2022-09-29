@@ -1,9 +1,11 @@
 export const comics = [
   {
     id: 1,
-    src: '/GoblinSlayer.jpg',
+    src: '/slide1.jpg',
     alt: 'GoblinSlayer',
     slug: 'goblin-slayer-1',
+    description:
+      'Having a boyfriend who is a full foot taller than you might seem adorable at first, but it usually just ends up causing a whole bunch of minor inconveniences. Follow Fishball as shenavigates the Malaysian life with her geeky boyfriend.',
     chapters: [
       {
         id: 1,

@@ -1,7 +1,7 @@
 import { DEFAULT_MENU_ITEMS, USER_ITEMS } from '@/data/authenticationMenu'
 import { useAuthContext } from '@/hooks/useAuthContext'
 import { useLogout } from '@/hooks/useLogout'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useClickAway } from 'react-use'
 import Image from './Image'
 import AvatarSkeleton from './Skeleton/AvatarSkeleton'
@@ -12,6 +12,7 @@ function classNames(...classes) {
 }
 
 export default function UserProfile() {
+  useEffect(() => console.log('profile re-render'))
   const { state: user, loading: loading } = useAuthContext()
   const { logoutUser } = useLogout()
   const items = user ? USER_ITEMS : DEFAULT_MENU_ITEMS
