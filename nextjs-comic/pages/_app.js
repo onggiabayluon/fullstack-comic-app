@@ -1,5 +1,7 @@
 // import '@/css/prism.css'
 import '@/css/tailwind.css'
+import 'react-loading-skeleton/dist/skeleton.css'
+
 // import 'katex/dist/katex.css'
 
 import '@fontsource/inter/variable-full.css'

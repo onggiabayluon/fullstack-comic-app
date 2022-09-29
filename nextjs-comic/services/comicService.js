@@ -1,8 +1,13 @@
 import { makeRequest } from '@/lib/utils/httpRequest'
 
-export function getComics() {
+const defaultOptions = {
+  type: 'less',
+}
+
+export function getComics(params = defaultOptions) {
   return makeRequest(`/comics`, {
     method: 'GET',
+    params: params,
   })
 }
 
