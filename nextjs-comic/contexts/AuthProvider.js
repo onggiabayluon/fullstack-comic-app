@@ -1,6 +1,6 @@
 import useStorage from '@/hooks/useStorage'
 import jwtDecode from 'jwt-decode'
-import { createContext, useEffect, useReducer, useState } from 'react'
+import { createContext, useEffect, useMemo, useReducer, useState } from 'react'
 
 const AuthContext = createContext()
 
@@ -30,13 +30,16 @@ export const AuthProvider = ({ children }) => {
 
   const [state, dispatch] = useReducer(userReducer, null)
 
-  const contextData = {
-    state,
-    loading,
-    authTokens,
-    dispatch,
-    setAuthTokens,
-  }
+  const contextData = useMemo(
+    () => ({
+      state,
+      loading,
+      authTokens,
+      dispatch,
+      setAuthTokens,
+    }),
+    [state, loading, authTokens, dispatch, setAuthTokens]
+  )
 
   // Trigger login 1 time when user go to website
   useEffect(() => {

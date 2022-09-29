@@ -33,9 +33,35 @@
   .icon-indigo {
     @apply text-indigo-400;
   }
-  .divide-slate {
-    @apply divide-slate-200 dark:divide-slate-700;
+  .border-gray {
+    @apply border-gray-200 dark:border-gray-800;
   }
+  .divide-gray {
+    @apply divide-gray-200 dark:divide-gray-800;
+  }
+
+  /* Tips: Dark:text -> 400 hover text -> 600
+  Tips: Light:bg -> 300 hover bg -> 500 */
+  .text-primary {
+    @apply text-primary-400 hover:text-primary-500 dark:text-primary-300;
+  }
+  .text-primary-active {
+    @apply text-primary-500 hover:text-primary-600 dark:text-primary-400;
+  }
+  .bg-primary-hover {
+    @apply hover:bg-primary-300 hover:text-white dark:hover:bg-primary-500 dark:hover:text-slate-100;
+  }
+
+  .text-indigo-active {
+    @apply text-indigo-500 hover:text-indigo-600 dark:text-indigo-400;
+  }
+  .bg-indigo-hover {
+    @apply hover:bg-indigo-300 hover:text-white dark:hover:bg-indigo-500 dark:hover:text-slate-100;
+  }
+  .text-muted {
+    @apply text-gray-500 dark:text-gray-600;
+  }
+
   /* 
     --color-text-base: 255, 255, 255;
     --color-text-muted: 199, 210, 254;
@@ -73,4 +99,25 @@
 input:-webkit-autofill,
 input:-webkit-autofill:focus {
   transition: background-color 600000s 0s, color 600000s 0s;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.container-snap::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.container-snap {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.slider {
+  display: none;
+}
+.slider.slick-initialized {
+  display: block;
+}
+
+.slick-dots {
+  bottom: -2rem !important;
 }
