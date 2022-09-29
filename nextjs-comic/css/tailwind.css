@@ -121,3 +121,6 @@ input:-webkit-autofill:focus {
 .slick-dots {
   bottom: -2rem !important;
 }
+/* .slick-list {
+  padding: 0 20% 0 0 !important;
+} */
