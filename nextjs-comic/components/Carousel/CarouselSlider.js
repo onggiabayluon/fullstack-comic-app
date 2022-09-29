@@ -20,10 +20,10 @@ function HomeCarousel() {
 
   return loading ? (
     <div className="flex space-x-3 overflow-hidden">
-      <PictureGroupSkeleton height={384} />
-      <PictureGroupSkeleton height={384} />
-      <PictureGroupSkeleton className={'hidden sm:block'} height={384} />
-      <PictureGroupSkeleton className={'hidden sm:block'} height={384} />
+      <PictureGroupSkeleton className={'2xl:w-[79vw]'} height={384} />
+      <PictureGroupSkeleton className={'sm:block 2xl:hidden'} height={384} />
+      <PictureGroupSkeleton className={'hidden sm:block 2xl:hidden'} height={384} />
+      <PictureGroupSkeleton className={'hidden sm:block 2xl:hidden'} height={384} />
     </div>
   ) : (
     <Carousel ref={sliderRef}>

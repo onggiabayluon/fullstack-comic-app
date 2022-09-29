@@ -117,7 +117,10 @@ export default function Home() {
             </h1>
           </div>
 
-          <div className="max-w-[94vw] xl:max-w-[990px]" aria-label="Carousel container">
+          <div
+            className="max-w-[94vw] xl:max-w-[990px] 2xl:max-w-[80vw]"
+            aria-label="Carousel container"
+          >
             <HomeCarousel />
           </div>
         </section>
