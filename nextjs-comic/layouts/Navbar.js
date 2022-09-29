@@ -44,7 +44,7 @@ function Navbar() {
               </CustomLink>
             ))}
           </div>
-          <div className="ml-5 flex items-center space-x-4 border-0 border-slate-200 pl-6 dark:border-slate-800  sm:space-x-6 sm:border-l">
+          <div className="ml-5 flex items-center space-x-4 border-slate-200 pl-6 dark:border-slate-800 sm:space-x-6  sm:border-l xl:border-0">
             <Search />
             <span className="hidden sm:block" aria-label="Theme Swicher">
               <ThemeSwitch />
