@@ -6,7 +6,7 @@ function SliderCard({ thumbnail: src, slug, title, description, categories: tags
   return (
     <div className="relative">
       <div className="mx-2 ">
-        <div className="relative flex-shrink-0 overflow-hidden rounded-md xl:rounded-2xl">
+        <div className="relative flex-shrink-0 overflow-hidden rounded-2xl xl:rounded-2xl">
           <Image
             src={src}
             alt={title}

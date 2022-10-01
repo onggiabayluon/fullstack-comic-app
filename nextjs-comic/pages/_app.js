@@ -1,4 +1,6 @@
 // import '@/css/prism.css'
+import '@/css/slick.css'
+import '@/css/slick.theme.css'
 import '@/css/tailwind.css'
 import 'react-loading-skeleton/dist/skeleton.css'
 
