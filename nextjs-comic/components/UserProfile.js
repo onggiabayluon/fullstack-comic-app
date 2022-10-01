@@ -59,14 +59,15 @@ export default function UserProfile() {
 
             <Image
               className="h-8 w-8 rounded-full"
+              width={32}
+              height={32}
               src={
                 user
                   ? 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
                   : tempProfileSrc
               }
               alt={user ? user.name : 'User Avatar'}
-              width={32}
-              height={32}
+              placeholder="empty"
             />
           </button>
         </div>
