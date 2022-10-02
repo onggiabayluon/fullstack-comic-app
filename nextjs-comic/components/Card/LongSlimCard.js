@@ -28,9 +28,7 @@ function LongSlimCard({ src, title, updatedDate, chapters, slug, index }) {
         <span className="text-xl font-bold">{index + 1}</span>
       </div>
       <div className="flex h-full flex-col">
-        <CustomLink className="line-clamp-1" href={publicRoutes.comicDetail.getDynamicPath(slug)}>
-          <Tag text={'Adventure'} />
-        </CustomLink>
+        <Tag text={'Adventure'} />
         <CustomLink className="line-clamp-1" href={publicRoutes.comicDetail.getDynamicPath(slug)}>
           <h2 className="text-primary-hover text-base font-semibold capitalize">{title}</h2>
         </CustomLink>
