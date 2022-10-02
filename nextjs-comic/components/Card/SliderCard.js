@@ -1,12 +1,14 @@
+import { publicRoutes } from '@/lib/utils/getRoutes'
 import Image from '../Image'
+import CustomLink from '../Link'
 import Tag from '../Tag'
 
 function SliderCard({ thumbnail: src, slug, title, description, categories: tags }) {
   //   const comics = unstable_comics.comics
   return (
-    <div className="relative">
-      <div className="mx-2 ">
-        <div className="relative flex-shrink-0 overflow-hidden rounded-2xl xl:rounded-2xl">
+    <div className="relative sm:h-auto sm:w-auto">
+      <div className="mr-6 sm:mx-3">
+        <div className="relative flex-shrink-0 overflow-hidden rounded-2xl sm:h-auto sm:w-auto xl:rounded-2xl">
           <Image
             src={src}
             alt={title}
@@ -18,7 +20,7 @@ function SliderCard({ thumbnail: src, slug, title, description, categories: tags
           />
           <div className="absolute inset-0 h-full w-full bg-gradient-to-br from-black/75"></div>
 
-          <div className="relative flex h-96 w-full flex-col items-end justify-between p-8 align-bottom">
+          <div className="relative flex h-96 w-full flex-col items-end justify-between p-6 align-bottom sm:p-8">
             <div className="flex h-full w-full flex-col justify-end xl:flex-row xl:items-end xl:justify-between">
               {/* Style: Title And button right bottom */}
               <ul className="xl:hidden">
@@ -26,15 +28,17 @@ function SliderCard({ thumbnail: src, slug, title, description, categories: tags
                   <Tag key={tag} text={'Adventure'} />
                 ))}
               </ul>
-              <h2 className="mb-1 text-xl font-medium capitalize text-stone-50 line-clamp-1">
-                {title}
-              </h2>
+              <CustomLink href={publicRoutes.comicDetail.getDynamicPath(slug)}>
+                <h2 className="text-primary-hover mb-1 text-xl font-medium capitalize text-stone-50 line-clamp-1">
+                  {title}
+                </h2>
+              </CustomLink>
               <p className="text-lg font-normal text-stone-50 line-clamp-2 xl:hidden">
                 {description}
               </p>
-              <a
-                href="#"
+              <CustomLink
                 className="hidden rounded-full bg-white p-2 text-sm font-medium capitalize text-primary-600 xl:block "
+                href={publicRoutes.comicDetail.getDynamicPath(slug)}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +55,7 @@ function SliderCard({ thumbnail: src, slug, title, description, categories: tags
                     d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
                   />
                 </svg>
-              </a>
+              </CustomLink>
             </div>
           </div>
         </div>

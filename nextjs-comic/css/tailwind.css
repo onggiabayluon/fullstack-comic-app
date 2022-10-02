@@ -48,6 +48,9 @@
   .text-primary-active {
     @apply text-primary-500 hover:text-primary-600 dark:text-primary-400;
   }
+  .text-primary-hover {
+    @apply hover:text-primary-500 dark:hover:text-primary-400;
+  }
   .bg-primary-hover {
     @apply hover:bg-primary-300 hover:text-white dark:hover:bg-primary-500 dark:hover:text-slate-100;
   }
@@ -124,7 +127,7 @@ input:-webkit-autofill:focus {
 
 @media (max-width: 640px) {
   .slick-list {
-    padding: 0 15% 0 0 !important;
+    padding: 0 20% 0 0 !important;
   }
 }
 .slick-track {
