@@ -2,9 +2,9 @@
 // Math.abs : Trị tuyệt đối |-2| = 2
 // src: https://blog.webdevsimplified.com/2020-07/relative-time-format/
 
-let formatter
-const LANGUAGE = 'en'
-const isSupported = !(Intl === void 0 || typeof Intl.RelativeTimeFormat !== 'function')
+export let formatter
+export const LANGUAGE = 'en'
+export const isSupported = !(Intl === void 0 || typeof Intl.RelativeTimeFormat !== 'function')
 
 formatter = isSupported
   ? // Browser  compatible
@@ -17,7 +17,7 @@ formatter = isSupported
       timeStyle: 'short',
     }))
 
-const DIVISIONS = [
+export const DIVISIONS = [
   { amount: 60, name: 'seconds' },
   { amount: 60, name: 'minutes' },
   { amount: 24, name: 'hours' },
@@ -27,7 +27,7 @@ const DIVISIONS = [
   { amount: Number.POSITIVE_INFINITY, name: 'years' },
 ]
 
-const dateDiffInSecond = (date, today) => (Date.parse(date) - today) / 1000
+export const dateDiffInSecond = (date, today) => (Date.parse(date) - today) / 1000
 
 export function formatTimeAgo(date) {
   if (!isSupported) return formatter.format(new Date(date.replace(/-/g, '/')))
