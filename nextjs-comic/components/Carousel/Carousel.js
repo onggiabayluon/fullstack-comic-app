@@ -33,9 +33,9 @@ const Carousel = forwardRef((props, ref) => {
     dots: true,
     infinite: true,
     // adaptiveHeight: true,
-    respondTo: 'slider',
+    // respondTo: 'slider',
     centerMode: true, // CenterMode for peek 20% mobile and css peek only right side in talwind.css file
-    centerPadding: '10%',
+    // centerPadding: '20%',
     // lazyLoad: true,
     // autoplay: true,
     autoplaySpeed: 5000,
@@ -50,7 +50,7 @@ const Carousel = forwardRef((props, ref) => {
         settings: {
           slidesToShow: breakpoint.md.slide,
           mobileFirst: true,
-          centerPadding: '10%',
+          centerPadding: '13%',
           swipeToSlide: true,
         },
       },
