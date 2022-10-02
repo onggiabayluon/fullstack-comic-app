@@ -15,7 +15,7 @@ function HomeCarousel() {
     getComics({ type: 'less', limit: SLIDE_LIMIT })
       .then((res) => setComics(comicsToJSON(res.results)))
       .catch((err) => setError(true))
-      .finally(setComics([]))
+    // .finally(setComics([]))
   }, [])
 
   return comics?.length == 0 ? (

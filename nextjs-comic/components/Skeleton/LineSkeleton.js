@@ -1,8 +1,8 @@
-function LineSkeleton({ width = 32, height = 32 }) {
+function LineSkeleton({ className = '', width = 32, height = 32 }) {
   return (
     <div
       role="status"
-      className="animate-pulse rounded-full"
+      className={className + ' ' + 'animate-pulse rounded-full'}
       style={{ width: width + 'px', height: height + 'px' }}
     >
       <div

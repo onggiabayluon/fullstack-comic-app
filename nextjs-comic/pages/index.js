@@ -1,12 +1,17 @@
+import CardList from '@/components/Card/CardList'
+import LongSlimCard from '@/components/Card/LongSlimCard'
 import HomeCarousel from '@/components/Carousel/CarouselSlider'
 import Container from '@/components/Container'
 import CustomLink from '@/components/Link'
+import PictureTextSkeleton from '@/components/Skeleton/PictureTextSkeleton'
 import headerNavLinks from '@/data/headerNavLinks'
+import comicsToJSON from '@/lib/toJSON/comicsToJSON'
 import classNames from '@/lib/utils/classNames'
+import { getComics } from '@/services/comicService'
 import { PageSEO } from 'components/SEO'
 import siteMetadata from 'data/siteMetadata'
 import { useRouter } from 'next/router'
-
+import { useEffect, useState } from 'react'
 // const MAX_DISPLAY = 5;
 
 // export async function getStaticProps() {
@@ -21,13 +26,64 @@ export default function Home() {
       <PageSEO title={siteMetadata.title} description={siteMetadata.description} />
       <div className="flex flex-row space-x-0 xl:space-x-10">
         <Sidebar />
-        <RecommendsSection />
+        <div>
+          <RecommendSection />
+          <LastestUpdateSection />
+        </div>
       </div>
     </Container>
   )
 }
 
-function RecommendsSection() {
+function LastestUpdateSection() {
+  const [comics, setComics] = useState([])
+  const [error, setError] = useState(false)
+  const LIMIT = 10
+
+  useEffect(() => {
+    getComics({ type: 'less', limit: LIMIT })
+      .then((res) => setComics(comicsToJSON(res.results)))
+      .catch((err) => setError(true))
+  }, [])
+
+  return (
+    <section aria-label="Lastest Update Section">
+      <div className="space-y-2 pt-6 pb-6 md:space-y-5">
+        <h1 className="text-xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100  sm:leading-10 md:text-xl md:leading-14">
+          Lastest Update
+        </h1>
+      </div>
+
+      <div className="w-full" aria-label="Lastest Update container">
+        {comics.length == 0 ? (
+          <div className="flex flex-row flex-wrap justify-between">
+            {Array(LIMIT)
+              .fill()
+              .map((_, index) => (
+                <div
+                  key={index}
+                  className={classNames(
+                    (index == 1 && 'md:border-t-2') || (index == 0 && 'border-t-2'),
+                    'border-gray flex w-full items-center space-x-3 self-center border-b-2 p-2 last-of-type:ml-auto md:w-[49%]'
+                  )}
+                >
+                  <PictureTextSkeleton error={error} height={80} />
+                </div>
+              ))}
+          </div>
+        ) : (
+          <CardList
+            className="flex flex-row flex-wrap justify-between "
+            CardComp={LongSlimCard}
+            items={comics}
+          />
+        )}
+      </div>
+    </section>
+  )
+}
+
+function RecommendSection() {
   return (
     <section aria-label="Recommends Section">
       <div className="space-y-2 pt-6 pb-8 md:space-y-5">
