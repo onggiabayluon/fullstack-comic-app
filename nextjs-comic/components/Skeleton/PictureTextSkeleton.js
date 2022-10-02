@@ -39,11 +39,11 @@ function PictureTextSkeleton({ error = false, className = '', width, height }) {
         )}
       </div>
 
-      <div className="w-full">
+      <div className="w-full flex-shrink-0">
         <div className="mb-4 h-2.5 max-w-[250px] rounded-full bg-gray-200 dark:bg-gray-700"></div>
         <div className="mb-2.5 h-2 w-32 rounded-full bg-gray-200 dark:bg-gray-700"></div>
         <div className="mb-2.5 h-2 max-w-[200px] rounded-full bg-gray-200 dark:bg-gray-700"></div>
-        <div className="h-2 max-w-[200px] rounded-full bg-gray-200 dark:bg-gray-700"></div>
+        <div className="h-2 max-w-[190px] rounded-full bg-gray-200 dark:bg-gray-700"></div>
       </div>
       <span className="sr-only">Loading...</span>
     </div>
