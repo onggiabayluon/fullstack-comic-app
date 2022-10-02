@@ -30,7 +30,7 @@ export const DIVISIONS = [
 export const dateDiffInSecond = (date, today) => (Date.parse(date) - today) / 1000
 
 export function formatTimeAgo(date) {
-  if (!isSupported) return formatter.format(new Date(date.replace(/-/g, '/')))
+  if (!isSupported) return formatter.format(new Date(date.replace(/ /g, 'T')))
 
   let duration = dateDiffInSecond(date, new Date())
 
