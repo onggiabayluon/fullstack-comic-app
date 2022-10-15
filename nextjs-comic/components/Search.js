@@ -90,7 +90,7 @@ function Search() {
 
       <Popover.Overlay
         onClick={() => buttonRef.current?.click()}
-        className="fixed inset-0 bg-gray-400  opacity-90 dark:bg-slate-800"
+        className="fixed inset-0 z-[100] bg-gray-400  opacity-90 dark:bg-slate-800"
       />
       <Transition
         enter="transition duration-100 ease-out"
@@ -99,9 +99,9 @@ function Search() {
         leave="transition duration-75 ease-out"
         leaveFrom="transform scale-100 opacity-100"
         leaveTo="transform scale-95 opacity-0"
-        className="fixed top-0 left-0 z-50 flex w-full flex-col p-6"
+        className="fixed top-0 left-0 z-[101] flex w-full flex-col p-6"
       >
-        <Popover.Panel className="fixed top-0 left-0 z-50  contents w-screen flex-col p-6">
+        <Popover.Panel className="fixed top-0 left-0 z-[101]  contents w-screen flex-col p-6">
           <form className="group relative mx-auto w-full max-w-2xl ">
             <svg
               width="20"
@@ -117,6 +117,7 @@ function Search() {
               />
             </svg>
             <input
+              autoFocus="true"
               ref={inputRef}
               value={searchValue}
               spellCheck={false}

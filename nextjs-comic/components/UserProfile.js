@@ -77,7 +77,7 @@ export default function UserProfile() {
         ref={menuRef}
         className={classNames(
           openDropdown ? '' : 'hidden',
-          'z-100 absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'
+          'absolute right-0 z-[100] mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'
         )}
         role="menu"
         aria-orientation="vertical"

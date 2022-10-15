@@ -1,42 +1,44 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from 'react'
 
+// Exucute immedialy
 export function useAsync(func, dependencies = []) {
-  const { execute, ...state } = useAsyncInternal(func, dependencies, true);
+  const { execute, ...state } = useAsyncInternal(func, dependencies, true)
 
   useEffect(() => {
-    execute();
-  }, [execute]);
+    execute()
+  }, [execute])
 
-  return state;
+  return state
 }
 
+// Execute only when using await or then()
 export function useAsyncFn(func, dependencies = []) {
-  return useAsyncInternal(func, dependencies, false);
+  return useAsyncInternal(func, dependencies, false)
 }
 
 function useAsyncInternal(func, dependencies, initialLoading = false) {
-  const [loading, setLoading] = useState(initialLoading);
-  const [error, setError] = useState(null);
-  const [value, setValue] = useState();
+  const [loading, setLoading] = useState(initialLoading)
+  const [error, setError] = useState(null)
+  const [value, setValue] = useState()
 
   const execute = useCallback((...params) => {
-    setLoading(true);
+    setLoading(true)
     return func(...params)
       .then((data) => {
-        setValue(data);
-        setError(undefined);
-        return data;
+        setValue(data)
+        setError(undefined)
+        return data
       })
       .catch((error) => {
-        setError(error);
-        setValue(undefined);
-        return Promise.reject(error);
+        setError(error)
+        setValue(undefined)
+        return Promise.reject(error)
       })
       .finally(() => {
-        setLoading(false);
-      });
+        setLoading(false)
+      })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, dependencies);
+  }, dependencies)
 
-  return { loading, error, setError, value, execute };
+  return { loading, error, setError, value, execute }
 }

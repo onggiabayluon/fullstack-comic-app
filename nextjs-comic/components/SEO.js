@@ -1,4 +1,4 @@
-import siteMetadata from 'data/siteMetadata'
+import { siteMetadata } from 'data/siteMetadata'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 

@@ -1,11 +1,23 @@
+import classNames from '@/lib/utils/classNames'
+import { publicRoutes } from '@/lib/utils/getRoutes'
 import SocialIcon from 'components/social-icons'
-import siteMetadata from 'data/siteMetadata'
+import { siteMetadata } from 'data/siteMetadata'
+import { useRouter } from 'next/router'
 import Link from './Link'
 
 export default function Footer() {
+  const router = useRouter()
+
   return (
-    <footer>
-      <div className="mt-16 flex flex-col items-center">
+    <footer
+      className={classNames(
+        router.pathname == (publicRoutes.comicDetail.path || publicRoutes.chapterDetail.path)
+          ? 'color-bg-primary'
+          : '',
+        'min-h-[160px]'
+      )}
+    >
+      <div className="flex flex-col items-center pt-16">
         <div className="mb-3 flex space-x-4">
           <SocialIcon kind="mail" href={`mailto:${siteMetadata.email}`} size="6" />
           <SocialIcon kind="github" href={siteMetadata.github} size="6" />
