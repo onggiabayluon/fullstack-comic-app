@@ -8,7 +8,7 @@ import Slider from 'react-slick'
 const Carousel = forwardRef((props, ref) => {
   const breakpoint = {
     xxl: {
-      slide: 3,
+      slide: 1,
       width: 1536,
     },
     xl: {
@@ -29,11 +29,10 @@ const Carousel = forwardRef((props, ref) => {
     },
   }
 
-  var settings = {
+  const settings = {
     dots: true,
     infinite: true,
     // adaptiveHeight: true,
-    // respondTo: 'slider',
     centerMode: true, // CenterMode for peek 20% mobile and css peek only right side in talwind.css file
     // centerPadding: '20%',
     // lazyLoad: true,
@@ -79,13 +78,13 @@ const Carousel = forwardRef((props, ref) => {
           slidesToShow: breakpoint.xxl.slide,
           swipeToSlide: true,
           mobileFirst: false,
-          centerPadding: '0',
+          centerPadding: '20%',
         },
       },
     ],
   }
   return (
-    <Slider ref={ref} {...settings}>
+    <Slider className="js-slider" ref={ref} {...settings}>
       {props.children}
     </Slider>
   )

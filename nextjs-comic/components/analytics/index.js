@@ -1,4 +1,4 @@
-import siteMetadata from 'data/siteMetadata'
+import { siteMetadata } from 'data/siteMetadata'
 import GA from './GoogleAnalytics'
 import Plausible from './Plausible'
 import Posthog from './Posthog'

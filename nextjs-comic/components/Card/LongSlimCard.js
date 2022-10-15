@@ -3,22 +3,23 @@ import { formatTimeAgo } from '@/lib/utils/dateFormatter'
 import { publicRoutes } from '@/lib/utils/getRoutes'
 import Image from '../Image'
 import CustomLink from '../Link'
-import Tag from '../Tag'
+import TagList from '../Tag/TagList'
 
-function LongSlimCard({ src, title, updatedDate, chapters, slug, index }) {
+function LongSlimCard(props) {
+  const { src, title, updatedDate, chapters, categories: tags, slug, index } = props
   return (
     <article
       className={classNames(
         (index == 1 && 'md:border-t-2') || (index == 0 && 'border-t-2'),
-        'border-gray flex w-full items-center space-x-3 self-center border-b-2 p-2 last-of-type:ml-auto md:w-[49%]'
+        'border-gray flex min-h-[98px] w-full items-center space-x-3 self-center border-b-2 p-2  md:w-[49%]'
       )}
     >
       <CustomLink href={publicRoutes.comicDetail.getDynamicPath(slug)}>
-        <div className="h-20 w-20">
+        <div className=" h-20 w-20 ">
           <Image
             src={src}
             alt={title}
-            className="absolute inset-0 h-full w-full object-cover object-top"
+            className="absolute inset-0 aspect-square h-full w-full object-cover object-top"
             width={80}
             height={80}
           />
@@ -28,7 +29,7 @@ function LongSlimCard({ src, title, updatedDate, chapters, slug, index }) {
         <span className="text-xl font-bold">{index + 1}</span>
       </div>
       <div className="flex h-full flex-col">
-        <Tag text={'Adventure'} />
+        <TagList limit={1} tags={tags} />
         <CustomLink className="line-clamp-1" href={publicRoutes.comicDetail.getDynamicPath(slug)}>
           <h2 className="text-primary-hover text-base font-semibold capitalize">{title}</h2>
         </CustomLink>

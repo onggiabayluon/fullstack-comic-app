@@ -1,4 +1,6 @@
 function comicsToJSON(comics) {
+  let isArray = Array.isArray(comics)
+  if (!isArray) comics = [comics]
   comics = comics.map((comic) => {
     return {
       ...comic,
@@ -7,7 +9,10 @@ function comicsToJSON(comics) {
       updatedDate: comic.updated_date,
     }
   })
-  return comics
+
+  // console.log(comics)
+
+  return isArray ? comics : comics.pop()
 }
 
 export default comicsToJSON

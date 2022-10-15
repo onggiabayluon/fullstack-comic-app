@@ -1,15 +1,5 @@
 import * as httpRequest from '@/lib/utils/httpRequest'
 
-export function getComics(q, type = 'less') {
-  return httpRequest.makeRequest(`/comics`, {
-    method: 'GET',
-    params: {
-      q,
-      type,
-    },
-  })
-}
-
 export const search = async (q, type = 'less') => {
   try {
     const res = await httpRequest.get('comics', {

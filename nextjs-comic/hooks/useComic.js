@@ -1,45 +1,38 @@
-import { useEffect, useMemo, useState } from "react";
+import { useState } from 'react'
 
 function useComic(initValue) {
-  const [comic, setComic] = useState(initValue);
-  const [comments, setComments] = useState([]);
-
-  const commentsByParentId = useMemo(() => {
-    const group = {};
-    comments.forEach((comment) => {
-      // Nếu chưa có group[1] thì sẽ khởi tạo [] và push, có rồi thì ko tạo [] và chỉ push
-      group[comment.reply_to] ||= [];
-      group[comment.reply_to].push(comment);
-    });
-    return group;
-  }, [comments]);
-
-  const getReplies = (parentId) => {
-    return commentsByParentId[parentId];
-  };
+  const [comic, setComic] = useState(initValue)
 
   const getFirstChapter = () => {
-    return comic?.chapters?.length ? comic.chapters[0] : null;
-  };
-
-  function createLocalComment(comment) {
-    setComments((prevComments) => {
-      return [comment, ...prevComments];
-    });
+    return comic?.chapters?.length ? comic.chapters[0] : null
   }
 
-  useEffect(() => {
-    if (comic?.comments == null) return;
-    setComments(comic.comments);
-  }, [comic?.comments]);
+  const getLastestChapter = () => {
+    return comic?.chapters?.length ? comic.chapters[comic.chapters.length - 1] : null
+  }
+
+  const getTotalViews = () => {
+    let totalViews = 0
+    comic?.chapters.forEach((chapter) => (totalViews += chapter.views))
+    return totalViews
+  }
+
+  const getPrevChapter = (chapter) => {
+    const hasPrevChapter = chapter?.chapter_num - 1 === 0 ? false : true
+    return hasPrevChapter ? chapter?.chapter_num - 1 : null
+  }
+  const getNextChapter = (chapter) => {
+    return chapter?.chapter_num + 1
+  }
 
   return {
     comic,
-    rootComments: commentsByParentId[null],
-    getReplies,
     getFirstChapter,
-    createLocalComment,
-  };
+    getLastestChapter,
+    getTotalViews,
+    getNextChapter,
+    getPrevChapter,
+  }
 }
 
-export default useComic;
+export default useComic

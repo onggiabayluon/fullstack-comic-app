@@ -3,89 +3,140 @@ import LongSlimCard from '@/components/Card/LongSlimCard'
 import HomeCarousel from '@/components/Carousel/CarouselSlider'
 import Container from '@/components/Container'
 import CustomLink from '@/components/Link'
+import Pagination from '@/components/Pagination'
 import PictureTextSkeleton from '@/components/Skeleton/PictureTextSkeleton'
+import constant from '@/data/constants'
 import headerNavLinks from '@/data/headerNavLinks'
+import { useAsyncFn } from '@/hooks/useAsync'
 import comicsToJSON from '@/lib/toJSON/comicsToJSON'
 import classNames from '@/lib/utils/classNames'
 import { getComics } from '@/services/comicService'
 import { PageSEO } from 'components/SEO'
-import siteMetadata from 'data/siteMetadata'
+import { siteMetadata } from 'data/siteMetadata'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-// const MAX_DISPLAY = 5;
+import { useState } from 'react'
+import { useUpdateEffect } from 'react-use'
+// import { useEffect, useState } from 'react'
 
-// export async function getStaticProps() {
-//   const posts = await getAllFilesFrontMatter('blog')
+export async function getStaticProps() {
+  const LIMIT = 10
 
-//   return { props: { posts } }
-// }
+  const [recommendComics, lastestComic] = await Promise.all([
+    getComics({ type: 'less', limit: LIMIT }),
+    getComics({ type: 'less', limit: LIMIT }),
+  ])
 
-export default function Home() {
+  return {
+    props: { recommendComics, lastestComic },
+    // Next.js will attempt to re-generate the page:
+    // - When a request comes in
+    // - At most once every 1 minutes
+    revalidate: parseInt(process.env.NEXT_PUBLIC_REVALIDATE_IN_1_HOUR),
+  }
+}
+
+export default function Home(props) {
   return (
-    <Container>
+    <Container className="overflow-hidden">
       <PageSEO title={siteMetadata.title} description={siteMetadata.description} />
       <div className="flex flex-row space-x-0 xl:space-x-10">
         <Sidebar />
-        <div>
-          <RecommendSection />
-          <LastestUpdateSection />
+        <div className="flex-1">
+          <RecommendSection initialComics={comicsToJSON(props.recommendComics.results)} />
+          <LastestUpdateSection
+            initialComics={comicsToJSON(props.lastestComic.results)}
+            totalCount={props.lastestComic.count}
+          />
         </div>
       </div>
     </Container>
   )
 }
 
-function LastestUpdateSection() {
-  const [comics, setComics] = useState([])
-  const [error, setError] = useState(false)
-  const LIMIT = 10
-
-  useEffect(() => {
-    getComics({ type: 'less', limit: LIMIT })
-      .then((res) => setComics(comicsToJSON(res.results)))
-      .catch((err) => setError(true))
-  }, [])
+function PaginationSection(props) {
+  const { passState, pageSize, totalCount, className } = props
+  const [currentPage, setCurrentPage] = passState
 
   return (
-    <section aria-label="Lastest Update Section">
-      <div className="space-y-2 pt-6 pb-6 md:space-y-5">
-        <h1 className="text-xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100  sm:leading-10 md:text-xl md:leading-14">
-          Lastest Update
-        </h1>
-      </div>
-
-      <div className="w-full" aria-label="Lastest Update container">
-        {comics.length == 0 ? (
-          <div className="flex flex-row flex-wrap justify-between">
-            {Array(LIMIT)
-              .fill()
-              .map((_, index) => (
-                <div
-                  key={index}
-                  className={classNames(
-                    (index == 1 && 'md:border-t-2') || (index == 0 && 'border-t-2'),
-                    'border-gray flex w-full items-center space-x-3 self-center border-b-2 p-2 last-of-type:ml-auto md:w-[49%]'
-                  )}
-                >
-                  <PictureTextSkeleton error={error} height={80} />
-                </div>
-              ))}
-          </div>
-        ) : (
-          <CardList
-            className="flex flex-row flex-wrap justify-between "
-            CardComp={LongSlimCard}
-            items={comics}
-          />
-        )}
-      </div>
-    </section>
+    <Pagination
+      className={classNames(className, 'pagination-bar')}
+      currentPage={currentPage}
+      totalCount={totalCount}
+      pageSize={pageSize}
+      onPageChange={(page) => setCurrentPage(page)}
+    />
   )
 }
 
-function RecommendSection() {
+function LastestUpdateSection({ initialComics, totalCount }) {
+  const [lastestComic, setLastestComic] = useState(initialComics)
+  const [currentPage, setCurrentPage] = useState(1)
+  const PAGE_SIZE = constant.PAGE_SIZE
+
+  const fetchMoreComicsFn = useAsyncFn(getComics)
+  const handleFetchMoreComics = () => {
+    const params = { page: currentPage, type: 'less' }
+    return fetchMoreComicsFn.execute(params).then((comics) => {
+      setLastestComic(comicsToJSON(comics.results))
+    })
+  }
+
+  // Fetch new comic page whenever currentPage change (when clicking pagination)
+  useUpdateEffect(() => {
+    handleFetchMoreComics()
+  }, [currentPage])
+
   return (
-    <section aria-label="Recommends Section">
+    <>
+      <section className="min-h-[1066px] sm:min-h-[596px]" aria-label="Lastest Update Section">
+        <div className="space-y-2 pt-6 pb-6 md:space-y-5">
+          <h1 className="text-xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100  sm:leading-10 md:text-xl md:leading-14">
+            Lastest Update
+          </h1>
+        </div>
+
+        <div className="w-full" aria-label="Lastest Update container">
+          {fetchMoreComicsFn.loading || lastestComic?.length == 0 ? (
+            <div className="flex flex-row flex-wrap justify-between">
+              {Array(PAGE_SIZE)
+                .fill()
+                .map((_, index) => (
+                  <div
+                    key={index}
+                    className={classNames(
+                      (index == 1 && 'md:border-t-2') || (index == 0 && 'border-t-2'),
+                      'border-gray flex w-full items-center space-x-3 self-center border-b-2 p-2 last-of-type:ml-auto md:w-[49%]'
+                    )}
+                  >
+                    <PictureTextSkeleton error={fetchMoreComicsFn.error && true} height={80} />
+                  </div>
+                ))}
+            </div>
+          ) : (
+            <CardList
+              className="flex flex-row flex-wrap justify-between "
+              CardComp={LongSlimCard}
+              items={lastestComic}
+              limit={PAGE_SIZE}
+            />
+          )}
+        </div>
+      </section>
+      <PaginationSection
+        className="mt-4"
+        passState={[currentPage, setCurrentPage]}
+        pageSize={PAGE_SIZE}
+        totalCount={totalCount}
+      />
+    </>
+  )
+}
+
+function RecommendSection({ initialComics }) {
+  const [recommendComics, setRecommendComics] = useState(initialComics)
+
+  return (
+    <section className="min-h-[476px] sm:min-h-[496px]" aria-label="Recommends Section">
       <div className="space-y-2 pt-6 pb-8 md:space-y-5">
         <h1 className="text-xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100  sm:leading-10 md:text-2xl md:leading-14">
           Recommends
@@ -93,10 +144,11 @@ function RecommendSection() {
       </div>
 
       <div
-        className="max-w-[94vw] xl:max-w-[990px] 2xl:max-w-[calc(100vw-360px)]"
+        className="max-w-[94vw] xl:max-w-[calc(100vw-360px)]"
+        // className="max-w-[94vw] xl:max-w-[990px] 2xl:max-w-[calc(100vw-360px)]"
         aria-label="Carousel container"
       >
-        <HomeCarousel />
+        <HomeCarousel comics={recommendComics} />
       </div>
     </section>
   )
@@ -105,7 +157,7 @@ function RecommendSection() {
 function Sidebar() {
   return (
     <aside
-      className="border-gray left-0 mt-2 hidden h-screen min-w-[15rem] border-r xl:block"
+      className="border-theme left-0 mt-2 hidden h-screen min-w-[15rem] border-r xl:block"
       aria-label="Side Bar"
     >
       <div className="divide-gray mt-5 max-w-[80%] divide-y">
