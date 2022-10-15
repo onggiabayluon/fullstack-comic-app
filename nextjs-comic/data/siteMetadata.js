@@ -1,8 +1,18 @@
+const siteName = 'MangaWorld'
+
+const comicDetailMetaData = {
+  title: (comicTitle) => `${comicTitle} | ${siteName}`,
+  description: `Read online comic with high quality images at ${siteName}`,
+}
+const chapterDetailMetaData = {
+  title: (chapterTitle, lastestChapter) => `${chapterTitle} [Next Chapter ${lastestChapter}]`,
+  description: `Read online comic with high quality images at ${siteName}`,
+}
 const siteMetadata = {
-  title: 'Next.js Starter Blog',
+  title: siteName,
   author: 'Tails Azimuth',
-  headerTitle: 'TailwindBlog',
-  description: 'A blog created with Next.js and Tailwind.css',
+  headerTitle: 'MangaWorld',
+  description: `Read online comic with high quality images at ${siteName}`,
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
@@ -82,4 +92,4 @@ const siteMetadata = {
   },
 }
 
-module.exports = siteMetadata
+module.exports = { siteMetadata, comicDetailMetaData, chapterDetailMetaData }

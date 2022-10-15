@@ -8,9 +8,11 @@ export const get = async (path, options = {}) => {
   return response.data
 }
 
-export function makeRequest(url, options) {
-  return httpRequest(url, options)
-    .then((res) => res.data)
+export async function makeRequest(url, options) {
+  return await httpRequest(url, options)
+    .then((res) => {
+      return res.data
+    })
     .catch((error) =>
       Promise.reject(error?.response?.data?.detail ?? error?.response?.data ?? error)
     )

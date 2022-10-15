@@ -10,11 +10,11 @@ function DefaultLayout({ children }) {
   })
 
   return (
-    <div className="flex h-screen flex-col">
+    <>
       <Navbar />
       <Body>{children}</Body>
       <Footer />
-    </div>
+    </>
   )
 }
 

@@ -1,7 +1,7 @@
 const routes = {
   home: '/',
-  comicDetail: '/comics/[comicslug]',
-  chapterDetail: '/comics/[comicslug]/[chapterslug]',
+  comicDetail: '/comics/[comicSlug]',
+  chapterDetail: '/comics/[comicSlug]/[chapterSlug]',
   categories: '/categories/[tagName]',
   login: '/login',
   logout: '/logout',

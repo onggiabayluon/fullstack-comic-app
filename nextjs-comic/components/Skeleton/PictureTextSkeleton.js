@@ -2,11 +2,7 @@ function PictureTextSkeleton({ error = false, className = '', width, height }) {
   return (
     <div
       role="status"
-      className={
-        className +
-        ' ' +
-        'animate-pulse space-y-8 md:flex md:items-center md:space-y-0 md:space-x-8'
-      }
+      className={className + ' ' + 'flex w-full animate-pulse items-center space-y-0 space-x-8'}
       style={{ width: width + 'px', height: height + 'px' }}
     >
       <div className="flex h-full items-center justify-center rounded bg-gray-300 dark:bg-gray-700 ">
@@ -39,10 +35,10 @@ function PictureTextSkeleton({ error = false, className = '', width, height }) {
         )}
       </div>
 
-      <div className="w-full flex-shrink-0">
-        <div className="mb-4 h-2.5 max-w-[250px] rounded-full bg-gray-200 dark:bg-gray-700"></div>
-        <div className="mb-2.5 h-2 w-32 rounded-full bg-gray-200 dark:bg-gray-700"></div>
-        <div className="mb-2.5 h-2 max-w-[200px] rounded-full bg-gray-200 dark:bg-gray-700"></div>
+      <div className="w-full flex-shrink-0 pr-28">
+        <div className="mb-4 h-2.5 w-5/6 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+        <div className="mb-2.5 h-2 w-1/4 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+        <div className="mb-2.5 h-2 w-1/2 rounded-full bg-gray-200 dark:bg-gray-700"></div>
         <div className="h-2 max-w-[190px] rounded-full bg-gray-200 dark:bg-gray-700"></div>
       </div>
       <span className="sr-only">Loading...</span>

@@ -1,7 +1,7 @@
+import Tag from '@/components/Tag/Tag'
 import Link from 'components/Link'
 import { PageSEO } from 'components/SEO'
-import Tag from 'components/Tag'
-import siteMetadata from 'data/siteMetadata'
+import { siteMetadata } from 'data/siteMetadata'
 import unstable_tags from 'data/unstable_tags'
 import kebabCase from 'lib/utils/kebabCase'
 

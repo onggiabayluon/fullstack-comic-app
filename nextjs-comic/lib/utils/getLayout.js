@@ -4,17 +4,18 @@ import Head from 'next/head'
 import { Fragment } from 'react'
 
 import DefaultLayout from '@/layouts/DefaultLayout'
+import DetailLayout from '@/layouts/DetailLayout'
 import Analytics from 'components/analytics'
 import { ClientReload } from 'components/ClientReload'
-import siteMetadata from 'data/siteMetadata'
+import { siteMetadata } from 'data/siteMetadata'
 
 export const layouts = {
   home: {},
   comicDetail: {
-    // layout: HeaderOnly,
+    layout: DetailLayout,
   },
   chapterDetail: {
-    // layout: HeaderOnly,
+    layout: DetailLayout,
   },
   login: {
     // layout: HeaderOnly,

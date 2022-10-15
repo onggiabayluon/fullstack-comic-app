@@ -5,15 +5,18 @@ import ThemeSwitch from '@/components/ThemeSwitch'
 import UserProfile from '@/components/UserProfile'
 import headerNavLinks from '@/data/headerNavLinks'
 import Logo from '@/data/logo.svg'
-import siteMetadata from 'data/siteMetadata'
+import { siteMetadata } from 'data/siteMetadata'
 import { useEffect } from 'react'
 
 function Navbar() {
   useEffect(() => console.log('navbar re-render'))
 
   return (
-    <header className="top-0 z-50 mx-4 lg:mx-0 lg:px-8">
-      <div className="border-theme flex max-h-16 w-full items-center justify-between border-b py-4 ">
+    <header className=" top-0 z-50 mx-4 min-h-[64px] lg:mx-0 lg:px-8">
+      <div
+        // style={{ boxShadow: '0 4px 2px -2px gray' }}
+        className="border-theme flex max-h-16 w-full items-center justify-between border-b py-4 "
+      >
         {/* Left Logo */}
         <div>
           <CustomLink href="/" aria-label={siteMetadata.headerTitle}>
@@ -22,7 +25,7 @@ function Navbar() {
                 <Logo />
               </div>
               {typeof siteMetadata.headerTitle === 'string' ? (
-                <div className="hidden h-6 text-xl font-semibold sm:block">
+                <div className="hidden h-6 text-xl font-semibold md:block">
                   {siteMetadata.headerTitle}
                 </div>
               ) : (
@@ -33,7 +36,7 @@ function Navbar() {
         </div>
         {/* Right navlinks */}
         <div className="flex items-center text-base leading-5">
-          <div className="hidden space-x-4 sm:block sm:space-x-6 xl:hidden">
+          <div className="hidden space-x-4 sm:space-x-6 md:block xl:hidden">
             {headerNavLinks.map((link) => (
               <CustomLink
                 key={link.title}
@@ -46,7 +49,7 @@ function Navbar() {
           </div>
           <div className="ml-5 flex items-center space-x-4 border-slate-200 pl-6 dark:border-slate-800 sm:space-x-6  sm:border-l xl:border-0">
             <Search />
-            <span className="hidden sm:block" aria-label="Theme Swicher">
+            <span className="hidden md:block" aria-label="Theme Swicher">
               <ThemeSwitch />
             </span>
             <MobileNav />

@@ -30,13 +30,31 @@ module.exports = {
       colors: {
         primary: colors.cyan,
         gray: colors.neutral,
+        'dark-blue': {
+          lighter: '#f5f5f5', // background color
+          light: '#2D3037', // background card color
+          DEFAULT: '#2D2E32', // default background color
+          darker: '#25262A', // darker background color
+        },
+        'dark-gray': {
+          border: '#D6D2D2',
+          lighter: '#FFFFFF', // hover light text
+          light: '#F7F7F6', // hover light text
+          DEFAULT: '#FDFDFD', // normal light text
+          dark: '#535353', // border dark
+          darker: '#979798', // text gray
+        },
+        'dark-green': {
+          DEFAULT: '#DBE8D4', // green icon background theme
+          darker: '#65F4AA', // green text theme
+        },
       },
       typography: (theme) => ({
         DEFAULT: {
           css: {
             color: theme('colors.gray.700'),
             a: {
-              color: theme('colors.primary.500'),
+              color: theme('text-dark-gray'),
               '&:hover': {
                 color: `${theme('colors.primary.600')} !important`,
               },

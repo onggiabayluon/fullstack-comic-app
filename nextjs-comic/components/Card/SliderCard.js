@@ -1,7 +1,7 @@
 import { publicRoutes } from '@/lib/utils/getRoutes'
 import Image from '../Image'
 import CustomLink from '../Link'
-import Tag from '../Tag'
+import Tag from '../Tag/Tag'
 
 function SliderCard({ thumbnail: src, slug, title, description, categories: tags }) {
   //   const comics = unstable_comics.comics
@@ -12,7 +12,7 @@ function SliderCard({ thumbnail: src, slug, title, description, categories: tags
           <Image
             src={src}
             alt={title}
-            className="absolute inset-0 h-full w-full object-cover object-top"
+            className="absolute inset-0 h-full w-full object-cover object-center"
             layout="fill"
             // width={330}
             // height={345}
@@ -24,7 +24,7 @@ function SliderCard({ thumbnail: src, slug, title, description, categories: tags
             <div className="flex h-full w-full flex-col justify-end xl:flex-row xl:items-end xl:justify-between">
               {/* Style: Title And button right bottom */}
               <ul className="xl:hidden">
-                {tags.map((tag) => (
+                {tags?.map((tag) => (
                   <Tag key={tag} text={'Adventure'} />
                 ))}
               </ul>
