@@ -8,6 +8,7 @@ from . import views
 router = routers.DefaultRouter()
 router.register('categories', views.CategoryViewSet, 'category')
 router.register('comics', views.ComicViewSet, 'comic')
+router.register('chapters', views.ChapterViewSet, 'chapter')
 router.register('comments', views.CommentViewSet, 'comment')
 router.register('users', views.UserViewSet, 'User')
 

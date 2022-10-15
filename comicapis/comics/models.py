@@ -47,9 +47,6 @@ class MyModelBase(models.Model):
     updated_date = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
 
-    def __str__(self):
-        return self.subject
-
     class Meta:
         abstract = True
 
@@ -111,11 +108,12 @@ class ChapterImage(models.Model):
     chapter = models.ForeignKey(Chapter, related_name="chapter_images", on_delete=models.CASCADE, null=True)
 
 
-class ComicView(models.Model):
+class ChapterView(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
     views = models.IntegerField(default=0)
-    comic = models.OneToOneField(Comic, on_delete=models.CASCADE)
+    chapter = models.OneToOneField(Chapter, on_delete=models.CASCADE, null=True)
+    # comic = models.OneToOneField(Comic, on_delete=models.CASCADE, null=True)
 
 
 class Comment(models.Model):

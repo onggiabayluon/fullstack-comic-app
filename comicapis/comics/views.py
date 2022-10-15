@@ -7,11 +7,12 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .models import Category, Chapter, Comic, ComicView, Comment, Rating, User
-from .paginators import BasePagination
+from .models import (Category, Chapter, ChapterView, Comic, Comment, Rating,
+                     User)
+from .paginators import BasePagination, ComicPagniation, CommentPagination
 from .serializers import (CategorySerializer, ChapterSerializer,
-                          ComicDetailSerializer, ComicDetailTypeLessSerializer,
-                          ComicSerializer, ComicViewSerializer,
+                          ChapterViewSerializer, ComicDetailSerializer,
+                          ComicDetailTypeLessSerializer, ComicSerializer,
                           CommentSerializer, MyTokenObtainPairSerializer,
                           RatingSerializer, RegisterSerializer, UserSerializer)
 
@@ -55,7 +56,7 @@ class CategoryViewSet(viewsets.ViewSet, generics.ListAPIView):
 
 class ComicViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIView):
     serializer_class = ComicSerializer
-    pagination_class = BasePagination
+    pagination_class = ComicPagniation
     lookup_field = "slug"
 
     def get_permissions(self):
@@ -81,6 +82,8 @@ class ComicViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIV
         type = self.request.query_params.get('type')
         if type is not None and type == 'less':
             return ComicDetailTypeLessSerializer
+        # if type is not None and type == 'detail':
+            # return ComicDetailTypeDetailSerializer
         if self.action == 'list':
             return ComicSerializer
         if self.action == 'retrieve':
@@ -109,8 +112,16 @@ class ComicViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIV
 
     @action(methods=['get'], detail=True, url_path="comments")
     def get_comments(self, request, slug):
+        self.pagination_class = CommentPagination
         comic = self.get_object()
         comments = comic.comment_set.order_by("-id").all()
+        root_comments = comments.filter(reply_to=None)
+        paginated_root_comments = self.paginate_queryset(root_comments)
+        paginated_root_comments_id = [c.id for c in paginated_root_comments]
+        # CAN'T concat a list and a queryset => convert this shit to list
+        root_comments_replies = list(comments.filter(reply_to__in=paginated_root_comments_id))
+        
+        paginated_res = paginated_root_comments + root_comments_replies
 
         filter_list = ["comic_id", "content", "created_date", "creator_id", "id", "updated_date",
                        "-comic_id", "-content", "-created_date", "-creator_id", "-id", "-updated_date"]
@@ -124,8 +135,7 @@ class ComicViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIV
             if any(elem in filter_list for elem in sort):
                 comments = comments.extra(order_by=sort)
 
-        return Response(CommentSerializer(comments, many=True, context={"request": self.request}).data,
-                        status=status.HTTP_200_OK)
+        return self.get_paginated_response(CommentSerializer(paginated_res, many=True, context={"request": self.request}).data)
 
     @action(methods=['post'], detail=True, url_path='rating')
     def rate(self, request, slug):
@@ -151,7 +161,7 @@ Increase views : comics/{slug}/chapters/{slug}/views
 class ChapterViewSet(viewsets.ViewSet, generics.ListAPIView):
     queryset = Chapter.objects.filter(active=True)
     serializer_class = ChapterSerializer
-    pagination_class = BasePagination
+    # pagination_class = BasePagination
     lookup_field = "slug"
 
 
@@ -170,14 +180,14 @@ class ChapterDetailViewSet(viewsets.ViewSet, generics.RetrieveAPIView):
 
 class ChapterViewsViewSet(APIView):
     def get(self, request, comic_slug, slug):
-        comic = Comic.objects.get(slug=comic_slug)
-        view, created = ComicView.objects.get_or_create(comic=comic)
+        chapter = Chapter.objects.get(comic__slug=comic_slug, slug=slug)
+        view, created = ChapterView.objects.get_or_create(chapter=chapter)
         view.views = F('views') + 1
         view.save()
 
         view.refresh_from_db()
 
-        return Response(ComicViewSerializer(view).data, status=status.HTTP_200_OK)
+        return Response(ChapterViewSerializer(view).data, status=status.HTTP_200_OK)
 
 
 """

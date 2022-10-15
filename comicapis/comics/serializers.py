@@ -6,7 +6,7 @@ from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from .models import (Category, Chapter, ChapterImage, Comic, ComicView,
+from .models import (Category, Chapter, ChapterImage, ChapterView, Comic,
                      Comment, Rating, User)
 
 
@@ -82,7 +82,7 @@ class UserSerializer(ModelSerializer):
 class UserLessSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ["username"]
+        fields = ["id", "username"]
 
 
 class UserSerializer(ModelSerializer):
@@ -109,6 +109,16 @@ class CategorySerializer(ModelSerializer):
         model = Category
         fields = "__all__"
 
+class CategoryDetailSerializer(ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ["name"]
+
+class ChapterViewSerializer(ModelSerializer):
+    class Meta:
+        model = ChapterView
+        fields = "__all__"
+
 
 class ComicSerializer(ModelSerializer):
     # thumbnail = SerializerMethodField()
@@ -125,44 +135,73 @@ class ComicSerializer(ModelSerializer):
 
     class Meta:
         model = Comic
-        fields = ["id", "title", "slug", "created_date", "updated_date", "active", "thumbnail", "categories", "chapters"]
+        fields = ["id", "title", "slug", "created_date", "updated_date", "active", "thumbnail", "chapters"]
 
 
 class ComicDetailSerializer(ComicSerializer):
     posted_by = SerializerMethodField()
+    categories = SerializerMethodField()
+    chapters = SerializerMethodField()
 
+    def get_chapters(self, comic):
+        chapters = comic.chapters.order_by('-chapter_num')
+        return ChapterLessSerializer(chapters, many=True, context={"request": self.context.get('request')}).data
     def get_posted_by(self, comic):
         return UserLessSerializer(comic.posted_by, context={"request": self.context.get('request')}).data
+    def get_categories(self, comic):
+        return CategorySerializer(comic.categories, many=True, context={"request": self.context.get('request')}).data
+    # def get_comments(self, comic):
+    #     return CommentSerializer(comic.comment_set, many=True, context={"request": self.context.get('request')}).data
 
     class Meta:
         model = ComicSerializer.Meta.model
         # fields = "__all__"
-        fields = ComicSerializer.Meta.fields + ["description", "author", "posted_by"]
+        fields = ComicSerializer.Meta.fields + ["description", "author", "posted_by", "categories"]
 
 
 class ComicDetailTypeLessSerializer(ComicSerializer):
     chapters = SerializerMethodField()
+    categories = SerializerMethodField()
 
     def get_chapters(self, comic):
         # Get 3 lastest update chapter
         chapters = comic.chapters.order_by('-updated_date')[:3]
         return ChapterLessSerializer(chapters, many=True, context={"request": self.context.get('request')}).data
-
+    def get_categories(self, comic):
+        return CategorySerializer(comic.categories, many=True, context={"request": self.context.get('request')}).data
+    
     class Meta:
         model = ComicSerializer.Meta.model
         # fields = "__all__"
-        fields = ComicSerializer.Meta.fields + ["description", "author", "posted_by"]
+        fields = ComicSerializer.Meta.fields + ["description", "author", "posted_by", "categories"]
+
+
+# class ComicDetailTypeDetailSerializer(ComicSerializer):
+#     chapters = SerializerMethodField()
+
+#     def get_chapters(self, comic):
+#         # Get 3 lastest update chapter
+#         chapters = comic.chapters.order_by('-updated_date')
+#         return ChapterLessSerializer(chapters, many=True, context={"request": self.context.get('request')}).data
+
+#     class Meta:
+#         model = ComicSerializer.Meta.model
+#         # fields = "__all__"
+#         fields = ComicSerializer.Meta.fields + ["description", "author", "posted_by"]
 
 
 class ChapterLessSerializer(ModelSerializer):
-
+    views = serializers.IntegerField(source="chapterview.views")
     class Meta:
         model = Chapter
-        fields = ["chapter_num", "slug"]
+        fields = ["chapter_num", "slug", "updated_date", "views"]
 
 
 class ChapterSerializer(ModelSerializer):
     images = SerializerMethodField()
+    comic_title = serializers.CharField(source="comic.title")
+    comic_slug = serializers.CharField(source="comic.slug")
+    views = serializers.IntegerField(source="chapterview.views")
 
     def get_images(self, chapter):
         # Get 3 lastest update chapter
@@ -189,16 +228,24 @@ class RatingSerializer(ModelSerializer):
 
 class CommentSerializer(ModelSerializer):
     creator = SerializerMethodField()
+    # reply_set = SerializerMethodField()
 
     def get_creator(self, comment):
         return UserLessSerializer(comment.creator, context={"request": self.context.get('request')}).data
+    # def get_reply_set(self, comment):
+    #     reply = comment.__class__.objects.filter(reply_to=comment.id)
+    #     return ReplySerializer(reply, many=True).data
 
     class Meta:
         model = Comment
         fields = ['id', 'content', 'created_date', 'updated_date', 'creator', 'reply_to']
 
 
-class ComicViewSerializer(ModelSerializer):
+class ReplySerializer(CommentSerializer):
     class Meta:
-        model = ComicView
-        fields = ["id", "views", "comic"]
+        model = CommentSerializer.Meta.model
+        fields = CommentSerializer.Meta.fields
+    
+
+
+

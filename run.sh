@@ -8,4 +8,4 @@ cd comicapis
 # run
 python manage.py runserver
 
-echo "${green}>>> Server activated ${reset}"
+echo "${green}>>> Server Deactivated ${reset}"
