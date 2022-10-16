@@ -124,7 +124,7 @@
     @apply text-gray-500 dark:text-gray-600;
   }
   .text-title {
-    @apply text-3xl font-semibold leading-9 tracking-tight sm:leading-10 md:leading-14;
+    @apply text-center text-xl font-semibold leading-9 tracking-tight sm:text-3xl sm:leading-10 md:leading-14;
   }
   .text-white-dark {
     @apply text-gray-700 dark:text-gray-100;

@@ -1,7 +1,7 @@
 import { publicRoutes } from '@/lib/utils/getRoutes'
 import Image from '../Image'
 import CustomLink from '../Link'
-import Tag from '../Tag/Tag'
+import TagList from '../Tag/TagList'
 
 function SliderCard({ thumbnail: src, slug, title, description, categories: tags }) {
   //   const comics = unstable_comics.comics
@@ -24,9 +24,7 @@ function SliderCard({ thumbnail: src, slug, title, description, categories: tags
             <div className="flex h-full w-full flex-col justify-end xl:flex-row xl:items-end xl:justify-between">
               {/* Style: Title And button right bottom */}
               <ul className="xl:hidden">
-                {tags?.map((tag) => (
-                  <Tag key={tag} text={'Adventure'} />
-                ))}
+                <TagList tags={tags} limit={2} />
               </ul>
               <CustomLink href={publicRoutes.comicDetail.getDynamicPath(slug)}>
                 <h2 className="text-primary-hover mb-1 text-xl font-medium capitalize text-stone-50 line-clamp-1">

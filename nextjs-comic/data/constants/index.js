@@ -1,5 +1,6 @@
 export const constant = {
-  PAGE_SIZE: 10,
+  COMIC_LIMIT: 10,
+  COMMENT_LIMIT: 10,
 }
 
 export default constant

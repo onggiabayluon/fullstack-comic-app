@@ -5,7 +5,7 @@ const defaultFnc = () => {}
 
 const fetcher = makeRequest
 
-function useFetch(url, options, callback = defaultFnc) {
+async function useFetch(url, options, callback = defaultFnc) {
   const { data, error } = useSWR([url, options], fetcher)
 
   return {
