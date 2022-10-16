@@ -12,7 +12,7 @@ import { formatTimeAgo } from '@/lib/utils/dateFormatter'
 import { layouts } from '@/lib/utils/getLayout'
 import { publicRoutes } from '@/lib/utils/getRoutes'
 import { getComicBySlug, getComics } from '@/services/comicService'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 export async function getStaticProps({ params }) {
   const { comicSlug } = params
@@ -27,7 +27,7 @@ export async function getStaticProps({ params }) {
 // If a page has Dynamic Routes and uses getStaticProps,
 // it needs to define a list of paths to be statically generated.
 export async function getStaticPaths() {
-  const comics = (await getComics()).results
+  const comics = (await getComics({ params: { type: 'less' } })).results
 
   const paths = comics.map((comic) => {
     const { slug: comicSlug } = comic
@@ -73,7 +73,7 @@ export default function ComicDetail({ staticComic, comicSlug }) {
           <Info tags={tags} title={title} author={author} />
         </div>
         <Container>
-          <div className="relative -top-16 z-50 flex flex-wrap gap-2 lg:gap-3">
+          <div className="relative -top-16 z-50 flex flex-wrap gap-4 sm:gap-2 lg:gap-3">
             <DetailList
               className="comic-detail-section-styles comic-detail-detail-list-height color-bg-secondary order-2 max-h-[570px] flex-[60%] overflow-y-auto p-2  sm:p-8 lg:order-1"
               chapters={chapters}
@@ -98,11 +98,48 @@ export default function ComicDetail({ staticComic, comicSlug }) {
   )
 }
 function DetailList({ chapters, comicSlug, src, title, views, className }) {
+  const [query, setQuery] = useState('')
+  const keys = ['slug']
+  const filter = (data) => {
+    return data.filter((item) =>
+      keys.some((key) => item[key].toLowerCase().includes(query.toLowerCase()))
+    )
+  }
+  const filteredChapters = filter(chapters)
   return (
     <div className={className}>
       <h2 className="mb-4 text-center font-medium">{title}</h2>
+      <form className="mt-4 mb-8">
+        <div className="relative">
+          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+            <svg
+              aria-hidden="true"
+              className="h-5 w-5 text-gray-500 dark:text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              ></path>
+            </svg>
+          </div>
+          <input
+            onChange={(e) => setQuery(e.target.value)}
+            type="search"
+            id="search"
+            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+            placeholder="Search"
+            required
+          />
+        </div>
+      </form>
       <ul>
-        {chapters.map((chapter, index) => (
+        {filteredChapters.map((chapter, index) => (
           <li
             key={chapter.slug}
             className={classNames(
@@ -121,8 +158,8 @@ function DetailList({ chapters, comicSlug, src, title, views, className }) {
                 width={77}
                 height={77}
               />
-              <span className="text-sm md:text-base">Chapter {chapter.chapter_num}</span>
-              <span className="!ml-auto text-sm font-light">
+              <span className="text-xs sm:text-sm md:text-base">Chapter {chapter.chapter_num}</span>
+              <span className="!ml-auto text-xs font-light sm:text-sm">
                 {formatTimeAgo(chapter.updated_date)}
               </span>
               <span className="flex items-center text-sm font-light">
@@ -151,7 +188,7 @@ function DetailList({ chapters, comicSlug, src, title, views, className }) {
                   {chapter.views || 0}
                 </span>
               </span>
-              <span># {index + 1}</span>
+              <span className="text-sm sm:text-base"># {index + 1}</span>
             </CustomLink>
           </li>
         ))}
@@ -263,10 +300,17 @@ function AsideDetail({ description, className, firstChapterhref, views }) {
   )
 }
 
-function Banner({ src = '', title }) {
+function Banner({ src, title }) {
   return (
     <div className="banner-height absolute z-0 w-full">
-      <Image alt={title} src={src} className="object-cover object-center" layout="fill" />
+      <Image
+        width="100%"
+        height={321}
+        alt={title}
+        src={src}
+        className="object-cover object-center"
+        layout="fill"
+      />
     </div>
   )
 }

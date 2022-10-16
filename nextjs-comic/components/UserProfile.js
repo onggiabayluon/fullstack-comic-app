@@ -50,7 +50,7 @@ export default function UserProfile() {
           <button
             onClick={toggleMenu}
             type="button"
-            className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+            className="flex rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
             id="user-menu-button"
             aria-expanded="false"
             aria-haspopup="true"
@@ -61,13 +61,13 @@ export default function UserProfile() {
               className="h-8 w-8 rounded-full"
               width={32}
               height={32}
+              hasPlaceholder={false}
               src={
                 user
                   ? 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
                   : tempProfileSrc
               }
               alt={user ? user.name : 'User Avatar'}
-              placeholder="empty"
             />
           </button>
         </div>

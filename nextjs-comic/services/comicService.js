@@ -7,10 +7,11 @@ const defaultOptions = {
 export const getURLComics = () => '/comics/'
 export const getURLComicBySlug = (slug) => `/comics/${slug}/`
 
-export function getComics(params = defaultOptions) {
+export function getComics({ params = defaultOptions, signal }) {
   return makeRequest(`/comics/`, {
     method: 'GET',
     params: params,
+    signal,
   })
 }
 

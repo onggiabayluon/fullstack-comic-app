@@ -7,7 +7,7 @@ import Pagination from '@/components/Pagination'
 import PictureTextSkeleton from '@/components/Skeleton/PictureTextSkeleton'
 import constant from '@/data/constants'
 import headerNavLinks from '@/data/headerNavLinks'
-import { useAsyncFn } from '@/hooks/useAsync'
+import usePaginatedQuery from '@/hooks/usePaginatedQuery'
 import comicsToJSON from '@/lib/toJSON/comicsToJSON'
 import classNames from '@/lib/utils/classNames'
 import { getComics } from '@/services/comicService'
@@ -15,8 +15,6 @@ import { PageSEO } from 'components/SEO'
 import { siteMetadata } from 'data/siteMetadata'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { useUpdateEffect } from 'react-use'
-// import { useEffect, useState } from 'react'
 
 export async function getStaticProps() {
   const LIMIT = 10
@@ -45,7 +43,7 @@ export default function Home(props) {
           <RecommendSection initialComics={comicsToJSON(props.recommendComics.results)} />
           <LastestUpdateSection
             initialComics={comicsToJSON(props.lastestComic.results)}
-            totalCount={props.lastestComic.count}
+            totalRecords={props.lastestComic.count}
           />
         </div>
       </div>
@@ -53,38 +51,17 @@ export default function Home(props) {
   )
 }
 
-function PaginationSection(props) {
-  const { passState, pageSize, totalCount, className } = props
-  const [currentPage, setCurrentPage] = passState
-
-  return (
-    <Pagination
-      className={classNames(className, 'pagination-bar')}
-      currentPage={currentPage}
-      totalCount={totalCount}
-      pageSize={pageSize}
-      onPageChange={(page) => setCurrentPage(page)}
-    />
-  )
-}
-
-function LastestUpdateSection({ initialComics, totalCount }) {
+function LastestUpdateSection({ initialComics, totalRecords }) {
+  const pageSize = constant.COMIC_LIMIT
+  const options = { type: 'less' }
   const [lastestComic, setLastestComic] = useState(initialComics)
-  const [currentPage, setCurrentPage] = useState(1)
-  const PAGE_SIZE = constant.PAGE_SIZE
-
-  const fetchMoreComicsFn = useAsyncFn(getComics)
-  const handleFetchMoreComics = () => {
-    const params = { page: currentPage, type: 'less' }
-    return fetchMoreComicsFn.execute(params).then((comics) => {
-      setLastestComic(comicsToJSON(comics.results))
-    })
-  }
-
-  // Fetch new comic page whenever currentPage change (when clicking pagination)
-  useUpdateEffect(() => {
-    handleFetchMoreComics()
-  }, [currentPage])
+  const { currentPage, setCurrentPage, loading, error } = usePaginatedQuery(
+    setLastestComic,
+    getComics,
+    null,
+    options,
+    comicsToJSON
+  )
 
   return (
     <>
@@ -96,9 +73,9 @@ function LastestUpdateSection({ initialComics, totalCount }) {
         </div>
 
         <div className="w-full" aria-label="Lastest Update container">
-          {fetchMoreComicsFn.loading || lastestComic?.length == 0 ? (
+          {loading || lastestComic?.length == 0 ? (
             <div className="flex flex-row flex-wrap justify-between">
-              {Array(PAGE_SIZE)
+              {Array(pageSize)
                 .fill()
                 .map((_, index) => (
                   <div
@@ -108,7 +85,7 @@ function LastestUpdateSection({ initialComics, totalCount }) {
                       'border-gray flex w-full items-center space-x-3 self-center border-b-2 p-2 last-of-type:ml-auto md:w-[49%]'
                     )}
                   >
-                    <PictureTextSkeleton error={fetchMoreComicsFn.error && true} height={80} />
+                    <PictureTextSkeleton error={error && true} height={80} />
                   </div>
                 ))}
             </div>
@@ -117,16 +94,17 @@ function LastestUpdateSection({ initialComics, totalCount }) {
               className="flex flex-row flex-wrap justify-between "
               CardComp={LongSlimCard}
               items={lastestComic}
-              limit={PAGE_SIZE}
+              limit={pageSize}
             />
           )}
         </div>
       </section>
-      <PaginationSection
-        className="mt-4"
-        passState={[currentPage, setCurrentPage]}
-        pageSize={PAGE_SIZE}
-        totalCount={totalCount}
+      <Pagination
+        className="pagination-bar mt-4"
+        currentPage={currentPage}
+        totalCount={totalRecords}
+        pageSize={pageSize}
+        onPageChange={(page) => setCurrentPage(page)}
       />
     </>
   )

@@ -1,3 +1,5 @@
+import constant from '@/data/constants'
+import usePaginatedQuery from '@/hooks/usePaginatedQuery'
 import commentsToJson from '@/lib/toJSON/commentsToJson'
 import { getCommentByComicSlug } from '@/services/commentService'
 import { useRouter } from 'next/router'
@@ -10,6 +12,7 @@ export function useCommentContext() {
 
 export function CommentProvider({ children }) {
   const [comments, setComments] = useState([])
+  const [totalRecords, setTotalRecords] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
   const [hasFetched, setHasFetched] = useState(false)
   const router = useRouter()
@@ -17,12 +20,33 @@ export function CommentProvider({ children }) {
     query: { comicSlug },
   } = router
 
-  // Fetch comments for the first time
+  const commentsByParentId = useMemo(() => {
+    const group = {}
+    commentsToJson(comments, comicSlug)
+    comments.forEach((comment) => {
+      group[comment.reply_to] ||= []
+      group[comment.reply_to].push(comment)
+    })
+    return group
+  }, [comments, comicSlug])
+
+  // Paginate Comments
+  const options = { type: 'less' }
+  const params = { slug: comicSlug }
+  const {
+    currentPage,
+    setCurrentPage,
+    loading: isFetchingNextComment,
+    error: isErrorFetchingNextComment,
+  } = usePaginatedQuery(setComments, getCommentByComicSlug, params, options)
+
+  // set Initial comment by fetching comments for the first time
   useEffect(() => {
     if (!hasFetched) {
-      getCommentByComicSlug(comicSlug)
-        .then((comments) => {
-          setComments(commentsToJson(comments.results, comicSlug))
+      getCommentByComicSlug({ slug: comicSlug })
+        .then((res) => {
+          setTotalRecords(res.count)
+          setComments(res.results)
           setIsLoading(false)
         })
         .catch((err) => {
@@ -32,15 +56,6 @@ export function CommentProvider({ children }) {
         .finally(setHasFetched(true))
     }
   }, [comicSlug, hasFetched])
-
-  const commentsByParentId = useMemo(() => {
-    const group = {}
-    comments.forEach((comment) => {
-      group[comment.reply_to] ||= []
-      group[comment.reply_to].push(comment)
-    })
-    return group
-  }, [comments])
 
   function getReplies(parentId) {
     return commentsByParentId[parentId]
@@ -75,11 +90,17 @@ export function CommentProvider({ children }) {
     <Context.Provider
       value={{
         rootComments: commentsByParentId[null],
+        currentPage,
+        setCurrentPage,
+        pageSize: constant.COMMENT_LIMIT,
+        isFetchingNextComment,
+        isErrorFetchingNextComment,
         getReplies,
         createLocalComment,
         isLoading,
         updateLocalComment,
         deleteLocalComment,
+        totalRecords,
         // toggleLocalCommentLike,
       }}
     >

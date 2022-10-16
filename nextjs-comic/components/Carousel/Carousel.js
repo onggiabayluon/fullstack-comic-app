@@ -35,7 +35,7 @@ const Carousel = forwardRef((props, ref) => {
     // adaptiveHeight: true,
     centerMode: true, // CenterMode for peek 20% mobile and css peek only right side in talwind.css file
     // centerPadding: '20%',
-    // lazyLoad: true,
+    lazyLoad: true,
     // autoplay: true,
     autoplaySpeed: 5000,
     arrows: false,

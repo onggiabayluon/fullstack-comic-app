@@ -8,8 +8,8 @@ export const get = async (path, options = {}) => {
   return response.data
 }
 
-export async function makeRequest(url, options) {
-  return await httpRequest(url, options)
+export function makeRequest(url, options) {
+  return httpRequest(url, options)
     .then((res) => {
       return res.data
     })

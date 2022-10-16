@@ -31,10 +31,11 @@ const useCommentApi = () => {
   }
 }
 
-export function getCommentByComicSlug(slug, params) {
+export function getCommentByComicSlug({ slug, params, signal }) {
   return makeRequest(`/comics/${slug}/comments/`, {
     method: 'GET',
     params: params,
+    signal,
   })
 }
 
