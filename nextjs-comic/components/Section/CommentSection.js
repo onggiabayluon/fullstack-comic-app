@@ -2,19 +2,27 @@ import { useCommentContext } from '@/contexts/CommentProvider'
 import { useAsyncFn } from '@/hooks/useAsync'
 import useCommentApi from '@/services/commentService'
 import { useEffect } from 'react'
+import SkeletonList from '../Card/SkeletonList'
 import CommentForm from '../Comment/CommentForm'
 import CommentList from '../Comment/CommentList'
-// import CommentList from '../Comment/CommentList'
+import Pagination from '../Pagination'
+import PictureGroupSkeleton from '../Skeleton/PictureGroupSkeleton'
 
 function CommentSection({ className, comicSlug }) {
   useEffect(() => {
     console.log('CommentSection re render')
   })
-
-  // const commentSectionRef = useRef(null)
-  // const { isOnScreen } = useOnScreenOnce(commentSectionRef)
-
-  const { rootComments, createLocalComment, isLoading } = useCommentContext()
+  const {
+    rootComments,
+    currentPage,
+    setCurrentPage,
+    pageSize,
+    isFetchingNextComment,
+    isErrorFetchingNextComment,
+    createLocalComment,
+    isLoading,
+    totalRecords,
+  } = useCommentContext()
 
   // CRUD Commnent function
   const { createComment } = useCommentApi()
@@ -39,7 +47,16 @@ function CommentSection({ className, comicSlug }) {
             <CommentForm loading={isCommentCreating} error={error} onSubmit={onCommentCreate} />
           </div>
           <div className="comic-detail-section-styles mt-4 p-4">
-            {rootComments != null && rootComments.length > 0 ? (
+            {isFetchingNextComment ? (
+              <SkeletonList
+                Component={PictureGroupSkeleton}
+                className="my-4"
+                height={144}
+                pageSize={pageSize}
+                isError={isErrorFetchingNextComment && true}
+                hasIcon={false}
+              />
+            ) : rootComments != null && rootComments.length > 0 ? (
               <CommentList comments={rootComments}></CommentList>
             ) : (
               <div className="comic-detail-section-styles mt-4 p-4 text-center">
@@ -49,6 +66,16 @@ function CommentSection({ className, comicSlug }) {
           </div>
         </>
       )}
+
+      {rootComments != null && rootComments.length > 0 ? (
+        <Pagination
+          className="pagination-bar mt-4"
+          currentPage={currentPage}
+          totalCount={totalRecords}
+          pageSize={pageSize}
+          onPageChange={(page) => setCurrentPage(page)}
+        />
+      ) : null}
     </section>
   )
 }

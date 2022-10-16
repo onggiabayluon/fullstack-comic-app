@@ -49,9 +49,7 @@ const Pagination = (props) => {
         'border-theme color-bg-primary flex items-center justify-between border-t px-4 py-3 sm:px-6'
       )}
     >
-      {/* Mobile Nav */}
-      <div className="flex flex-1 justify-between sm:hidden">
-        {/* Prev Button */}
+      {/* <div className="flex flex-1 justify-between sm:hidden">
         <button
           role="button"
           onClick={onPrevious}
@@ -62,7 +60,6 @@ const Pagination = (props) => {
         >
           Previous
         </button>
-        {/* Next Button */}
         <button
           role="button"
           className={classNames(
@@ -73,10 +70,10 @@ const Pagination = (props) => {
         >
           Next
         </button>
-      </div>
+      </div> */}
 
       {/* Tablet Nav */}
-      <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+      <div className="flex flex-1 flex-col items-center justify-between space-y-4 sm:flex-row sm:space-y-0">
         <div>
           <p className="color-text-gray text-sm">
             Showing <span className="font-medium">{pageRecords.from}</span> to{' '}

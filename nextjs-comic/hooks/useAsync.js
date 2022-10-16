@@ -40,5 +40,5 @@ function useAsyncInternal(func, dependencies, initialLoading = false) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, dependencies)
 
-  return { loading, error, setError, value, execute }
+  return { loading, setLoading, error, setError, value, execute }
 }
