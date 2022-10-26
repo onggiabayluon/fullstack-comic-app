@@ -151,13 +151,10 @@ def fulfill_order(session):
         # If order type == COIN => increase user coin
         if (productType == Product.TYPES.COIN):
             user.coins += amount_total
-            print(user.coins)
-            print(amount_total)
             user.save()
 
         # sent user email
-            
-    except e:
+    except Exception as e:
         print(e)
 
 
