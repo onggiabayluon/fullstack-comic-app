@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react'
 import { FaCoins } from 'react-icons/fa'
 
 export default function BuyCoin() {
-  const [message, setMessage] = useState({ isSuccess: null, description: null })
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     // Check to see if this is a redirect back from Checkout
