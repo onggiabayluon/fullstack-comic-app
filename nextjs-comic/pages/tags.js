@@ -1,5 +1,5 @@
+import Link from '@/components/common/Link'
 import Tag from '@/components/Tag/Tag'
-import Link from 'components/Link'
 import { PageSEO } from 'components/SEO'
 import { siteMetadata } from 'data/siteMetadata'
 import unstable_tags from 'data/unstable_tags'
