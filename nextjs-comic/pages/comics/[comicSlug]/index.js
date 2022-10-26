@@ -55,10 +55,7 @@ export async function getStaticPaths() {
     }
   }
 
-  let comics = await getComics({ type: 'less' }).results
-  console.log('test')
-  console.log(comics)
-  comics = comicsToJSON(comics)
+  const comics = await getComics().results
 
   const paths = comics.map((comic) => {
     const { slug: comicSlug } = comic
