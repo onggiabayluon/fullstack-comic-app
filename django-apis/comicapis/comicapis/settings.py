@@ -14,6 +14,7 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+import django_heroku
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,9 +26,9 @@ load_dotenv()  # loads the configs from .env
 SECRET_KEY = str(os.getenv(('SECRET_KEY')))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.getenv(('DEBUG')))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["django-comic-api-2.herokuapp.com", "localhost", "127.0.0.1", "fullstack-comic-app.vercel.app"]
 
 
 # Application definition
@@ -175,7 +176,7 @@ DATABASES = {
         'NAME': str(os.getenv(('DATABASE_NAME'))),
         'USER': str(os.getenv(('DATABASE_USER'))),
         'PASSWORD': str(os.getenv(('DATABASE_PASSWORD'))),
-        'HOST': ''
+        'HOST': str(os.getenv(('DATABASE_HOST')))
     },
 }
 
@@ -215,9 +216,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+STRIPE_API_KEY = str(os.getenv(('STRIPE_API_KEY')))
+CLIENT_SIDE_DOMAIN = str(os.getenv(('CLIENT_SIDE_DOMAIN')))
+STRIPE_WEBHOOK_SECRET = str(os.getenv(('STRIPE_WEBHOOK_SECRET')))
+
+# Setting for heroku
+django_heroku.settings(locals())

@@ -21,6 +21,12 @@ const publicRoutes = {
   logout: {
     path: routes.logout,
   },
+  profile: {
+    path: routes.profile,
+  },
+  buycoin: {
+    path: routes.buycoin,
+  },
 }
 
 const privateRoutes = []

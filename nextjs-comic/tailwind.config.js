@@ -1,5 +1,6 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 const colors = require('tailwindcss/colors')
+const plugin = require('tailwindcss/plugin')
 
 module.exports = {
   experimental: {
@@ -15,6 +16,13 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      lineClamp: {
+        6: '6',
+        7: '7',
+        8: '8',
+        9: '9',
+        10: '10',
+      },
       spacing: {
         '9/16': '56.25%',
       },
@@ -186,5 +194,30 @@ module.exports = {
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
     require('@tailwindcss/line-clamp'),
+    //Custom Plugin
+    plugin(({ addUtilities, e, theme, variants }) => {
+      addUtilities({
+        '.flex-gap-wrapper': {
+          // overflow: 'auto',
+        },
+        '[class*="flex-gap-"]:not([class*="flex-gap-wrapper"])': {
+          margin: 'calc(-1 * var(--gap)) 0 0 calc(-1 * var(--gap))',
+          '& > *': {
+            margin: 'calc(var(--gap)) 0 0 calc(var(--gap))',
+          },
+        },
+      })
+
+      Object.entries(theme('gap')).forEach(([key, value]) => {
+        addUtilities(
+          {
+            [`.flex-gap-${e(key)}`]: {
+              '--gap': value,
+            },
+          },
+          variants('gap')
+        )
+      })
+    }),
   ],
 }

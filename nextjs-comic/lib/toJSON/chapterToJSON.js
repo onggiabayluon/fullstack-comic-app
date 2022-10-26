@@ -1,4 +1,5 @@
 function chapterToJSON(chapter) {
+  if (!chapter?.id) return
   return {
     ...chapter,
     images: chapter.images?.map((image) => {

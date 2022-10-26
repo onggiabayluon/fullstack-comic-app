@@ -1,6 +1,6 @@
-import Container from '@/components/Container'
-import Image from '@/components/Image'
-import CustomLink from '@/components/Link'
+import Container from '@/components/common/Container'
+import Image from '@/components/common/Image'
+import CustomLink from '@/components/common/Link'
 import CommentSection from '@/components/Section/CommentSection'
 import { PageSEO } from '@/components/SEO'
 import { chapterDetailMetaData } from '@/data/siteMetadata'
@@ -18,6 +18,12 @@ export async function getStaticProps({ params }) {
   const { comicSlug, chapterSlug } = params
   const staticChapter = chapterToJSON(await getChapterDetail(comicSlug, chapterSlug))
 
+  if (!staticChapter) {
+    return {
+      notFound: true,
+    }
+  }
+
   return {
     props: { staticChapter, comicSlug, chapterSlug },
     revalidate: parseInt(process.env.NEXT_PUBLIC_REVALIDATE_IN_1_HOUR),
@@ -27,6 +33,13 @@ export async function getStaticProps({ params }) {
 // If a page has Dynamic Routes and uses getStaticProps,
 // it needs to define a list of paths to be statically generated.
 export async function getStaticPaths() {
+  if (process.env.SKIP_BUILD_STATIC_GENERATION) {
+    return {
+      paths: [],
+      fallback: 'blocking',
+    }
+  }
+
   const chapters = await getChapters()
 
   const paths = chapters.map((chapter) => {
@@ -40,13 +53,6 @@ export async function getStaticPaths() {
     fallback: 'blocking', // fallback to server-side-rendering if a page not rendered yet
   }
 }
-
-// export async function getStaticPaths() {
-//   return {
-//     paths: [{ params: { comicSlug: 'omniscient-readers-viewpoint', chapterSlug: 'chapter-1' } }],
-//     fallback: true,
-//   }
-// }
 
 function ChapterDetail({ staticChapter: chapter, comicSlug, chapterSlug }) {
   // const { comic: chapter, getPrevChapter, getNextChapter } = useComic(staticChapter)
@@ -75,23 +81,19 @@ function ChapterDetail({ staticChapter: chapter, comicSlug, chapterSlug }) {
         description={chapterDetailMetaData.description}
       />
       <Container className="mt-4">
-        <div id="PrevChapter" className="mx-auto max-w-md space-y-4">
-          <ChapterCard
-            {...chap}
-            dynamicChapterSlug={chapterSLugify(getPrevChapter(chapter))}
-            dynamicChapterNum={getPrevChapter(chapter)}
-          />
-        </div>
-        <div id="imageList" className="my-8">
-          <ImageList className={'relative'} images={chap.images} comicTitle={chap.comic_title} />
-        </div>
-        <div id="NextChapter" className="mx-auto max-w-md space-y-4">
-          <ChapterCard
-            {...chap}
-            dynamicChapterSlug={chapterSLugify(getNextChapter(chapter))}
-            dynamicChapterNum={getNextChapter(chapter)}
-          />
-        </div>
+        <ChapterCard
+          {...chap}
+          id="PrevChapter"
+          dynamicChapterSlug={chapterSLugify(getPrevChapter(chapter))}
+          dynamicChapterNum={getPrevChapter(chapter)}
+        />
+        <ImageList className="relative my-8" images={chap.images} comicTitle={chap.comic_title} />
+        <ChapterCard
+          {...chap}
+          id="NextChapter"
+          dynamicChapterSlug={chapterSLugify(getNextChapter(chapter))}
+          dynamicChapterNum={getNextChapter(chapter)}
+        />
         <CommentSection className="mt-10 flex-[100%]" comicSlug={comicSlug} />
       </Container>
 
@@ -152,7 +154,7 @@ function ScrollToTopButton() {
 function ImageList({ images, comicTitle, className }) {
   return images?.length > 0 ? (
     <ul className={className}>
-      {images.map((item) => (
+      {images.map((item, index) => (
         <ImageCard key={item.id} {...item} comicTitle={comicTitle} />
       ))}
     </ul>
@@ -191,33 +193,35 @@ function ImageCard({ src, comicTitle }) {
 function ChapterCard(props) {
   const { comic_title: comicTitle, comicSlug, dynamicChapterSlug, dynamicChapterNum } = props
   return dynamicChapterSlug ? (
-    <CustomLink
-      className="group color-card-hover color-border-primary color-card block rounded-lg border p-6 shadow-md"
-      href={publicRoutes.chapterDetail.getDynamicPath(comicSlug, dynamicChapterSlug)}
-    >
-      <article className="flex flex-row items-center">
-        <div className="flex h-full flex-col">
-          <h2 className="color-text-primary color-text-primary-group-hover text-base font-semibold capitalize line-clamp-1">
-            {comicTitle}
-          </h2>
-          <span className="color-text-primary color-text-primary-group-hover pt-4 text-sm font-semibold capitalize underline line-clamp-1">
-            {`Chapter ${dynamicChapterNum}`}
+    <div className="mx-auto max-w-md space-y-4">
+      <CustomLink
+        className="group color-card-hover color-border-primary color-card block rounded-lg border p-6 shadow-md"
+        href={publicRoutes.chapterDetail.getDynamicPath(comicSlug, dynamicChapterSlug)}
+      >
+        <article className="flex flex-row items-center">
+          <div className="flex h-full flex-col">
+            <h2 className="color-text-primary color-text-primary-group-hover text-base font-semibold capitalize line-clamp-1">
+              {comicTitle}
+            </h2>
+            <span className="color-text-primary color-text-primary-group-hover pt-4 text-sm font-semibold capitalize underline line-clamp-1">
+              {`Chapter ${dynamicChapterNum}`}
+            </span>
+          </div>
+          <span className="color-text-primary color-text-primary-group-hover ml-auto">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="h-6 w-6"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
           </span>
-        </div>
-        <span className="color-text-primary color-text-primary-group-hover ml-auto">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="h-6 w-6"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-          </svg>
-        </span>
-      </article>
-    </CustomLink>
+        </article>
+      </CustomLink>
+    </div>
   ) : null
 }
 

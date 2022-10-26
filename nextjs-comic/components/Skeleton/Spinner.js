@@ -1,9 +1,14 @@
-function Spinner() {
+import classNames from '@/lib/utils/classNames'
+
+function Spinner({ className }) {
   return (
     <div role="status">
       <svg
         aria-hidden="true"
-        className="absolute right-14 top-3 h-4 w-4 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600"
+        className={classNames(
+          className,
+          'h-4 w-4 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600'
+        )}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

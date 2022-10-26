@@ -1,16 +1,22 @@
 import { makeRequest } from '@/lib/utils/httpRequest'
+// import { useEffect, useState } from 'react'
 import useSWR from 'swr'
 
 const defaultFnc = () => {}
 
-const fetcher = makeRequest
+const TEN_SECONDS = 10000
+const swrOpts = {
+  dedupingInterval: TEN_SECONDS,
+  revalidateOnFocus: false, //automatically revalidate when window gets focused (details)
+  revalidateOnReconnect: false, // automatically revalidate when the browser regains a network connection
+}
+const defaultFetcher = makeRequest
 
-async function useFetch(url, options, callback = defaultFnc) {
-  const { data, error } = useSWR([url, options], fetcher)
+function useFetch({ url, options, deps = true, fetcher = defaultFetcher }) {
+  const { data, error } = useSWR(deps ? [url, options] : null, fetcher, swrOpts)
 
   return {
-    data: data ? callback(data.results) : data,
-    rawData: data,
+    data: data,
     isLoading: !error && !data,
     isError: error,
   }

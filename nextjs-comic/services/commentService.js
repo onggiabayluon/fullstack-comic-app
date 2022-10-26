@@ -30,6 +30,12 @@ const useCommentApi = () => {
     updateComment,
   }
 }
+export const getCommentByComicSlugUrl = (slug) => {
+  return {
+    fetcher: makeRequest,
+    url: (slug) => `/comics/${slug}/comments/`,
+  }
+}
 
 export function getCommentByComicSlug({ slug, params, signal }) {
   return makeRequest(`/comics/${slug}/comments/`, {

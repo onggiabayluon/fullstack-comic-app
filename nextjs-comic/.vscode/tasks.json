@@ -5,8 +5,29 @@
       "type": "npm",
       "script": "dev",
       "problemMatcher": [],
-      "label": "npm: dev",
-      "detail": "next dev"
+      "label": "Auto run npm dev",
+      "detail": "next dev",
+      "isBackground": false,
+      "presentation": {
+        "reveal": "always",
+        "panel": "new",
+        "close": true
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    },
+    {
+      "label": "Open localhost",
+      "type": "shell",
+      "command": "start chrome -ArgumentList --start-fullscreen http://localhost:3000",
+      "presentation": {
+        "reveal": "never",
+        "close": true
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
     }
   ]
 }

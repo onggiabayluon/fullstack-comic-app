@@ -1,3 +1,6 @@
+import CommentForm from '@/components/Comment/CommentForm'
+import CommentList from '@/components/Comment/CommentList'
+import Image from '@/components/common/Image'
 import { useCommentContext } from '@/contexts/CommentProvider'
 import { useAsyncFn } from '@/hooks/useAsync'
 import { useAuthContext } from '@/hooks/useAuthContext'
@@ -5,10 +8,8 @@ import { formatTimeAgo } from '@/lib/utils/dateFormatter'
 import useCommentApi from '@/services/commentService'
 import { useState } from 'react'
 import { FaCaretDown, FaCaretUp } from 'react-icons/fa'
-import IconBtn from '../IconBtn'
-import Image from '../Image'
-import CommentForm from './CommentForm'
-import CommentList from './CommentList'
+import IconBtn from '../Buttons/IconBtn'
+import TextTruncate from '../Utilities/TextTruncate'
 
 function Comment({
   id,
@@ -93,7 +94,7 @@ function Comment({
             error={updateCommentFn.error}
           />
         ) : (
-          <p className="prose-sm my-5">{message}</p>
+          <TextTruncate text={message} className="prose-sm my-5" />
         )}
 
         {/* Actions Section */}

@@ -1,9 +1,9 @@
+import Image from '@/components/common/Image'
+import CustomLink from '@/components/common/Link'
+import TagList from '@/components/Tag/TagList'
 import classNames from '@/lib/utils/classNames'
 import { formatTimeAgo } from '@/lib/utils/dateFormatter'
 import { publicRoutes } from '@/lib/utils/getRoutes'
-import Image from '../Image'
-import CustomLink from '../Link'
-import TagList from '../Tag/TagList'
 
 function LongSlimCard(props) {
   const { src, title, updatedDate, chapters, categories: tags, slug, index } = props

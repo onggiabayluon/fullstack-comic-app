@@ -33,6 +33,8 @@ def cloudinary_image_path(instance, filename):
 
 class User(AbstractUser):
     avatar = models.ImageField(upload_to=cloudinary_image_path, null=True, blank=True)
+    # coin = models.OneToOneField('Coin', on_delete=models.CASCADE, null=True)
+    coins = models.IntegerField(default=0)
 
 
 class Category(models.Model):
@@ -46,9 +48,6 @@ class MyModelBase(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
-
-    def __str__(self):
-        return self.subject
 
     class Meta:
         abstract = True
@@ -111,11 +110,12 @@ class ChapterImage(models.Model):
     chapter = models.ForeignKey(Chapter, related_name="chapter_images", on_delete=models.CASCADE, null=True)
 
 
-class ComicView(models.Model):
+class ChapterView(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
     views = models.IntegerField(default=0)
-    comic = models.OneToOneField(Comic, on_delete=models.CASCADE)
+    chapter = models.OneToOneField(Chapter, on_delete=models.CASCADE, null=True)
+    # comic = models.OneToOneField(Comic, on_delete=models.CASCADE, null=True)
 
 
 class Comment(models.Model):
@@ -136,3 +136,38 @@ class Rating(models.Model):
     updated_date = models.DateTimeField(auto_now=True)
     comic = models.ForeignKey(Comic, on_delete=models.CASCADE)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class Bookmark(models.Model):
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+    comic = models.ForeignKey(Comic, on_delete=models.CASCADE)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class Product(models.Model):
+    class TYPES(models.TextChoices):
+        COIN = "c", "COIN"
+
+    stripe_product_id = models.CharField(max_length=50, null=True, editable=False)
+    stripe_price_id = models.CharField(max_length=50, null=True, editable=False)
+    name = models.CharField(max_length=100, null=False)
+    price = models.DecimalField(max_digits=5, decimal_places=2)
+    active = models.BooleanField(default=True)
+    # thumbnail = models.ImageField(default='default.png', blank=True, upload_to='products/%Y/%m')
+    created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
+    category = models.CharField(max_length=1, choices=TYPES.choices)
+
+    def __str__(self):
+        return "{0} - {1}".format(self.category, self.price)
+
+
+class Payment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    stripe_charge_id = models.CharField(max_length=50)
+    amount = models.FloatField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+
+# class Coin(models.Model):
+    # amount = models.IntegerField(default=0, null=True, blank=True)

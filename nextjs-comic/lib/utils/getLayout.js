@@ -3,11 +3,11 @@ import { ThemeProvider } from 'next-themes'
 import Head from 'next/head'
 import { Fragment } from 'react'
 
+import Analytics from '@/components/analytics'
+import { ClientReload } from '@/components/ClientReload'
+import { siteMetadata } from '@/data/siteMetadata'
 import DefaultLayout from '@/layouts/DefaultLayout'
 import DetailLayout from '@/layouts/DetailLayout'
-import Analytics from 'components/analytics'
-import { ClientReload } from 'components/ClientReload'
-import { siteMetadata } from 'data/siteMetadata'
 
 export const layouts = {
   home: {},
