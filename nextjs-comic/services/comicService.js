@@ -1,6 +1,6 @@
 import { makeRequest } from '@/lib/utils/httpRequest'
 
-const defaultOptions = {
+export const defaultOptions = {
   type: 'less',
 }
 
