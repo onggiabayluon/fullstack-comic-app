@@ -123,9 +123,11 @@ class CheckoutWebhook(APIView):
             )
         except ValueError as e:
             # Invalid payload
+            print(e)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except stripe.error.SignatureVerificationError as e:
             # Invalid signature
+            print(e)
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         # verify that it came from Stripe before trusting it
