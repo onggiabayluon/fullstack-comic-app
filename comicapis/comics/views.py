@@ -1,5 +1,7 @@
-from django.conf import settings
+import stripe
 from django.db.models import F
+from django.http import HttpResponseRedirect
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics, permissions, status, viewsets
 from rest_framework.decorators import action, api_view
 from rest_framework.permissions import AllowAny
@@ -7,14 +9,167 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .models import (Category, Chapter, ChapterView, Comic, Comment, Rating,
-                     User)
+from comicapis import settings
+
+from .models import (Bookmark, Category, Chapter, ChapterView, Comic, Comment,
+                     Payment, Product, Rating, User)
 from .paginators import BasePagination, ComicPagniation, CommentPagination
-from .serializers import (CategorySerializer, ChapterSerializer,
-                          ChapterViewSerializer, ComicDetailSerializer,
+from .serializers import (BookmarkSerializer, CategorySerializer,
+                          ChapterSerializer, ChapterViewSerializer,
+                          CoinSerializer, ComicDetailSerializer,
                           ComicDetailTypeLessSerializer, ComicSerializer,
                           CommentSerializer, MyTokenObtainPairSerializer,
-                          RatingSerializer, RegisterSerializer, UserSerializer)
+                          RatingSerializer, RegisterSerializer,
+                          UserBookmarkSerializer, UserSerializer)
+
+stripe.api_key = settings.STRIPE_API_KEY
+endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
+"""
+Stripe Payment View   : /create-payment-intent
+"""
+
+
+class BuyCoin(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        # >>> Handling Stripe Payment
+        if request.method == 'POST':
+            user = request.user
+            product = Product.objects.get(id=request.data.get('coin'))
+            token = request.data.get('stripeToken')
+            amount = product.price
+
+            try:
+                charge = stripe.Charge.create(
+                    amount=amount,  # cent
+                    currency="usd",
+                    source=token,
+                )
+                # Create The Payment
+                Payment.objects.create(user=user, stripe_charge_id=charge.id, amount=amount)
+
+                return Response({'message': "Your order was successful!", 'redirect': '/buy-coin'}, status=status.HTTP_200_OK)
+
+            except stripe.error.CardError as e:
+                return Response({'message': str(e)}, status=status.HTTP_403_FORBIDDEN)
+
+            except stripe.error.RateLimitError as e:
+                # Too many requests made to the API too quickly
+                return Response({'message': 'Rate limit error'}, status=status.HTTP_403_FORBIDDEN)
+
+            except stripe.error.InvalidRequestError as e:
+                # Invalid parameters were supplied to Stripe's API
+                return Response({'message': 'Invalid parameters'}, status=status.HTTP_403_FORBIDDEN)
+
+            except stripe.error.AuthenticationError as e:
+                # Authentication with Stripe's API failed
+                # (maybe you changed API keys recently)
+                return Response({'message': 'Not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+
+            except stripe.error.APIConnectionError as e:
+                # Network communication with Stripe failed
+                return Response({'message': 'Network error'}, status=status.HTTP_403_FORBIDDEN)
+
+            except stripe.error.StripeError as e:
+                # Display a very generic error to the user, and maybe send
+                # yourself an email
+                return Response({'message': 'Something went wrong. You were not charged. Please try again.'}, status=status.HTTP_403_FORBIDDEN)
+
+            except Exception as e:
+                # send an email to ourselves
+                return Response({'message': 'A serious error occurred. We have been notifed.'}, status=status.HTTP_403_FORBIDDEN)
+
+
+class CreateCheckoutSection(APIView):
+    def post(self, request):
+        coin_selected_id = request.data.get('coin')
+        coin = Product.objects.get(id=coin_selected_id)
+        coin_stripe_price_id = coin.stripe_price_id
+        try:
+            checkout_session = stripe.checkout.Session.create(
+                line_items=[
+                    {
+                        # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+                        'price': coin_stripe_price_id,
+                        'quantity': 1,
+                    },
+                ],
+                client_reference_id=request.user.id,
+                metadata={'productType': Product.TYPES.COIN},
+                mode='payment',
+                success_url=settings.CLIENT_SIDE_DOMAIN + '/buy-coin?success=true',
+                cancel_url=settings.CLIENT_SIDE_DOMAIN + '/buy-coin?canceled=true',
+            )
+
+            return Response({'redirect_to': checkout_session.url}, status=status.HTTP_200_OK)
+
+            # return Response({
+            #     'clientSecret': intent['client_secret']
+            # }, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_403_FORBIDDEN)
+
+
+class CheckoutWebhook(APIView):
+    def post(self, request):
+        payload = request.body
+        sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+        event = None
+
+        try:
+            event = stripe.Webhook.construct_event(
+                payload, sig_header, endpoint_secret
+            )
+        except ValueError as e:
+            # Invalid payload
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        except stripe.error.SignatureVerificationError as e:
+            # Invalid signature
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        # verify that it came from Stripe before trusting it
+        # Then Handle the checkout.session.completed event
+        if event['type'] == 'checkout.session.completed':
+            session = event['data']['object']
+
+            # Fulfill the purchase...
+            fulfill_order(session)
+
+        # Passed signature verification
+        return Response({"message": 'Order Fulfilled'}, status=status.HTTP_200_OK)
+
+
+def fulfill_order(session):
+    try:
+        user = User.objects.get(id=session.client_reference_id)
+        productType = session.metadata.productType
+        amount_total = session.amount_total
+        # Save Order to db
+        Payment.objects.create(user=user, amount=amount_total)
+
+        # If order type == COIN => increase user coin
+        if (productType == Product.TYPES.COIN):
+            user.coins += amount_total
+            print(user.coins)
+            print(amount_total)
+            user.save()
+
+        # sent user email
+            
+    except e:
+        print(e)
+
+
+"""
+Register View   : /coin
+"""
+
+
+class CoinViewSet(viewsets.ViewSet, generics.ListAPIView):
+    queryset = Product.objects.filter(category=Product.TYPES.COIN).order_by('price')
+    serializer_class = CoinSerializer
+
 
 """
 Register View   : api/
@@ -37,7 +192,7 @@ class RegisterView(generics.CreateAPIView):
         return Response({
             "user": MyTokenObtainPairSerializer(user, context=self.get_serializer_context()).data,
             "message": "User Created Successfully.  Now perform Login to get your token",
-        },status=status.HTTP_201_CREATED)
+        }, status=status.HTTP_201_CREATED)
 
 
 """
@@ -46,6 +201,7 @@ Comic Detail : comics/{slug}
 Comment List : comics/{slug}/comments
 Add comment  : comics/{slug}/add-comment
 rate comic   : comics/{slug}/rating
+bookmark comic   : comics/{slug}/bookmark
 """
 
 
@@ -60,7 +216,7 @@ class ComicViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIV
     lookup_field = "slug"
 
     def get_permissions(self):
-        if self.action in ['add_comment', 'rate']:
+        if self.action in ['add_comment', 'rate', 'bookmark']:
             return [permissions.IsAuthenticated()]
 
         return [permissions.AllowAny()]
@@ -120,7 +276,7 @@ class ComicViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIV
         paginated_root_comments_id = [c.id for c in paginated_root_comments]
         # CAN'T concat a list and a queryset => convert this shit to list
         root_comments_replies = list(comments.filter(reply_to__in=paginated_root_comments_id))
-        
+
         paginated_res = paginated_root_comments + root_comments_replies
 
         filter_list = ["comic_id", "content", "created_date", "creator_id", "id", "updated_date",
@@ -149,6 +305,16 @@ class ComicViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIV
                                                               defaults={"rate": rating})
 
             return Response(RatingSerializer(rating).data, status=status.HTTP_200_OK)
+
+    @action(methods=['post'], detail=True, url_path='bookmark')
+    def bookmark(self, request, slug):
+        try:
+            comic = self.get_object()
+            bookmark = Bookmark.objects.get(creator=request.user, comic=comic).delete()
+            return Response({"message": "Delete bookmark successfully."}, status=status.HTTP_200_OK)
+        except Bookmark.DoesNotExist:
+            bookmark = Bookmark.objects.create(creator=request.user, comic=comic)
+            return Response(BookmarkSerializer(bookmark).data, status=status.HTTP_201_CREATED)
 
 
 """
@@ -266,7 +432,13 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView):
         return Response(self.serializer_class(request.user, context={"request": request}).data,
                         status=status.HTTP_200_OK)
 
+    @action(methods=['get'], detail=False, url_path='current-user-bookmarks')
+    def get_bookmarks(self, request):
+        self.pagination_class = None
+        return Response(UserBookmarkSerializer(request.user, context={"request": request}).data,
+                        status=status.HTTP_200_OK)
 
-class AuthInfo(APIView):
-    def get(self, request):
-        return Response(settings.OAUTH2_INFO, status=status.HTTP_200_OK)
+
+# class AuthInfo(APIView):
+    # def get(self, request):
+        # return Response(settings.OAUTH2_INFO, status=status.HTTP_200_OK)

@@ -1,11 +1,17 @@
 import nested_admin
+import stripe
 from django.contrib import admin
+from django.contrib.admin.actions import \
+    delete_selected as django_delete_selected
 
-from .models import Category, Chapter, ChapterImage, Comic, User
+from comicapis import settings
+
+from .models import Category, Chapter, ChapterImage, Comic, Product, User
+
+stripe.api_key = settings.STRIPE_API_KEY
+
 
 # Inline Classes
-
-
 class ChapterImageInline(nested_admin.NestedStackedInline):
     model = ChapterImage
     extra = 0
@@ -76,9 +82,67 @@ class ChapterImageAdmin(admin.ModelAdmin):
     get_chapter.admin_order_field = 'image__chapter'
 
 
+def delete_selected(modeladmin, request, queryset):
+    # selected delete
+    try:
+        print('selected delete')
+        products = list(queryset)
+        for product in products:
+            if product.stripe_product_id:
+                stripe.Product.modify(
+                    product.stripe_product_id,
+                    metadata={"active": False},
+                )
+
+        queryset.delete()
+    except stripe.error.InvalidRequestError as e:
+        print(e)
+        queryset.delete()
+
+
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ["name", "category", "price"]
+    list_filter = ('category', 'price')
+    search_fields = ["name", "category"]
+    actions = (delete_selected,)
+
+    def delete_model(modeladmin, request, obj):
+        try:
+            # delete
+            print('delete')
+            product = obj
+            if product.stripe_product_id:
+                stripe.Product.modify(
+                    product.stripe_product_id,
+                    metadata={"active": False},
+                )
+            obj.delete()
+        except stripe.error.InvalidRequestError as e:
+            print(e)
+            obj.delete()
+
+    def save_model(self, request, obj, form, change):
+        if obj._state.adding:
+            # Adding
+            print('adding')
+            stripe_product = stripe.Product.create(name=obj.name, default_price_data={
+                "unit_amount": obj.price,
+                "currency": "usd",
+            },
+                expand=["default_price"],)
+            obj.stripe_product_id = stripe_product.id
+            obj.stripe_price_id = stripe_product.default_price.id
+        else:
+            # Editing
+            print('Editing')
+
+        super().save_model(request, obj, form, change)
+
+
 # Register your models here.
 admin.site.register(Category)
 admin.site.register(User)
+admin.site.register(Product, ProductAdmin)
 admin.site.register(Comic, ComicAdmin)
 admin.site.register(ChapterImage, ChapterImageAdmin)
 admin.site.register(Chapter, ChapterAdmin)

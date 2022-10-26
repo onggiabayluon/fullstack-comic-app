@@ -21,3 +21,9 @@ heroku git:remote -a mySimpleProjectInHeroku
 # Send the .env variables to heroku
 
 bash generate_env.sh ".env"
+
+# Push update to heroku
+
+git add .
+git commit -m "text"
+git push heroku main

@@ -223,7 +223,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
+STRIPE_API_KEY = str(os.getenv(('STRIPE_API_KEY')))
+CLIENT_SIDE_DOMAIN = str(os.getenv(('CLIENT_SIDE_DOMAIN')))
+STRIPE_WEBHOOK_SECRET = str(os.getenv(('STRIPE_WEBHOOK_SECRET')))
 
 # Setting for heroku
 django_heroku.settings(locals())
