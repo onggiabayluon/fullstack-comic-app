@@ -430,7 +430,7 @@ function ActionList({ comicSlug, inititalBookmarkCount }) {
   )
 }
 
-function StarList({ stars, className, comicSlug, onStarSubmit }) {
+function StarList({ stars, className, comicSlug }) {
   const [rating, setRating] = useState(0)
   const [hover, setHover] = useState(0)
   const { createOrUpdateRating } = useRateApi()
@@ -438,10 +438,9 @@ function StarList({ stars, className, comicSlug, onStarSubmit }) {
 
   const handleSubmit = () => {
     createOrUpdateRatingFn.execute({ comicSlug: comicSlug, rating: rating })
-    onStarSubmit()
   }
 
-  useUpdateEffect(() => handleSubmit, [rating])
+  useUpdateEffect(handleSubmit, [rating])
 
   return stars?.length > 0 ? (
     <>
@@ -462,15 +461,15 @@ function StarList({ stars, className, comicSlug, onStarSubmit }) {
           )
         })}
       </div>
-      {createOrUpdateRatingFn.value ? (
-        <span className="mt-2 whitespace-nowrap text-center text-xs text-dark-gray-darker">
-          {createOrUpdateRatingFn.loading ? <Spinner /> : 'Rating successfully'}
-        </span>
-      ) : (
-        <span className="mt-2 whitespace-nowrap text-center text-xs text-dark-gray-darker">
-          {createOrUpdateRatingFn.loading ? <Spinner /> : 'Click to rate this'}
-        </span>
-      )}
+      <span className="mt-2 whitespace-nowrap text-center text-xs text-dark-gray-darker">
+        {createOrUpdateRatingFn.loading ? (
+          <Spinner />
+        ) : createOrUpdateRatingFn.value ? (
+          'Rating successfully'
+        ) : (
+          'Click to rate this'
+        )}
+      </span>
     </>
   ) : null
 }

@@ -9,6 +9,7 @@ import { FaCoins } from 'react-icons/fa'
 import { useClickAway } from 'react-use'
 import Spinner from '../Skeleton/Spinner'
 import Image from './Image'
+import CustomLink from './Link'
 import tempProfileSrc from '/public/userProfile.png'
 
 function classNames(...classes) {
@@ -132,26 +133,26 @@ export default function UserProfile() {
                       )}
                     </span>
                   </a>
-                  <a
+                  <CustomLink
                     key={item.title}
                     href={item.to}
                     className="bg-indigo block px-4 py-2 text-sm text-gray-700"
                     onClick={() => handleMenuChange(item)}
                   >
                     {item.title}
-                  </a>
+                  </CustomLink>
                 </>
               )
             }
             return (
-              <a
+              <CustomLink
                 key={item.title}
                 href={item.to}
                 className="bg-indigo block px-4 py-2 text-sm text-gray-700"
                 onClick={() => handleMenuChange(item)}
               >
                 {item.title}
-              </a>
+              </CustomLink>
             )
           }
         })}
