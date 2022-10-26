@@ -1,0 +1,71 @@
+{
+  "after_expiration": null,
+  "allow_promotion_codes": null,
+  "amount_subtotal": 200,
+  "amount_total": 200,
+  "automatic_tax": {
+    "enabled": false,
+    "status": null
+  },
+  "billing_address_collection": null,
+  "cancel_url": "http://localhost:3000/buy-coin?canceled=true",
+  "client_reference_id": "1",
+  "consent": null,
+  "consent_collection": null,
+  "created": 1666750422,
+  "currency": "usd",
+  "customer": "cus_MgLpsDjp5BTDZd",
+  "customer_creation": "always",
+  "customer_details": {
+    "address": {
+      "city": "Ho Chi Minh",
+      "country": "VN",
+      "line1": "730/46 Le Duc Tho Street",
+      "line2": null,
+      "postal_code": "727010",
+      "state": "Th\u00e0nh ph\u1ed1 H\u1ed3 Ch\u00ed Minh"
+    },
+    "email": "livipst2@gmail.com",
+    "name": "LUONG DUC HUY",
+    "phone": null,
+    "tax_exempt": "none",
+    "tax_ids": []
+  },
+  "customer_email": null,
+  "expires_at": 1666836821,
+  "id": "cs_test_a1fExnIhxhUkfy1V0RKGQASNd1CJGGic61S1OP9bjgLClk6ELhBsZuW8YX",
+  "livemode": false,
+  "locale": null,
+  "metadata": {
+    "productType": "c"
+  },
+  "mode": "payment",
+  "object": "checkout.session",
+  "payment_intent": "pi_3Lwz7hB5NdgJpMiZ05wvYiym",
+  "payment_link": null,
+  "payment_method_collection": "always",
+  "payment_method_options": {},
+  "payment_method_types": [
+    "card"
+  ],
+  "payment_status": "paid",
+  "phone_number_collection": {
+    "enabled": false
+  },
+  "recovered_from": null,
+  "setup_intent": null,
+  "shipping": null,
+  "shipping_address_collection": null,
+  "shipping_options": [],
+  "shipping_rate": null,
+  "status": "complete",
+  "submit_type": null,
+  "subscription": null,
+  "success_url": "http://localhost:3000/buy-coin?success=true",
+  "total_details": {
+    "amount_discount": 0,
+    "amount_shipping": 0,
+    "amount_tax": 0
+  },
+  "url": null
+}
