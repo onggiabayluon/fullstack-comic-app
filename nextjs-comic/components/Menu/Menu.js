@@ -19,7 +19,7 @@ const MenuItem = ({ onItemClick, onCloseBtnClick, icon, title, comp }) => {
   )
 }
 
-function Menu({ title, items, onChange }) {
+function Menu({ title, items, onChange, to }) {
   let [isOpen, setIsOpen] = useState(false)
 
   const [lastMenuItem, handleMenuItemClick, backToRoot, histories, setHistories, back] =
@@ -41,7 +41,7 @@ function Menu({ title, items, onChange }) {
 
   return (
     <>
-      <a href="#" className="bg-indigo block px-4 py-2 text-sm text-gray-700" onClick={openModal}>
+      <a href={to} className="bg-indigo block px-4 py-2 text-sm text-gray-700" onClick={openModal}>
         {title}
       </a>
 

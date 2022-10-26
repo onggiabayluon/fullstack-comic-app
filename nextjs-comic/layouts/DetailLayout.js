@@ -1,4 +1,4 @@
-import Footer from '@/components/Footer'
+import Footer from '@/components/common/Footer'
 import { CommentProvider } from '@/contexts/CommentProvider'
 import PropTypes from 'prop-types'
 import { useEffect } from 'react'

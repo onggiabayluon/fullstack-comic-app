@@ -13,9 +13,9 @@ export function makeRequest(url, options) {
     .then((res) => {
       return res.data
     })
-    .catch((error) =>
+    .catch((error) => {
       Promise.reject(error?.response?.data?.detail ?? error?.response?.data ?? error)
-    )
+    })
 }
 
 export default httpRequest

@@ -8,5 +8,8 @@
   "emmet.includeLanguages": {
     "django-html": "html"
   },
-  "python.analysis.extraPaths": ["./comicapis/comicapis"]
+  "python.analysis.extraPaths": [
+    "./comicapis/comicapis"
+  ],
+  "task.allowAutomaticTasks": "on"
 }

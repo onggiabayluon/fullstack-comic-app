@@ -1,4 +1,18 @@
+import useAxios from '@/hooks/auth/useAxios'
 import { makeRequest } from '@/lib/utils/httpRequest'
+
+const useUserApi = () => {
+  const { makeAuthRequest } = useAxios()
+
+  const getCurrentUserUrl = {
+    fetcher: makeAuthRequest,
+    url: 'users/current-user',
+  }
+
+  return {
+    getCurrentUserUrl,
+  }
+}
 
 export function login({ username, password }) {
   return makeRequest(`api/token/`, {
@@ -13,3 +27,5 @@ export function register({ username, password, password2 }) {
     data: { username, password, password2 },
   })
 }
+
+export default useUserApi

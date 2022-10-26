@@ -1,7 +1,7 @@
+import PictureGroupSkeleton from '@/components/Skeleton/PictureGroupSkeleton'
 import classNames from '@/lib/utils/classNames'
 import NextImage from 'next/image'
 import { useState } from 'react'
-import PictureGroupSkeleton from './Skeleton/PictureGroupSkeleton'
 // eslint-disable-next-line jsx-a11y/alt-text
 // const Image = ({ ...rest }) => <NextImage {...rest} />
 const Image = ({ hasPlaceholder = true, ...rest }) => {

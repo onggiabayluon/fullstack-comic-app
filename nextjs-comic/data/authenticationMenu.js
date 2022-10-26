@@ -1,6 +1,7 @@
 import LoginModal from '@/components/Menu/LoginModal'
 import Menu from '@/components/Menu/Menu'
 import SignupModal from '@/components/Menu/SignupModal'
+import { publicRoutes } from '@/lib/utils/getRoutes'
 import { FaFacebook, FaGoogle, FaUser, FaUserPlus } from 'react-icons/fa'
 
 export const LOGIN_MODAL = {
@@ -89,9 +90,11 @@ export const DEFAULT_MENU_ITEMS = [
 export const USER_ITEMS = [
   {
     title: 'Your Profile',
+    to: publicRoutes.profile.path,
   },
   {
-    title: 'Settings',
+    title: 'Buy Coin',
+    to: publicRoutes.buycoin.path,
   },
   {
     title: 'Sign Out',

@@ -1,10 +1,14 @@
+import AvatarSkeleton from '@/components/Skeleton/AvatarSkeleton'
 import { DEFAULT_MENU_ITEMS, USER_ITEMS } from '@/data/authenticationMenu'
+import useFetch from '@/hooks/api/useFetch'
 import { useAuthContext } from '@/hooks/useAuthContext'
 import { useLogout } from '@/hooks/useLogout'
+import useUserApi from '@/services/userService'
 import { useEffect, useRef, useState } from 'react'
+import { FaCoins } from 'react-icons/fa'
 import { useClickAway } from 'react-use'
+import Spinner from '../Skeleton/Spinner'
 import Image from './Image'
-import AvatarSkeleton from './Skeleton/AvatarSkeleton'
 import tempProfileSrc from '/public/userProfile.png'
 
 function classNames(...classes) {
@@ -14,6 +18,12 @@ function classNames(...classes) {
 export default function UserProfile() {
   useEffect(() => console.log('profile re-render'))
   const { state: user, loading: loading } = useAuthContext()
+  const { getCurrentUserUrl } = useUserApi()
+  const { data: userDetail, isLoading: shouldShowCoinLoading } = useFetch({
+    deps: user,
+    url: getCurrentUserUrl.url,
+    fetcher: getCurrentUserUrl.fetcher,
+  })
   const { logoutUser } = useLogout()
   const items = user ? USER_ITEMS : DEFAULT_MENU_ITEMS
   const [openDropdown, setOpenDropdown] = useState(false)
@@ -84,7 +94,7 @@ export default function UserProfile() {
         aria-labelledby="user-menu-button"
         tabIndex="-1"
       >
-        {items.map((item) => {
+        {items.map((item, index) => {
           {
             /* Modal Menu Root */
           }
@@ -104,10 +114,39 @@ export default function UserProfile() {
             /* Normal Menu Root */
           }
           if (item.type != 'modal') {
+            if (index === 0) {
+              return (
+                <>
+                  <a
+                    key="coins"
+                    className="bg-indigo flex flex-row items-center space-x-2 px-4 py-2 text-sm text-gray-700"
+                  >
+                    <span>
+                      <FaCoins className="fill-yellow-400" />
+                    </span>
+                    <span>
+                      {shouldShowCoinLoading ? (
+                        <Spinner className="ml-2" />
+                      ) : (
+                        userDetail && userDetail.coins + ' coins'
+                      )}
+                    </span>
+                  </a>
+                  <a
+                    key={item.title}
+                    href={item.to}
+                    className="bg-indigo block px-4 py-2 text-sm text-gray-700"
+                    onClick={() => handleMenuChange(item)}
+                  >
+                    {item.title}
+                  </a>
+                </>
+              )
+            }
             return (
               <a
                 key={item.title}
-                href="#"
+                href={item.to}
                 className="bg-indigo block px-4 py-2 text-sm text-gray-700"
                 onClick={() => handleMenuChange(item)}
               >
