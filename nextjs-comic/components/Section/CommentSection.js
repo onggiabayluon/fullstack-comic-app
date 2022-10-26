@@ -1,12 +1,12 @@
+import CommentForm from '@/components/Comment/CommentForm'
+import CommentList from '@/components/Comment/CommentList'
+import Pagination from '@/components/common/Pagination'
+import PictureGroupSkeleton from '@/components/Skeleton/PictureGroupSkeleton'
+import SkeletonList from '@/components/Skeleton/SkeletonList'
 import { useCommentContext } from '@/contexts/CommentProvider'
 import { useAsyncFn } from '@/hooks/useAsync'
 import useCommentApi from '@/services/commentService'
 import { useEffect } from 'react'
-import SkeletonList from '../Card/SkeletonList'
-import CommentForm from '../Comment/CommentForm'
-import CommentList from '../Comment/CommentList'
-import Pagination from '../Pagination'
-import PictureGroupSkeleton from '../Skeleton/PictureGroupSkeleton'
 
 function CommentSection({ className, comicSlug }) {
   useEffect(() => {
@@ -74,6 +74,7 @@ function CommentSection({ className, comicSlug }) {
           totalCount={totalRecords}
           pageSize={pageSize}
           onPageChange={(page) => setCurrentPage(page)}
+          isLoading={isLoading || isCommentCreating || isFetchingNextComment}
         />
       ) : null}
     </section>

@@ -1,12 +1,12 @@
-import Image from '@/components/Image'
-import CustomLink from '@/components/Link'
+import Image from '@/components/common/Image'
+import CustomLink from '@/components/common/Link'
+import Spinner from '@/components/Skeleton/Spinner'
 import comicsToJSON from '@/lib/toJSON/comicsToJSON'
 import { publicRoutes } from '@/lib/utils/getRoutes'
 import * as searchServices from '@/services/searchService'
 import { Popover, Transition } from '@headlessui/react'
 import debounce from 'lodash.debounce'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import Spinner from './Spinner'
 
 function Search() {
   const buttonRef = useRef(null)
@@ -130,7 +130,7 @@ function Search() {
             />
 
             {/* Spinner */}
-            {loading && <Spinner />}
+            {loading && <Spinner className="absolute right-14 top-3 " />}
 
             {/* Close btn */}
             <Popover.Button

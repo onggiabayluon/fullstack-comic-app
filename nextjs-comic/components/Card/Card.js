@@ -1,10 +1,12 @@
-import Image from './Image'
-import Link from './Link'
+import Image from '@/components/common/Image'
+import Link from '../Link'
 
 const Card = ({ title, description, imgSrc, href }) => {
   const classes = {
     // eslint-disable-next-line prettier/prettier
-    card: `${imgSrc && 'h-full'} overflow-hidden rounded-md border-2 border-gray-200 border-opacity-60 dark:border-gray-700`,
+    card: `${
+      imgSrc && 'h-full'
+    } overflow-hidden rounded-md border-2 border-gray-200 border-opacity-60 dark:border-gray-700`,
     card__big: 'temp',
     card__small: 'temp',
   }

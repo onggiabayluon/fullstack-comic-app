@@ -4,5 +4,6 @@
   "emmet.triggerExpansionOnTab": true,
   "emmet.includeLanguages": {
     "javascript": "javascriptreact"
-  }
+  },
+  "task.allowAutomaticTasks": "on"
 }

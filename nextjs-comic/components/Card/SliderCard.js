@@ -1,7 +1,7 @@
+import Image from '@/components/common/Image'
+import CustomLink from '@/components/common/Link'
+import TagList from '@/components/Tag/TagList'
 import { publicRoutes } from '@/lib/utils/getRoutes'
-import Image from '../Image'
-import CustomLink from '../Link'
-import TagList from '../Tag/TagList'
 
 function SliderCard({ thumbnail: src, slug, title, description, categories: tags }) {
   //   const comics = unstable_comics.comics

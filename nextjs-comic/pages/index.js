@@ -1,9 +1,9 @@
 import CardList from '@/components/Card/CardList'
 import LongSlimCard from '@/components/Card/LongSlimCard'
 import HomeCarousel from '@/components/Carousel/CarouselSlider'
-import Container from '@/components/Container'
-import CustomLink from '@/components/Link'
-import Pagination from '@/components/Pagination'
+import Container from '@/components/common/Container'
+import CustomLink from '@/components/common/Link'
+import Pagination from '@/components/common/Pagination'
 import PictureTextSkeleton from '@/components/Skeleton/PictureTextSkeleton'
 import constant from '@/data/constants'
 import headerNavLinks from '@/data/headerNavLinks'
@@ -105,6 +105,7 @@ function LastestUpdateSection({ initialComics, totalRecords }) {
         totalCount={totalRecords}
         pageSize={pageSize}
         onPageChange={(page) => setCurrentPage(page)}
+        isLoading={loading}
       />
     </>
   )
