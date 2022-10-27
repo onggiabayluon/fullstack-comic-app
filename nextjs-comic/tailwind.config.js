@@ -16,6 +16,10 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      gridTemplateColumns: {
+        // Complex site-specific column configuration
+        'responsive-card': 'repeat(auto-fit, minmax(180px, 1fr))',
+      },
       lineClamp: {
         6: '6',
         7: '7',

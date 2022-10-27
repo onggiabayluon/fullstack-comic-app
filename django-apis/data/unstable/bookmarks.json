@@ -1,0 +1,35 @@
+{
+  "id": 1,
+  "username": "admin",
+  "bookmarks": [
+    {
+      "id": 654,
+      "created_date": "2022-10-26T12:08:17.191572Z",
+      "updated_date": "2022-10-26T12:08:17.191608Z",
+      "creator": 1,
+      "comic": {
+        "id": 74,
+        "title": "Omniscient Reader's Viewpoint",
+        "slug": "omniscient-readers-viewpoint",
+        "created_date": "2022-10-02T04:25:24.857782Z",
+        "updated_date": "2022-10-02T04:25:24.857833Z",
+        "active": true,
+        "thumbnail": "https://res.cloudinary.com/dwajvm53v/image/upload/v1/comics/omniscient-readers-viewpoint/thumbnail/49366_exxivx",
+        "categories": [
+          {
+              "id": 2,
+              "name": "Action"
+          },
+          {
+              "id": 3,
+              "name": "Adventure"
+          },
+          {
+              "id": 4,
+              "name": "Manhwa"
+          }
+      ]
+      }
+    }
+  ]
+}

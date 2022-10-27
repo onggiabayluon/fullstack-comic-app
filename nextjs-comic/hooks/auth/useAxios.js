@@ -1,11 +1,12 @@
-import { useAuthContext } from '@/hooks/useAuthContext'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import jwtDecode from 'jwt-decode'
+import { useAuthContext } from '../useAuthContext'
 
 const baseURL = process.env.NEXT_PUBLIC_BASE_API_ENDPOINT
 const useAxios = () => {
-  const { authTokens, setAuthTokens } = useAuthContext()
+  const { setAuthTokens } = useAuthContext()
+  // const [authTokens, setAuthTokens] = useStorage('authTokens')
 
   const axiosInstance = axios.create({
     baseURL,
@@ -19,7 +20,7 @@ const useAxios = () => {
     // so we need to get token for each request using localstorage
     const token = JSON.parse(localStorage.getItem('authTokens'))
     req.headers.Authorization = token ? `Bearer ${token.access}` : ''
-    const user = jwtDecode(token?.access)
+    const user = token && jwtDecode(token.access)
     const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1
 
     if (!isExpired) return req

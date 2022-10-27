@@ -1,0 +1,42 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Back-end",
+      "type": "shell",
+      "command": "./scripts/taskScripts/start-back-end.sh",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new",
+        "close": true
+      },
+    },
+    {
+      "label": "Front-end",
+      "type": "shell",
+      "command": "./scripts/taskScripts/start-front-end.sh",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new",
+        "close": true
+      },
+    },
+    {
+      "label": "Open Chrome localhost",
+      "type": "shell",
+      "command": "./scripts/taskScripts/start-chrome.sh",
+      "presentation": {
+        "reveal": "never",
+        "close": true
+      },
+      
+    },
+    {
+      "label": "Build all",
+      "dependsOn": ["Run Back-end", "Run Front-end", "Open Chrome localhost"],
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    }
+  ]
+}

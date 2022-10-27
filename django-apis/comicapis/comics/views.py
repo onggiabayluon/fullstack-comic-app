@@ -227,9 +227,9 @@ class ComicViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIV
         if q is not None:
             comics = comics.filter(title__icontains=q)
 
-        cate_id = self.request.query_params.get('category_id')
-        if cate_id is not None:
-            comics = comics.filter(categories=cate_id)
+        category_name = self.request.query_params.get('category')
+        if category_name is not None:
+            comics = comics.filter(categories__name__icontains=category_name)
 
         return comics
 
@@ -433,6 +433,9 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView):
 
     @action(methods=['get'], detail=False, url_path='current-user-bookmarks')
     def get_bookmarks(self, request):
+        type = self.request.query_params.get('type')
+        if type is not None and type == 'detail':
+            return ComicDetailTypeLessSerializer
         self.pagination_class = None
         return Response(UserBookmarkSerializer(request.user, context={"request": request}).data,
                         status=status.HTTP_200_OK)

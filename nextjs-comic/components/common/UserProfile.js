@@ -1,4 +1,3 @@
-import AvatarSkeleton from '@/components/Skeleton/AvatarSkeleton'
 import { DEFAULT_MENU_ITEMS, USER_ITEMS } from '@/data/authenticationMenu'
 import useFetch from '@/hooks/api/useFetch'
 import { useAuthContext } from '@/hooks/useAuthContext'
@@ -18,13 +17,14 @@ function classNames(...classes) {
 
 export default function UserProfile() {
   useEffect(() => console.log('profile re-render'))
-  const { state: user, loading: loading } = useAuthContext()
+  const { state: user } = useAuthContext()
   const { getCurrentUserUrl } = useUserApi()
   const { data: userDetail, isLoading: shouldShowCoinLoading } = useFetch({
     deps: user,
     url: getCurrentUserUrl.url,
     fetcher: getCurrentUserUrl.fetcher,
   })
+
   const { logoutUser } = useLogout()
   const items = user ? USER_ITEMS : DEFAULT_MENU_ITEMS
   const [openDropdown, setOpenDropdown] = useState(false)
@@ -55,34 +55,31 @@ export default function UserProfile() {
 
   return (
     <div className="relative ml-3">
-      {loading && <AvatarSkeleton />}
-      {!loading && (
-        <div>
-          <button
-            onClick={toggleMenu}
-            type="button"
-            className="flex rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-            id="user-menu-button"
-            aria-expanded="false"
-            aria-haspopup="true"
-          >
-            <span className="sr-only">Open user menu</span>
+      <div>
+        <button
+          onClick={toggleMenu}
+          type="button"
+          className="flex rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+          id="user-menu-button"
+          aria-expanded="false"
+          aria-haspopup="true"
+        >
+          <span className="sr-only">Open user menu</span>
 
-            <Image
-              className="h-8 w-8 rounded-full"
-              width={32}
-              height={32}
-              hasPlaceholder={false}
-              src={
-                user
-                  ? 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-                  : tempProfileSrc
-              }
-              alt={user ? user.name : 'User Avatar'}
-            />
-          </button>
-        </div>
-      )}
+          <Image
+            className="h-8 w-8 rounded-full"
+            width={32}
+            height={32}
+            hasPlaceholder={false}
+            src={
+              user
+                ? 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+                : tempProfileSrc
+            }
+            alt={user ? user.name : 'User Avatar'}
+          />
+        </button>
+      </div>
 
       <div
         ref={menuRef}

@@ -67,7 +67,7 @@ function ProductDisplay() {
       <p className="text-sm leading-5 text-gray-500">How do you prefer to receive notifications?</p>
       <fieldset className="mt-4">
         <legend className="sr-only">Notification method</legend>
-        <div className="grid grid-cols-2 space-y-2 sm:grid-cols-3">
+        <div className="grid grid-cols-2 gap-3 space-y-2 sm:grid-cols-3 lg:gap-0">
           {coinList
             ? coinList.map((coin, index) => {
                 return (

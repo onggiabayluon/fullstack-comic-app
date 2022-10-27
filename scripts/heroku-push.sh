@@ -1,5 +1,1 @@
-cd django-apis
-
-pip freeze -r requirements.txt
-
-git subtree push --prefix web heroku master
+git subtree push --prefix django-apis heroku master

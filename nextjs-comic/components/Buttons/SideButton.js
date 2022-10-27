@@ -3,7 +3,11 @@ import PictureGroupSkeleton from '../Skeleton/PictureGroupSkeleton'
 
 export default function SideButton({ isLoading, isActive, title, Icon, className, onBtnClick }) {
   return isLoading ? (
-    <PictureGroupSkeleton className="first:mt-2" width={252} height={55} hasIcon={false} />
+    <PictureGroupSkeleton
+      className="border-2 border-transparent pr-6 first:mt-2"
+      height={55}
+      hasIcon={false}
+    />
   ) : (
     <>
       <button

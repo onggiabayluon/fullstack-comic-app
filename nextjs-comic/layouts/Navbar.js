@@ -12,7 +12,7 @@ function Navbar() {
   useEffect(() => console.log('navbar re-render'))
 
   return (
-    <header className=" top-0 z-50 mx-4 min-h-[64px] lg:mx-0 lg:px-8">
+    <header className="top-0 z-50 mx-4 min-h-[64px] lg:mx-0 lg:px-8">
       <div
         // style={{ boxShadow: '0 4px 2px -2px gray' }}
         className="border-theme flex max-h-16 w-full items-center justify-between border-b py-4 "

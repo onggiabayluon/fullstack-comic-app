@@ -97,16 +97,29 @@ class UserSerializer(ModelSerializer):
             'password': {'write_only': 'true'}
         }
 
+
 class UserBookmarkSerializer(UserLessSerializer):
     bookmarks = SerializerMethodField()
 
     def get_bookmarks(self, user):
         return BookmarkDetailSerializer(user.bookmark_set, many=True, context={"request": self.context.get('request')}).data
-    
+
     class Meta:
         model = UserLessSerializer.Meta.model
         # fields = "__all__"
         fields = UserLessSerializer.Meta.fields + ["bookmarks"]
+
+
+# class UserBookmarkSerializerDetail(UserBookmarkSerializer):
+#     comics = SerializerMethodField()
+
+#     def get_comics(self, user):
+#         return ComicSerializer(user.bookmark_set, many=True, context={"request": self.context.get('request')}).data
+
+#     class Meta:
+#         model = UserLessSerializer.Meta.model
+#         # fields = "__all__"
+#         fields = UserLessSerializer.Meta.fields + ["bookmarks"]
 
 
 class CategorySerializer(ModelSerializer):
@@ -114,17 +127,18 @@ class CategorySerializer(ModelSerializer):
         model = Category
         fields = "__all__"
 
-        
+
 class CoinSerializer(ModelSerializer):
     class Meta:
         model = Product
         fields = "__all__"
 
-        
+
 class CategoryDetailSerializer(ModelSerializer):
     class Meta:
         model = Category
         fields = ["name"]
+
 
 class ChapterViewSerializer(ModelSerializer):
     class Meta:
@@ -133,10 +147,15 @@ class ChapterViewSerializer(ModelSerializer):
 
 
 class ComicLessSerializer(ModelSerializer):
+    categories = SerializerMethodField()
+
+    def get_categories(self, comic):
+        return CategorySerializer(comic.categories, many=True, context={"request": self.context.get('request')}).data
 
     class Meta:
         model = Comic
-        fields = ["id", "title", "slug", "created_date", "updated_date", "active", "thumbnail"]
+        fields = ["id", "title", "slug", "created_date", "updated_date", "active", "thumbnail", "categories"]
+
 
 class ComicSerializer(ComicLessSerializer):
     # thumbnail = SerializerMethodField()
@@ -166,10 +185,13 @@ class ComicDetailSerializer(ComicSerializer):
     def get_chapters(self, comic):
         chapters = comic.chapters.order_by('-chapter_num')
         return ChapterLessSerializer(chapters, many=True, context={"request": self.context.get('request')}).data
+
     def get_posted_by(self, comic):
         return UserLessSerializer(comic.posted_by, context={"request": self.context.get('request')}).data
+
     def get_categories(self, comic):
         return CategorySerializer(comic.categories, many=True, context={"request": self.context.get('request')}).data
+
     def get_rating(self, comic):
         return RatingSerializer(comic.rating_set, many=True, context={"request": self.context.get('request')}).data
 
@@ -187,9 +209,10 @@ class ComicDetailTypeLessSerializer(ComicSerializer):
         # Get 3 lastest update chapter
         chapters = comic.chapters.order_by('-updated_date')[:3]
         return ChapterLessSerializer(chapters, many=True, context={"request": self.context.get('request')}).data
+
     def get_categories(self, comic):
         return CategorySerializer(comic.categories, many=True, context={"request": self.context.get('request')}).data
-    
+
     class Meta:
         model = ComicSerializer.Meta.model
         # fields = "__all__"
@@ -212,6 +235,7 @@ class ComicDetailTypeLessSerializer(ComicSerializer):
 
 class ChapterLessSerializer(ModelSerializer):
     views = serializers.IntegerField(source="chapterview.views")
+
     class Meta:
         model = Chapter
         fields = ["chapter_num", "slug", "updated_date", "views"]
@@ -266,20 +290,19 @@ class ReplySerializer(CommentSerializer):
         model = CommentSerializer.Meta.model
         fields = CommentSerializer.Meta.fields
 
+
 class BookmarkSerializer(ModelSerializer):
     class Meta:
         model = Bookmark
         fields = ["id", "created_date", "updated_date", "creator"]
+
 
 class BookmarkDetailSerializer(BookmarkSerializer):
     comic = SerializerMethodField()
 
     def get_comic(self, bookmark):
         return ComicLessSerializer(bookmark.comic, context={"request": self.context.get('request')}).data
-    
+
     class Meta:
         model = BookmarkSerializer.Meta.model
         fields = BookmarkSerializer.Meta.fields + ["comic"]
-
-
-
