@@ -10,7 +10,7 @@ import { useEffect } from 'react'
 
 function CommentSection({ className, comicSlug }) {
   useEffect(() => {
-    console.log('CommentSection re render')
+    if (process.env.NODE_ENV === 'development') console.log('CommentSection re render')
   })
   const {
     rootComments,

@@ -13,8 +13,6 @@ const useAxios = () => {
     // headers: { Authorization: `Bearer ${authTokens?.access}` },
   })
 
-  // console.log(token)
-
   axiosInstance.interceptors.request.use(async (req) => {
     // interceptors cant get authTokens outside
     // so we need to get token for each request using localstorage

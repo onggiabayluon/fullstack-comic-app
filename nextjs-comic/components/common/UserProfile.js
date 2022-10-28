@@ -92,6 +92,18 @@ export default function UserProfile() {
         aria-labelledby="user-menu-button"
         tabIndex="-1"
       >
+        <a className="bg-indigo flex flex-row items-center space-x-2 px-4 py-2 text-sm text-gray-700">
+          <span>
+            <FaCoins className="fill-yellow-400" />
+          </span>
+          <span>
+            {shouldShowCoinLoading && <Spinner className="ml-2" />}
+            {!shouldShowCoinLoading && userDetail && userDetail.coins + ' coins'}
+          </span>
+        </a>
+        <a className="bg-indigo flex flex-row items-center space-x-2 px-4 py-2 text-sm text-gray-700">
+          <span>{user.username}</span>
+        </a>
         {items.map((item, index) => {
           {
             /* Modal Menu Root */
@@ -114,31 +126,14 @@ export default function UserProfile() {
           if (item.type != 'modal') {
             if (index === 0) {
               return (
-                <>
-                  <a
-                    key="coins"
-                    className="bg-indigo flex flex-row items-center space-x-2 px-4 py-2 text-sm text-gray-700"
-                  >
-                    <span>
-                      <FaCoins className="fill-yellow-400" />
-                    </span>
-                    <span>
-                      {shouldShowCoinLoading ? (
-                        <Spinner className="ml-2" />
-                      ) : (
-                        userDetail && userDetail.coins + ' coins'
-                      )}
-                    </span>
-                  </a>
-                  <CustomLink
-                    key={item.title}
-                    href={item.to}
-                    className="bg-indigo block px-4 py-2 text-sm text-gray-700"
-                    onClick={() => handleMenuChange(item)}
-                  >
-                    {item.title}
-                  </CustomLink>
-                </>
+                <CustomLink
+                  key={item.title}
+                  href={item.to}
+                  className="bg-indigo block px-4 py-2 text-sm text-gray-700"
+                  onClick={() => handleMenuChange(item)}
+                >
+                  {item.title}
+                </CustomLink>
               )
             }
             return (

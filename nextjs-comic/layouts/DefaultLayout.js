@@ -6,7 +6,7 @@ import Navbar from './Navbar'
 
 function DefaultLayout({ children }) {
   useEffect(() => {
-    console.log('home')
+    if (process.env.NODE_ENV === 'development') console.log('home')
   })
 
   return (

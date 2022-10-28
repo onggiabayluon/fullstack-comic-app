@@ -1,15 +1,10 @@
 import Footer from '@/components/common/Footer'
 import { CommentProvider } from '@/contexts/CommentProvider'
 import PropTypes from 'prop-types'
-import { useEffect } from 'react'
 import Body from './Body'
 import Navbar from './Navbar'
 
 function DetailLayout({ children }) {
-  useEffect(() => {
-    console.log('home')
-  })
-
   return (
     <>
       <Navbar />

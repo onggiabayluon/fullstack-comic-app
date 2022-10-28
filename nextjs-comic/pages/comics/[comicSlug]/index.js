@@ -103,7 +103,7 @@ export default function ComicDetail({ staticComic, comicSlug }) {
     bookmark_count: bookmarkCount,
   } = comic
   useEffect(() => {
-    console.log('comic detail re render')
+    if (process.env.NODE_ENV === 'development') console.log('comic detail re render')
   })
 
   return (
@@ -418,7 +418,7 @@ function ActionList({ comicSlug, inititalBookmarkCount }) {
   return (
     <div className="absolute right-0 -top-8 sm:-top-14">
       <BookmarkBtn
-        isLoading={!data || isLoading}
+        isLoading={isLoading}
         isDisabled={!user || createOrUpdateBookmarkFn.loading}
         isSubmitting={createOrUpdateBookmarkFn.loading}
         isBookmarked={isComicBookmarked}

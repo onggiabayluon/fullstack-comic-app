@@ -9,7 +9,9 @@ import { siteMetadata } from 'data/siteMetadata'
 import { useEffect } from 'react'
 
 function Navbar() {
-  useEffect(() => console.log('navbar re-render'))
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log('navbar re-render')
+  })
 
   return (
     <header className="top-0 z-50 mx-4 min-h-[64px] lg:mx-0 lg:px-8">

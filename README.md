@@ -90,10 +90,10 @@
 - [x] Bookmark
 - [ ] Local reading history
 - [x] Rate
-- [ ] Payment using MoMo
+- [X] Payment using Stripe
 - [ ] Update User Profile
 - [ ] Chapter Free timer (Free after a specific interval time, Ex: 1 week)
-- [ ] Chapter Coin (Require coin for reading a chapter) 
+- [X] Chapter Coin (Require coin for reading a chapter) 
 
 ### Installation Back-end using Scripts
 

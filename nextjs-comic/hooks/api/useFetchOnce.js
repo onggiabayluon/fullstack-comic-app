@@ -5,7 +5,6 @@ const defaultFnc = () => {}
 const fetcher = makeRequest
 
 function useFetchOnce(url, options, callback = defaultFnc, condition) {
-  console.log(condition)
   // fetch once
   const { data, error } = useSWR(condition ? url : null, fetcher)
 

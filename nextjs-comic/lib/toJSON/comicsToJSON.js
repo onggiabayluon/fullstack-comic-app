@@ -10,8 +10,6 @@ function comicsToJSON(comics) {
     }
   })
 
-  // console.log(comics)
-
   return isArray ? comics : comics.pop()
 }
 

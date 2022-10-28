@@ -6,6 +6,7 @@ import { useAsyncFn } from '@/hooks/useAsync'
 import { useAuthContext } from '@/hooks/useAuthContext'
 import { formatTimeAgo } from '@/lib/utils/dateFormatter'
 import useCommentApi from '@/services/commentService'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { FaCaretDown, FaCaretUp } from 'react-icons/fa'
 import IconBtn from '../Buttons/IconBtn'
@@ -13,13 +14,16 @@ import TextTruncate from '../Utilities/TextTruncate'
 
 function Comment({
   id,
-  comicSlug,
   content: message,
   creator: user,
   updated_date: updatedAt,
   likeCount,
   likedByMe,
 }) {
+  const router = useRouter()
+  const {
+    query: { comicSlug },
+  } = router
   const { state: currentUser } = useAuthContext()
   const [areChildrenHidden, setAreChildrenHidden] = useState(true)
   const [isReplying, setIsReplying] = useState(false)

@@ -14,7 +14,7 @@ export function makeRequest(url, options) {
       return res.data
     })
     .catch((error) => {
-      Promise.reject(error?.response?.data?.detail ?? error?.response?.data ?? error)
+      return Promise.reject(error?.response?.data?.detail ?? error?.response?.data ?? error)
     })
 }
 

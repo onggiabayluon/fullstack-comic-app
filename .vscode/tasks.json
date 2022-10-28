@@ -34,9 +34,9 @@
     {
       "label": "Build all",
       "dependsOn": ["Run Back-end", "Run Front-end", "Open Chrome localhost"],
-      "runOptions": {
-        "runOn": "folderOpen"
-      }
+      // "runOptions": {
+      //   "runOn": "folderOpen"
+      // }
     }
   ]
 }

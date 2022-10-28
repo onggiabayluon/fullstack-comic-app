@@ -17,7 +17,7 @@ function useFetch({ url, options, deps = true, fetcher = defaultFetcher }) {
 
   return {
     data: data,
-    isLoading: !error && !data,
+    isLoading: !error && !data && deps,
     isError: error,
   }
 }

@@ -5,7 +5,6 @@ import Container from './Container'
 // Component's children only shown to logged-in users
 export default function AuthCheck(props) {
   const { state: user } = useAuthContext()
-  // console.log("auth check trigger");
   return user
     ? props.children
     : props.fallback || (

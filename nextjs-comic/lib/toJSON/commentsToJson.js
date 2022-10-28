@@ -8,8 +8,6 @@ function commentsToJson(comments, comicSlug) {
     }
   })
 
-  // console.log(comments)
-
   return isArray ? comments : comments.pop()
 }
 
