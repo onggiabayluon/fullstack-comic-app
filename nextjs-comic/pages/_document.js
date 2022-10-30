@@ -8,6 +8,10 @@ class MyDocument extends Document {
         className="overflow-y-scroll"
       >
         <Head>
+          <meta
+            name="google-site-verification"
+            content="GETzKFAec1q6U8yf9fnZgcIkgWlmJ9IYViOufNmQL7w"
+          />
           <link rel="apple-touch-icon" sizes="76x76" href="/static/favicons/apple-touch-icon.png" />
           <link
             rel="icon"

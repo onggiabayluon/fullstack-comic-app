@@ -3,10 +3,11 @@ import useFetch from '@/hooks/api/useFetch'
 import { useAuthContext } from '@/hooks/useAuthContext'
 import { useLogout } from '@/hooks/useLogout'
 import useUserApi from '@/services/userService'
-import { useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { FaCoins } from 'react-icons/fa'
 import { useClickAway } from 'react-use'
 import Spinner from '../Skeleton/Spinner'
+import AuthCheck from './AuthCheck'
 import Image from './Image'
 import CustomLink from './Link'
 import tempProfileSrc from '/public/userProfile.png'
@@ -16,7 +17,10 @@ function classNames(...classes) {
 }
 
 export default function UserProfile() {
-  useEffect(() => console.log('profile re-render'))
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log('profile re-render')
+  })
+
   const { state: user } = useAuthContext()
   const { getCurrentUserUrl } = useUserApi()
   const { data: userDetail, isLoading: shouldShowCoinLoading } = useFetch({
@@ -92,18 +96,20 @@ export default function UserProfile() {
         aria-labelledby="user-menu-button"
         tabIndex="-1"
       >
-        <a className="bg-indigo flex flex-row items-center space-x-2 px-4 py-2 text-sm text-gray-700">
-          <span>
-            <FaCoins className="fill-yellow-400" />
-          </span>
-          <span>
-            {shouldShowCoinLoading && <Spinner className="ml-2" />}
-            {!shouldShowCoinLoading && userDetail && userDetail.coins + ' coins'}
-          </span>
-        </a>
-        <a className="bg-indigo flex flex-row items-center space-x-2 px-4 py-2 text-sm text-gray-700">
-          <span>{user.username}</span>
-        </a>
+        <AuthCheck fallback={Fragment}>
+          <a className="bg-indigo flex flex-row items-center space-x-2 px-4 py-2 text-sm text-gray-700">
+            <span>
+              <FaCoins className="fill-yellow-400" />
+            </span>
+            <span>
+              {shouldShowCoinLoading && <Spinner className="ml-2" />}
+              {!shouldShowCoinLoading && userDetail && userDetail.coins + ' coins'}
+            </span>
+          </a>
+          <a className="bg-indigo flex flex-row items-center space-x-2 px-4 py-2 text-sm text-gray-700">
+            <span>{user?.username}</span>
+          </a>
+        </AuthCheck>
         {items.map((item, index) => {
           {
             /* Modal Menu Root */

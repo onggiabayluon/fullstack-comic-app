@@ -3,11 +3,11 @@ import { FaExclamation } from 'react-icons/fa'
 import Container from './Container'
 
 // Component's children only shown to logged-in users
-export default function AuthCheck(props) {
+export default function AuthCheck({ children, fallback }) {
   const { state: user } = useAuthContext()
   return user
-    ? props.children
-    : props.fallback || (
+    ? children
+    : fallback || (
         <Container className="mt-7">
           <div className="rounded-md bg-yellow-50 p-4">
             <div className="flex">
