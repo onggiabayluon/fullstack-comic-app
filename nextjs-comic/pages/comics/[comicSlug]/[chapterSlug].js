@@ -33,7 +33,7 @@ export async function getStaticProps({ params }) {
 // If a page has Dynamic Routes and uses getStaticProps,
 // it needs to define a list of paths to be statically generated.
 export async function getStaticPaths() {
-  if (process.env.SKIP_BUILD_STATIC_GENERATION) {
+  if (process.env.NODE_ENV === 'development') {
     return {
       paths: [],
       fallback: 'blocking',

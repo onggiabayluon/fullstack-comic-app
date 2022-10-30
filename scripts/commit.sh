@@ -1,4 +1,7 @@
 #!/bin/bash
+# die script -- just in case
+die() { echo "$@" 1>&2 ; exit 1; }
+
 ############################################################
 # Help                                                     #
 ############################################################
@@ -32,16 +35,25 @@ Checkout()
 ############################################################
 Push()
 {
+   # get the argument message
+   defaultMessage="$1"
+
+   # If no commit message is passed, use current date time in the commit message
+   if [[ -z "${defaultMessage// }" ]]
+      then
+         defaultMessage=$(date '+%Y-%m-%d %H:%M:%S')
+   fi
+
   # git add .
   echo -e "\n"
   echo "${green}>>> Git add ."
-  git add .
+  git add . && \
 
   # git commit -m "$2"
   echo -e "\n"
   echo "${green}>>> Git commit -m "$2""
   read -r -p "Type your Commit message: " message|| exit 100
-  test -z "$message" && exit 100
+  test -z "$message" && message=$defaultMessage
   git commit -m "$message" || exit 100
 
   # git push
