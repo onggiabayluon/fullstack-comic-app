@@ -3,7 +3,7 @@ import useFetch from '@/hooks/api/useFetch'
 import { useAuthContext } from '@/hooks/useAuthContext'
 import { useLogout } from '@/hooks/useLogout'
 import useUserApi from '@/services/userService'
-import { Fragment, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { FaCoins } from 'react-icons/fa'
 import { useClickAway } from 'react-use'
 import Spinner from '../Skeleton/Spinner'
@@ -96,7 +96,7 @@ export default function UserProfile() {
         aria-labelledby="user-menu-button"
         tabIndex="-1"
       >
-        <AuthCheck fallback={Fragment}>
+        <AuthCheck>
           <a className="bg-indigo flex flex-row items-center space-x-2 px-4 py-2 text-sm text-gray-700">
             <span>
               <FaCoins className="fill-yellow-400" />

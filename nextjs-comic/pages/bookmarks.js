@@ -127,7 +127,7 @@ const navigation = [
 
 export default function BookmarkPage() {
   return (
-    <AuthCheck>
+    <AuthCheck showDefaultFallback>
       <FilterNav />
       <Container className="transform duration-500">
         <div className="relative px-4 pt-8 pb-20 sm:px-6 lg:px-8 lg:pt-8 lg:pb-28">
