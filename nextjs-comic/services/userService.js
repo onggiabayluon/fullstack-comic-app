@@ -1,5 +1,7 @@
 import useAxios from '@/hooks/auth/useAxios'
 import { makeRequest } from '@/lib/utils/httpRequest'
+import axios from 'axios'
+const baseURL = process.env.NEXT_PUBLIC_BASE_API_ENDPOINT
 
 const useUserApi = () => {
   const { makeAuthRequest } = useAxios()
@@ -9,8 +11,30 @@ const useUserApi = () => {
     url: 'users/current-user',
   }
 
+  const editProfile = (formData) => {
+    const token = JSON.parse(localStorage.getItem('authTokens'))
+    return axios.post(`${baseURL}users/edit/`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token.access}`,
+      },
+    })
+    // return makeRequest(`users/edit/`, {
+    //   method: 'POST',
+    //   formData,
+    //   headers: {
+    //     'Content-Type': 'multipart/form-data',
+    //     // Authorization: `Bearer ${token.access}`,
+    //   },
+    //   // headers: {
+    //   //   'Content-Type': photo.type,
+    //   // },
+    // })
+  }
+
   return {
     getCurrentUserUrl,
+    editProfile,
   }
 }
 
