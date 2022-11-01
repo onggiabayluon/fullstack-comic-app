@@ -3,7 +3,7 @@ import CommentList from '@/components/Comment/CommentList'
 import Image from '@/components/common/Image'
 import { useCommentContext } from '@/contexts/CommentProvider'
 import { useAsyncFn } from '@/hooks/useAsync'
-import { useAuthContext } from '@/hooks/useAuthContext'
+import { useAuthState } from '@/hooks/useAuthState'
 import { formatTimeAgo } from '@/lib/utils/dateFormatter'
 import useCommentApi from '@/services/commentService'
 import { useRouter } from 'next/router'
@@ -24,7 +24,7 @@ function Comment({
   const {
     query: { comicSlug },
   } = router
-  const { state: currentUser } = useAuthContext()
+  const { user: currentUser } = useAuthState()
   const [areChildrenHidden, setAreChildrenHidden] = useState(true)
   const [isReplying, setIsReplying] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
@@ -119,7 +119,7 @@ function Comment({
             Icon={ReplyIcon}
             aria-label={isReplying ? 'Cancel Reply' : 'Reply'}
           ></IconBtn>
-          {user.id === currentUser?.user_id && (
+          {user.id === currentUser?.id && (
             <>
               <IconBtn
                 onClick={() => setIsEditing((prev) => !prev)}

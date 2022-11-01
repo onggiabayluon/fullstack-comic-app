@@ -1,10 +1,10 @@
-import { useAuthContext } from '@/hooks/useAuthContext'
+import { useAuthState } from '@/hooks/useAuthState'
 import { FaExclamation } from 'react-icons/fa'
 import Container from './Container'
 
 // Component's children only shown to logged-in users
 export default function AuthCheck({ children, showDefaultFallback = false, fallback = null }) {
-  const { state: user } = useAuthContext()
+  const { user } = useAuthState()
   return user ? (
     children
   ) : showDefaultFallback ? (

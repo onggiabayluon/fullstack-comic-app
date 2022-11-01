@@ -12,7 +12,7 @@ import TextTruncate from '@/components/Utilities/TextTruncate'
 import { comicDetailMetaData } from '@/data/siteMetadata'
 import useFetch from '@/hooks/api/useFetch'
 import { useAsyncFn } from '@/hooks/useAsync'
-import { useAuthContext } from '@/hooks/useAuthContext'
+import { useAuthState } from '@/hooks/useAuthState'
 import useComic from '@/hooks/useComic'
 import comicsToJSON from '@/lib/toJSON/comicsToJSON'
 import classNames from '@/lib/utils/classNames'
@@ -385,7 +385,7 @@ function ActionList({ comicSlug, inititalBookmarkCount }) {
   const { createOrUpdateBookmark, getUserBookmarksUrl } = useBookmarkApi()
   const createOrUpdateBookmarkFn = useAsyncFn(createOrUpdateBookmark)
   const [isComicBookmarked, setIsComicBookmarked] = useState(false)
-  const { state: user } = useAuthContext()
+  const { user } = useAuthState()
 
   const submitBookmark = () => {
     createOrUpdateBookmarkFn.execute({ comicSlug: comicSlug }).then((res) => {

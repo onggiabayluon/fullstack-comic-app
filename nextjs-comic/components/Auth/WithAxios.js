@@ -1,4 +1,4 @@
-import { useAuthContext } from '@/hooks/useAuthContext'
+import { useAuthState } from '@/hooks/useAuthState'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import jwtDecode from 'jwt-decode'
@@ -7,17 +7,17 @@ import { useMemo } from 'react'
 const baseURL = process.env.NEXT_PUBLIC_BASE_API_ENDPOINT
 
 const WithAxios = ({ children }) => {
-  const { authTokens, setAuthTokens } = useAuthContext()
+  const { token, setToken } = useAuthState()
   const axiosInstance = axios.create({
     baseURL,
-    // headers: { Authorization: `Bearer ${authTokens?.access}` },
+    // headers: { Authorization: `Bearer ${token?.access}` },
   })
 
   useMemo(() => {
     axiosInstance.interceptors.request.use(async (req) => {
-      // interceptors cant get authTokens outside
+      // interceptors cant get token outside
       // so we need to get token for each request using localstorage
-      const token = authTokens
+      const token = token
       req.headers.Authorization = token ? `Bearer ${token.access}` : ''
       const user = token && jwtDecode(token.access)
       const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1
@@ -28,12 +28,12 @@ const WithAxios = ({ children }) => {
         refresh: token?.refresh,
       })
 
-      setAuthTokens(response.data)
+      setToken(response.data)
 
       req.headers.Authorization = `Bearer ${response.data.access}`
       return req
     })
-  }, [authTokens, axiosInstance.interceptors.request, setAuthTokens])
+  }, [token, axiosInstance.interceptors.request, setToken])
 
   return children
 }
