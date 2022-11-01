@@ -1,13 +1,39 @@
 /* This example requires Tailwind CSS v2.0+ */
 
+import Image from '@/components/common/Image'
 import SettingLayoutWrapper from '@/components/common/SettingLayoutWrapper'
+import { useAuthContext } from '@/hooks/useAuthContext'
+import useUserApi from '@/services/userService'
 import { XMarkIcon } from '@heroicons/react/20/solid'
+import { useState } from 'react'
 
 export default function Profile() {
+  const { state: user } = useAuthContext()
+  const { editProfile } = useUserApi()
+  const [placeHolder, setPlaceHolder] = useState(null)
+
+  const handleEditProfile = (e) => {
+    e.preventDefault()
+
+    const formData = new FormData(e.target)
+    const { username, photo } = Object.fromEntries(formData) // convert the FormData object to a JSON object
+    editProfile(formData).then((res) => console.log(res))
+  }
+  const handleImageOnChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      let img = e.target.files[0]
+      setPlaceHolder(URL.createObjectURL(img))
+    }
+  }
+
   return (
     <SettingLayoutWrapper>
       <NoticeBanner />
-      <form className="space-y-8 divide-y divide-gray-200">
+      <form
+        onSubmit={handleEditProfile}
+        className="space-y-8 divide-y divide-gray-200"
+        encType="multipart/form-data"
+      >
         <div className="space-y-8 divide-y divide-gray-200">
           <div>
             <div>
@@ -52,15 +78,25 @@ export default function Profile() {
                   Photo
                 </label>
                 <div className="mt-1 flex items-center">
-                  <span className="h-12 w-12 overflow-hidden rounded-full bg-gray-100">
-                    <svg
-                      className="h-full w-full text-gray-300"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                  </span>
+                  {placeHolder ? (
+                    <Image
+                      className="h-12 w-12 overflow-hidden rounded-full bg-gray-100"
+                      src={placeHolder}
+                      width={48}
+                      height={48}
+                      alt="placeholder"
+                    />
+                  ) : (
+                    <span className="h-12 w-12 overflow-hidden rounded-full bg-gray-100">
+                      <svg
+                        className="h-full w-full text-gray-300"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                      </svg>
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -91,10 +127,12 @@ export default function Profile() {
                       >
                         <span>Upload a file</span>
                         <input
+                          onChange={handleImageOnChange}
                           id="file-upload"
-                          name="file-upload"
+                          name="photo"
                           type="file"
                           className="sr-only"
+                          accept="image/*"
                         />
                       </label>
                       <p className="pl-1">or drag and drop</p>

@@ -28,6 +28,7 @@ export const AuthProvider = ({ children }) => {
   const [authTokens, setAuthTokens, removeAuthTokens] = useStorage('authTokens', null)
   const [loading, setLoading] = useState(true)
 
+  const test = null
   const [state, dispatch] = useReducer(userReducer, null)
 
   const contextData = useMemo(
