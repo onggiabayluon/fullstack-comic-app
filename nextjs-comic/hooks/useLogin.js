@@ -1,10 +1,11 @@
-import { USER_ACTIONS } from '@/contexts/AuthProvider'
 import { login } from '@/services/userService'
 import { useAsyncFn } from './useAsync'
-import { useAuthContext } from './useAuthContext'
+import { useAuthDispatch } from './useAuthDispatch'
+import { useAuthState } from './useAuthState'
 
 export const useLogin = () => {
-  const { dispatch, setAuthTokens } = useAuthContext()
+  const { dispatch } = useAuthDispatch()
+  const { setToken } = useAuthState()
 
   const { execute: loginFn, loading, error, setError } = useAsyncFn(login)
 
@@ -12,10 +13,7 @@ export const useLogin = () => {
     return loginFn({ username, password })
       .then((data) => {
         // save the token to local storage
-        setAuthTokens(data)
-
-        // update the user state
-        dispatch({ type: USER_ACTIONS.LOGIN, payload: data })
+        setToken(data)
 
         // Close form
         onCloseBtnClick()
