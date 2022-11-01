@@ -13,12 +13,13 @@ const swrOpts = {
 const defaultFetcher = makeRequest
 
 function useFetch({ url, options, deps = true, fetcher = defaultFetcher }) {
-  const { data, error } = useSWR(deps ? [url, options] : null, fetcher, swrOpts)
+  const { data, error, mutate } = useSWR(deps ? [url, options] : null, fetcher, swrOpts)
 
   return {
     data: data,
-    isLoading: !error && !data && deps,
+    isLoading: !error && !data,
     isError: error,
+    mutate,
   }
 }
 

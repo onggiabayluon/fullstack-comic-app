@@ -1,8 +1,6 @@
 import { DEFAULT_MENU_ITEMS, USER_ITEMS } from '@/data/authenticationMenu'
-import useFetch from '@/hooks/api/useFetch'
-import { useAuthContext } from '@/hooks/useAuthContext'
+import { useAuthState } from '@/hooks/useAuthState'
 import { useLogout } from '@/hooks/useLogout'
-import useUserApi from '@/services/userService'
 import { useEffect, useRef, useState } from 'react'
 import { FaCoins } from 'react-icons/fa'
 import { useClickAway } from 'react-use'
@@ -21,14 +19,7 @@ export default function UserProfile() {
     if (process.env.NODE_ENV === 'development') console.log('profile re-render')
   })
 
-  const { state: user } = useAuthContext()
-  const { getCurrentUserUrl } = useUserApi()
-  const { data: userDetail, isLoading: shouldShowCoinLoading } = useFetch({
-    deps: user,
-    url: getCurrentUserUrl.url,
-    fetcher: getCurrentUserUrl.fetcher,
-  })
-
+  const { user, isFetchingUser } = useAuthState()
   const { logoutUser } = useLogout()
   const items = user ? USER_ITEMS : DEFAULT_MENU_ITEMS
   const [openDropdown, setOpenDropdown] = useState(false)
@@ -80,7 +71,7 @@ export default function UserProfile() {
                 ? 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
                 : tempProfileSrc
             }
-            alt={user ? user.name : 'User Avatar'}
+            alt={user ? user.username : 'User Avatar'}
           />
         </button>
       </div>
@@ -102,8 +93,8 @@ export default function UserProfile() {
               <FaCoins className="fill-yellow-400" />
             </span>
             <span>
-              {shouldShowCoinLoading && <Spinner className="ml-2" />}
-              {!shouldShowCoinLoading && userDetail && userDetail.coins + ' coins'}
+              {isFetchingUser && <Spinner className="ml-2" />}
+              {!isFetchingUser && user.coins + ' coins'}
             </span>
           </a>
           <a className="bg-indigo flex flex-row items-center space-x-2 px-4 py-2 text-sm text-gray-700">

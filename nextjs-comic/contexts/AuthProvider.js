@@ -1,10 +1,11 @@
+import useFetch from '@/hooks/api/useFetch'
 import useStorage from '@/hooks/useStorage'
+import useUserApi from '@/services/userService'
 import jwtDecode from 'jwt-decode'
-import { createContext, useEffect, useMemo, useReducer, useState } from 'react'
+import { createContext, useEffect, useMemo, useReducer } from 'react'
 
-const AuthContext = createContext()
-
-export default AuthContext
+export const AuthStateContext = createContext()
+export const AuthDispatchContext = createContext()
 
 export const USER_ACTIONS = {
   LOGIN: 'LOGIN',
@@ -12,45 +13,73 @@ export const USER_ACTIONS = {
   LOGOUT: 'LOGOUT',
 }
 
-export const userReducer = (state, action) => {
+export const AuthReducer = (initialState, action) => {
   switch (action.type) {
-    case USER_ACTIONS.LOGIN:
-      return jwtDecode(action.payload.access)
-    case USER_ACTIONS.REGISTER:
-      break
-    case USER_ACTIONS.LOGOUT:
+    case 'LOGIN':
+      return {
+        ...initialState,
+        userDetails: action.payload.user,
+      }
+    case 'LOGOUT':
       return null
     default:
-      return state
+      throw new Error(`Unhandled action type: ${action.type}`)
   }
 }
-export const AuthProvider = ({ children }) => {
-  const [authTokens, setAuthTokens, removeAuthTokens] = useStorage('authTokens', null)
-  const [loading, setLoading] = useState(true)
 
-  const [state, dispatch] = useReducer(userReducer, null)
+export const AuthProvider = ({ children }) => {
+  const [user, dispatch] = useReducer(AuthReducer, {
+    userDetails: '',
+    loading: false,
+    errorMessage: null,
+  })
+
+  const [token, setToken] = useStorage('token')
+
+  const { getCurrentUserUrl } = useUserApi()
+
+  // Get userDetails from db when token changed
+  const {
+    data: userDetail,
+    isLoading: isFetchingUser,
+    isError: isFetchingError,
+    mutate: mutateUser,
+  } = useFetch({
+    deps: token,
+    url: getCurrentUserUrl.url,
+    fetcher: getCurrentUserUrl.fetcher,
+  })
+
+  useEffect(() => {
+    // Load userDetails from db
+    if (userDetail) {
+      return dispatch({ type: USER_ACTIONS.LOGIN, payload: { user: userDetail } })
+    }
+    /* 
+      Persist data if user has loggedin before
+      Load userDetails from token data
+    */
+    if (token) {
+      return dispatch({ type: USER_ACTIONS.LOGIN, payload: { user: jwtDecode(token.access) } })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userDetail])
 
   const contextData = useMemo(
     () => ({
-      state,
-      // shouldShowCoinLoading,
-      authTokens,
-      dispatch,
-      setAuthTokens,
+      user: user?.userDetails,
+      isFetchingUser,
+      isFetchingError,
+      setToken,
+      mutateUser,
     }),
-    [state, authTokens, dispatch, setAuthTokens]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [user]
   )
 
-  // Trigger login 1 time when user go to website
-  useEffect(() => {
-    if (authTokens) {
-      dispatch({ type: USER_ACTIONS.LOGIN, payload: authTokens })
-    }
-    setLoading(false)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   return (
-    <AuthContext.Provider value={contextData}>{loading ? null : children}</AuthContext.Provider>
+    <AuthStateContext.Provider value={contextData}>
+      <AuthDispatchContext.Provider value={dispatch}>{children}</AuthDispatchContext.Provider>
+    </AuthStateContext.Provider>
   )
 }

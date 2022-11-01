@@ -1,11 +1,11 @@
 import { USER_ACTIONS } from '@/contexts/AuthProvider'
 import { register } from '@/services/userService'
 import { useAsyncFn } from './useAsync'
-import { useAuthContext } from './useAuthContext'
+import { useAuthState } from './useAuthState'
 import { useLogin } from './useLogin'
 
 export const useSignup = () => {
-  const { dispatch, setAuthTokens } = useAuthContext()
+  const { dispatch, setToken } = useAuthState()
 
   const { execute: signupFn, loading, error, setError } = useAsyncFn(register)
 
@@ -15,7 +15,7 @@ export const useSignup = () => {
     return signupFn({ username, password, password2 })
       .then((data) => {
         // save the token to local storage
-        setAuthTokens(data)
+        setToken(data)
 
         // update the user state
         dispatch({ type: USER_ACTIONS.REGISTER, payload: data })
