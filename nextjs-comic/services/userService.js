@@ -12,24 +12,20 @@ const useUserApi = () => {
   }
 
   const editProfile = (formData) => {
-    const token = JSON.parse(localStorage.getItem('authTokens'))
+    const token = JSON.parse(localStorage.getItem('token'))
     return axios.post(`${baseURL}users/edit/`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token.access}`,
       },
     })
-    // return makeRequest(`users/edit/`, {
-    //   method: 'POST',
-    //   formData,
-    //   headers: {
-    //     'Content-Type': 'multipart/form-data',
-    //     // Authorization: `Bearer ${token.access}`,
-    //   },
-    //   // headers: {
-    //   //   'Content-Type': photo.type,
-    //   // },
-    // })
+    //   return makeAuthRequest(`users/edit/`, {
+    //     method: 'POST',
+    //     formData,
+    //     headers: {
+    //       'Content-Type': 'multipart/form-data',
+    //     },
+    //   })
   }
 
   return {

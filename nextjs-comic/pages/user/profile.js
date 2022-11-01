@@ -2,13 +2,13 @@
 
 import Image from '@/components/common/Image'
 import SettingLayoutWrapper from '@/components/common/SettingLayoutWrapper'
-import { useAuthContext } from '@/hooks/useAuthContext'
+import { useAuthState } from '@/hooks/useAuthState'
 import useUserApi from '@/services/userService'
 import { XMarkIcon } from '@heroicons/react/20/solid'
 import { useState } from 'react'
 
 export default function Profile() {
-  const { state: user } = useAuthContext()
+  const { mutateUser } = useAuthState()
   const { editProfile } = useUserApi()
   const [placeHolder, setPlaceHolder] = useState(null)
 
@@ -16,8 +16,12 @@ export default function Profile() {
     e.preventDefault()
 
     const formData = new FormData(e.target)
-    const { username, photo } = Object.fromEntries(formData) // convert the FormData object to a JSON object
-    editProfile(formData).then((res) => console.log(res))
+
+    editProfile(formData).then((res) => {
+      if (res.data && res.statusText === 'OK') {
+        mutateUser()
+      }
+    })
   }
   const handleImageOnChange = (e) => {
     if (e.target.files && e.target.files[0]) {

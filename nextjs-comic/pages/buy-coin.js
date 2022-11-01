@@ -46,7 +46,7 @@ function ProductDisplay() {
   const { getCoinsUrl } = useProductApi()
   const { data: coinList, isLoading: showCoinList } = useFetch({ url: getCoinsUrl.url })
 
-  const [coinPickedId, setCoinPickedId] = useState()
+  const [coinPickedId, setCoinPickedId] = useState(null)
   const { createStripePayment } = useStripeApi()
   const createStripePaymentFn = useAsyncFn(createStripePayment)
 
@@ -96,17 +96,17 @@ function ProductDisplay() {
         </div>
       </fieldset>
       <button
-        disabled={coinPickedId && createStripePaymentFn.loading}
+        disabled={!coinPickedId || createStripePaymentFn.loading}
         type="submit"
         className="mt-6 flex w-1/3 flex-row items-center justify-center space-x-2 rounded-md border border-transparent bg-indigo-600 py-3 text-center text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
       >
         {createStripePaymentFn.loading ? (
-          <>
+          <div className="flex items-center space-x-2 p-2">
             <Spinner />
-            <span>Redirecting...</span>
-          </>
+            <span className="hidden sm:block">Redirecting...</span>
+          </div>
         ) : (
-          <span>Buy coin</span>
+          <span>Buy Coin</span>
         )}
       </button>
     </form>

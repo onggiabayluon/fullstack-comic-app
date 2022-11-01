@@ -34,7 +34,6 @@ export const AuthProvider = ({ children }) => {
     errorMessage: null,
   })
 
-
   const [token, setToken] = useStorage('token')
 
   const { getCurrentUserUrl } = useUserApi()
