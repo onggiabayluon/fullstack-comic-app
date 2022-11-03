@@ -30,6 +30,7 @@ export const AuthReducer = (initialState, action) => {
 export const AuthProvider = ({ children }) => {
   const [user, dispatch] = useReducer(AuthReducer, {
     userDetails: '',
+    isTokenData: null,
     loading: false,
     errorMessage: null,
   })
@@ -53,14 +54,20 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     // Load userDetails from db
     if (userDetail) {
-      return dispatch({ type: USER_ACTIONS.LOGIN, payload: { user: userDetail } })
+      return dispatch({
+        type: USER_ACTIONS.LOGIN,
+        payload: { user: { ...userDetail, isTokenData: false } },
+      })
     }
     /* 
       Persist data if user has loggedin before
       Load userDetails from token data
     */
     if (token) {
-      return dispatch({ type: USER_ACTIONS.LOGIN, payload: { user: jwtDecode(token.access) } })
+      return dispatch({
+        type: USER_ACTIONS.LOGIN,
+        payload: { user: { ...jwtDecode(token.access), isTokenData: true } },
+      })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userDetail])
@@ -68,6 +75,7 @@ export const AuthProvider = ({ children }) => {
   const contextData = useMemo(
     () => ({
       user: user?.userDetails,
+      isUserFetched: !!(user?.userDetails && !user?.isTokenData),
       isFetchingUser,
       isFetchingError,
       setToken,

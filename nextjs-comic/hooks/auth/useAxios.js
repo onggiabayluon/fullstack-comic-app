@@ -10,15 +10,16 @@ const useAxios = () => {
 
   const axiosInstance = axios.create({
     baseURL,
-    headers: { Authorization: token ? `Bearer ${token?.access}` : '' },
+    // headers: { Authorization: token ? `Bearer ${token?.access}` : '' },
   })
 
   axiosInstance.interceptors.request.use(async (req) => {
     // interceptors cant get token outside
     // so we need to get token for each request using localstorage
     const token = JSON.parse(localStorage.getItem('token'))
+    req.headers.Authorization = token ? `Bearer ${token.access}` : ''
     const user = token && jwtDecode(token.access)
-    const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1
+    const isExpired = token && dayjs.unix(user.exp).diff(dayjs()) < 1
 
     if (!isExpired) return req
 

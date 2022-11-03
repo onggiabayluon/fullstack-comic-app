@@ -8,6 +8,7 @@ import { ClientReload } from '@/components/ClientReload'
 import { siteMetadata } from '@/data/siteMetadata'
 import DefaultLayout from '@/layouts/DefaultLayout'
 import DetailLayout from '@/layouts/DetailLayout'
+import { Toaster } from 'react-hot-toast'
 
 export const layouts = {
   home: {},
@@ -48,6 +49,7 @@ function getLayout(selectedLayout, page) {
       <Analytics />
 
       <AuthProvider>
+        <Toaster toastOptions={{ duration: 8000 }} />
         <Layout>{page}</Layout>
       </AuthProvider>
     </ThemeProvider>

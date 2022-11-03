@@ -28,9 +28,24 @@ const useUserApi = () => {
     //   })
   }
 
+  const buyChapter = ({ comicSlug, chapterSlug }) => {
+    return makeAuthRequest(`comics/${comicSlug}/${chapterSlug}/buy-chapter`, {
+      method: 'POST',
+    })
+  }
+
+  const checkUserChapterPayment = ({ comicSlug, chapterSlug }) => {
+    return {
+      fetcher: makeAuthRequest,
+      url: `comics/${comicSlug}/${chapterSlug}/check-chapter-payment`,
+    }
+  }
+
   return {
+    checkUserChapterPayment,
     getCurrentUserUrl,
     editProfile,
+    buyChapter,
   }
 }
 

@@ -27,18 +27,18 @@ import { useEffect, useRef, useState } from 'react'
 import { useClickAway, useUpdateEffect } from 'react-use'
 
 export async function getStaticProps({ params }) {
-  const { comicSlug } = params
-  const staticComic = comicsToJSON(await getComicBySlug(comicSlug, {}))
+  try {
+    const { comicSlug } = params
+    const staticComic = comicsToJSON(await getComicBySlug(comicSlug, {}))
 
-  if (!staticComic) {
+    return {
+      props: { staticComic, comicSlug },
+      revalidate: parseInt(process.env.NEXT_PUBLIC_REVALIDATE_IN_1_HOUR),
+    }
+  } catch (error) {
     return {
       notFound: true,
     }
-  }
-
-  return {
-    props: { staticComic, comicSlug },
-    revalidate: parseInt(process.env.NEXT_PUBLIC_REVALIDATE_IN_1_HOUR),
   }
 }
 
@@ -215,6 +215,7 @@ function DetailList({ chapters, comicSlug, src, title, views, className }) {
                 height={77}
               />
               <span className="text-xs sm:text-sm md:text-base">Chapter {chapter.chapter_num}</span>
+
               <span className="!ml-auto text-xs font-light sm:text-sm">
                 {formatTimeAgo(chapter.updated_date)}
               </span>
@@ -243,6 +244,26 @@ function DetailList({ chapters, comicSlug, src, title, views, className }) {
                 <span aria-label={views ? `${views}  views` : '0 views'} className="ml-1">
                   {chapter.views || 0}
                 </span>
+              </span>
+              <span className="flex items-center text-sm font-light">
+                {/* price Icon */}
+                <span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="h-6 w-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </span>
+                <span className="ml-1">{chapter.price}</span>
               </span>
               {/* <span className="text-sm sm:text-base"># {index + 1}</span> */}
             </CustomLink>

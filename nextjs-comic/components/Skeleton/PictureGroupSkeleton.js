@@ -3,9 +3,9 @@ function PictureGroupSkeleton({ error = false, className = '', width, height, ha
     <div
       role="status"
       className={className + ' ' + 'animate-pulse rounded-full'}
-      style={{ width: width + 'px', height: height + 'px' }}
+      style={(width || height) && { width: width + 'px', height: height + 'px' }}
     >
-      <div className="mb-4 flex h-full items-center justify-center rounded bg-gray-300 dark:bg-gray-700">
+      <div className="flex h-full items-center justify-center rounded bg-gray-300 dark:bg-gray-700">
         {hasIcon && (
           <>
             {error ? (

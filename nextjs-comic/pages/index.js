@@ -17,19 +17,26 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 export async function getStaticProps() {
-  const LIMIT = 10
+  try {
+    const LIMIT = 10
 
-  const [recommendComics, lastestComic] = await Promise.all([
-    getComics({ type: 'less', limit: LIMIT }),
-    getComics({ type: 'less', limit: LIMIT }),
-  ])
+    const [recommendComics, lastestComic] = await Promise.all([
+      getComics({ type: 'less', limit: LIMIT }),
+      getComics({ type: 'less', limit: LIMIT }),
+    ])
 
-  return {
-    props: { recommendComics, lastestComic },
-    // Next.js will attempt to re-generate the page:
-    // - When a request comes in
-    // - At most once every 1 minutes
-    revalidate: parseInt(process.env.NEXT_PUBLIC_REVALIDATE_IN_1_HOUR),
+    return {
+      props: { recommendComics, lastestComic },
+      // Next.js will attempt to re-generate the page:
+      // - When a request comes in
+      // - At most once every 1 minutes
+      revalidate: parseInt(process.env.NEXT_PUBLIC_REVALIDATE_IN_1_HOUR),
+    }
+  } catch (error) {
+    console.log(error)
+    return {
+      notFound: true,
+    }
   }
 }
 

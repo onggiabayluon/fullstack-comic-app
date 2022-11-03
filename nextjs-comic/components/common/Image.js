@@ -2,30 +2,23 @@ import PictureGroupSkeleton from '@/components/Skeleton/PictureGroupSkeleton'
 import classNames from '@/lib/utils/classNames'
 import NextImage from 'next/image'
 import { useState } from 'react'
-// eslint-disable-next-line jsx-a11y/alt-text
-// const Image = ({ ...rest }) => <NextImage {...rest} />
-const Image = ({ hasPlaceholder = true, ...rest }) => {
+
+const Image = ({ hasPlaceholder = true, isImgTag = false, ...rest }) => {
   const [isLoading, setIsLoading] = useState(true)
+  const ImageComp = NextImage
+  // const ImageComp = isImgTag ? 'img' : NextImage
   return rest.src ? (
-    <div
-      className={classNames(isLoading ? 'relative' : '')}
-      style={{ width: `${rest.width}px`, height: `${rest.height}px` }}
-    >
+    <div className={classNames(isLoading ? 'relative' : '')}>
       {hasPlaceholder && isLoading && (
-        <span className="absolute inset-0 z-50">
-          <PictureGroupSkeleton hasIcon={false} height={rest.height} width={rest.width} />
-        </span>
-      )}
-      <span className={classNames(isLoading ? 'opacity-0' : 'opacity-100')}>
-        <NextImage
-          src={rest.src}
+        <PictureGroupSkeleton
           height={rest.height}
           width={rest.width}
-          onLoadingComplete={() => setIsLoading(false)}
-          // placeholder="blur"
-          // blurDataURL={blur}
-          {...rest}
+          className="absolute h-full max-w-full"
+          hasIcon={false}
         />
+      )}
+      <span className={classNames(isLoading ? 'opacity-0' : 'opacity-100', 'flex items-center')}>
+        <ImageComp src={rest.src} onLoadingComplete={() => setIsLoading(false)} {...rest} />
       </span>
     </div>
   ) : null
