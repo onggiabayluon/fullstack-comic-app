@@ -3,7 +3,8 @@ from datetime import datetime
 from django.contrib.auth.password_validation import validate_password
 from django.db.models.fields.files import ImageFieldFile
 from rest_framework import serializers
-from rest_framework.serializers import ModelSerializer, SerializerMethodField
+from rest_framework.serializers import (FileField, ModelSerializer,
+                                        SerializerMethodField)
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from .models import (Bookmark, Category, Chapter, ChapterImage, ChapterView,
@@ -80,6 +81,8 @@ class UserLessSerializer(ModelSerializer):
 
 
 class UserSerializer(ModelSerializer):
+    avatar = FileField()
+
     # overriding create
     def create(self, validated_data):
         # Hashing password whenever creating new user
@@ -110,18 +113,6 @@ class UserBookmarkSerializer(UserLessSerializer):
         fields = UserLessSerializer.Meta.fields + ["bookmarks"]
 
 
-# class UserBookmarkSerializerDetail(UserBookmarkSerializer):
-#     comics = SerializerMethodField()
-
-#     def get_comics(self, user):
-#         return ComicSerializer(user.bookmark_set, many=True, context={"request": self.context.get('request')}).data
-
-#     class Meta:
-#         model = UserLessSerializer.Meta.model
-#         # fields = "__all__"
-#         fields = UserLessSerializer.Meta.fields + ["bookmarks"]
-
-
 class CategorySerializer(ModelSerializer):
     class Meta:
         model = Category
@@ -147,14 +138,10 @@ class ChapterViewSerializer(ModelSerializer):
 
 
 class ComicLessSerializer(ModelSerializer):
-    categories = SerializerMethodField()
-
-    def get_categories(self, comic):
-        return CategorySerializer(comic.categories, many=True, context={"request": self.context.get('request')}).data
 
     class Meta:
         model = Comic
-        fields = ["id", "title", "slug", "created_date", "updated_date", "active", "thumbnail", "categories"]
+        fields = ["id", "title", "slug", "created_date", "updated_date", "active", "thumbnail"]
 
 
 class ComicSerializer(ComicLessSerializer):
@@ -238,7 +225,7 @@ class ChapterLessSerializer(ModelSerializer):
 
     class Meta:
         model = Chapter
-        fields = ["chapter_num", "slug", "updated_date", "views"]
+        fields = ["chapter_num", "slug", "updated_date", "views", "price"]
 
 
 class ChapterSerializer(ModelSerializer):
@@ -306,3 +293,10 @@ class BookmarkDetailSerializer(BookmarkSerializer):
     class Meta:
         model = BookmarkSerializer.Meta.model
         fields = BookmarkSerializer.Meta.fields + ["comic"]
+
+
+class UploadSerializer(ModelSerializer):
+    file_uploaded = FileField()
+
+    class Meta:
+        fields = ['file_uploaded']

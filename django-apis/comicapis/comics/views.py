@@ -1,9 +1,11 @@
 import stripe
+from comics.utils import get_or_none
 from django.db.models import F
 from django.http import HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics, permissions, status, viewsets
 from rest_framework.decorators import action, api_view
+from rest_framework.parsers import FileUploadParser, MultiPartParser
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -82,10 +84,14 @@ class BuyCoin(APIView):
 
 
 class CreateCheckoutSection(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
     def post(self, request):
         coin_selected_id = request.data.get('coin')
         coin = Product.objects.get(id=coin_selected_id)
         coin_stripe_price_id = coin.stripe_price_id
+        Payment.objects.create(user=request.user, amount=coin.price, is_complete=False)
+
         try:
             checkout_session = stripe.checkout.Session.create(
                 line_items=[
@@ -96,7 +102,7 @@ class CreateCheckoutSection(APIView):
                     },
                 ],
                 client_reference_id=request.user.id,
-                metadata={'productType': Product.TYPES.COIN},
+                metadata={'productType': Product.TYPES.COIN, 'productId': coin.id},
                 mode='payment',
                 success_url=settings.CLIENT_SIDE_DOMAIN + '/buy-coin?success=true',
                 cancel_url=settings.CLIENT_SIDE_DOMAIN + '/buy-coin?canceled=true',
@@ -123,11 +129,9 @@ class CheckoutWebhook(APIView):
             )
         except ValueError as e:
             # Invalid payload
-            print(e)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except stripe.error.SignatureVerificationError as e:
             # Invalid signature
-            print(e)
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         # verify that it came from Stripe before trusting it
@@ -145,10 +149,12 @@ class CheckoutWebhook(APIView):
 def fulfill_order(session):
     try:
         user = User.objects.get(id=session.client_reference_id)
+        stripe_charge_id = session.id
         productType = session.metadata.productType
+        productId = session.metadata.productId
         amount_total = session.amount_total
         # Save Order to db
-        Payment.objects.create(user=user, amount=amount_total)
+        Payment.objects.update(user=user, stripe_charge_id=stripe_charge_id, product_id=productId, is_complete=True)
 
         # If order type == COIN => increase user coin
         if (productType == Product.TYPES.COIN):
@@ -227,9 +233,9 @@ class ComicViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIV
         if q is not None:
             comics = comics.filter(title__icontains=q)
 
-        category_name = self.request.query_params.get('category')
-        if category_name is not None:
-            comics = comics.filter(categories__name__icontains=category_name)
+        cate_id = self.request.query_params.get('category_id')
+        if cate_id is not None:
+            comics = comics.filter(categories=cate_id)
 
         return comics
 
@@ -355,6 +361,38 @@ class ChapterViewsViewSet(APIView):
         return Response(ChapterViewSerializer(view).data, status=status.HTTP_200_OK)
 
 
+class CheckChapterPaymentByCurentUser(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, comic_slug, slug):
+        user = request.user
+        chapter = Chapter.objects.get(comic__slug=comic_slug, slug=slug)
+        user_payment = get_or_none(Payment, category=Product.TYPES.CHAPTER, chapter=chapter, user=user, is_complete=True)
+        if user_payment is not None:
+            return Response({'owned': True, 'message': 'Chapter has already payed by user'}, status=status.HTTP_200_OK)
+
+        return Response({'owned': False, 'message': 'User has not owned this chapter'}, status=status.HTTP_200_OK)
+
+
+class BuyChapter(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, comic_slug, slug):
+        user = request.user
+        chapter = Chapter.objects.get(comic__slug=comic_slug, slug=slug)
+
+        if user.coins >= chapter.price:
+            user_payment = Payment.objects.create(category=Product.TYPES.CHAPTER, chapter=chapter, user=user, amount=chapter.price, is_complete=True)
+            success_message = "Chapter " + str(chapter.id) + " has been bought successfully by user " + user.username
+            if user_payment is not None:
+                user.coins -= chapter.price
+                user.save()
+                return Response({'bought': True, 'message': success_message}, status=status.HTTP_200_OK)
+
+        error_message = "user not have enough coins to buy this chapter, require: " + str(chapter.price) + " owned: " + str(user.coins)
+        return Response({'bought': False, 'message': error_message}, status=status.HTTP_200_OK)
+
+
 """
 Update Comment   : comments/{id}
 Delete Comment   : comments/{id}
@@ -415,13 +453,14 @@ get current user    : users/current-user
 """
 
 
-class UserViewSet(viewsets.ViewSet, generics.CreateAPIView):
+class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.UpdateAPIView):
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializer
     pagination_class = BasePagination
+    parser_class = (MultiPartParser,)
 
     def get_permissions(self):
-        if self.action == 'get_current_user':
+        if self.action == ['get_current_user']:
             return [permissions.IsAuthenticated()]
 
         return [permissions.AllowAny()]
@@ -433,14 +472,33 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView):
 
     @action(methods=['get'], detail=False, url_path='current-user-bookmarks')
     def get_bookmarks(self, request):
-        type = self.request.query_params.get('type')
-        if type is not None and type == 'detail':
-            return ComicDetailTypeLessSerializer
         self.pagination_class = None
         return Response(UserBookmarkSerializer(request.user, context={"request": request}).data,
                         status=status.HTTP_200_OK)
 
+    def partial_update(self, request, *args, **kwargs):
+        photo = request.FILES.get('avatar')
+        user = request.user
+        user.avatar = photo
+        user.save()
+        data = UserSerializer(user).data
 
-# class AuthInfo(APIView):
-    # def get(self, request):
+        return Response(data, status=status.HTTP_200_OK)
+
+    @action(methods=['post'], detail=False, url_path='edit')
+    def edit_profile(self, request):
+        # try:
+        photo = request.FILES.get('photo')
+        user = request.user
+        user.avatar = photo
+        user.save()
+        data = UserSerializer(user).data
+        return Response(data, status=status.HTTP_200_OK)
+        # except Exception as e:
+        # print(e)
+        # Response({'message': 'upload err'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        # else:
+
+        # class AuthInfo(APIView):
+        # def get(self, request):
         # return Response(settings.OAUTH2_INFO, status=status.HTTP_200_OK)

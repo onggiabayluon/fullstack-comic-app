@@ -18,6 +18,8 @@ router.register('users', views.UserViewSet, 'User')
 chapter_list = views.ChapterViewSet.as_view({'get': 'list'})
 chapter_detail = views.ChapterDetailViewSet.as_view({'get': 'retrieve'})
 chapter_detail_views = views.ChapterViewsViewSet.as_view()
+check_chapter_payment = views.CheckChapterPaymentByCurentUser.as_view()
+buy_chapter = views.BuyChapter.as_view()
 
 # Stripe
 buy_coin = views.BuyCoin.as_view()
@@ -30,6 +32,8 @@ urlpatterns = [
     path('comics/<str:comic_slug>/chapters', chapter_list),
     path('comics/<str:comic_slug>/<str:slug>', chapter_detail),
     path('comics/<str:comic_slug>/<str:slug>/views', chapter_detail_views),
+    path('comics/<str:comic_slug>/<str:slug>/check-chapter-payment', check_chapter_payment),
+    path('comics/<str:comic_slug>/<str:slug>/buy-chapter', buy_chapter),
     # Stripe
     path('buy-coin', buy_coin),
     path('create-payment', create_payment),

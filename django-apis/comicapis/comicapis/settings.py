@@ -28,8 +28,6 @@ SECRET_KEY = str(os.getenv(('SECRET_KEY')))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.getenv(('DEBUG')))
 
-ALLOWED_HOSTS = ["django-comic-api-2.herokuapp.com", "localhost", "127.0.0.1", "fullstack-comic-app.vercel.app"]
-
 
 # Application definition
 
@@ -40,15 +38,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 3rd party apps
     'cloudinary_storage',
     'cloudinary',
-    'comics',
-    'corsheaders',
     'rest_framework',
     'drf_yasg',
-    'oauth2_provider',
     'nested_admin',
+    # authentication apps
+    'corsheaders',
+    'oauth2_provider',
     'rest_framework_simplejwt',
+    # projects app
+    'comics',
 ]
 
 # Cloudinary
@@ -64,14 +65,10 @@ CLOUDINARY_STORAGE = {
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+        # 'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+    ),
 }
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_AUTHENTICATION_CLASSES': (
-#         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
-#     )
-# }
 
 OAUTH2_INFO = {
     "client_id": str(os.getenv(('OAUTH2_CLIENT_ID'))),
@@ -82,16 +79,21 @@ OAUTH2_INFO = {
 #     'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore'
 # }
 
-CORS_ORIGIN_ALLOW_ALL = True
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+STRIPE_API_KEY = str(os.getenv(('STRIPE_API_KEY')))
+CLIENT_SIDE_DOMAIN = str(os.getenv(('CLIENT_SIDE_DOMAIN')))
+STRIPE_WEBHOOK_SECRET = str(os.getenv(('STRIPE_WEBHOOK_SECRET')))
+BACKEND_REVALIDATE_SECRET = str(os.getenv(('BACKEND_REVALIDATE_SECRET')))
 
+ALLOWED_HOSTS = ["django-comic-api-2.herokuapp.com", "localhost", "127.0.0.1", CLIENT_SIDE_DOMAIN]
 
-# CORS_ORIGIN_WHITELIST = [
-#     'http://localhost:3000',
-#     "http://127.0.0.1:3000",
-#     'https://localhost:3000',
-#     "https://127.0.0.1:3000",
-# ]
+CORS_ALLOW_CREDENTIALS = True  # to accept cookies via ajax request
+# CORS_ORIGIN_ALLOW_ALL = True
 
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000",
+    CLIENT_SIDE_DOMAIN
+]
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
@@ -222,10 +224,6 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-STRIPE_API_KEY = str(os.getenv(('STRIPE_API_KEY')))
-CLIENT_SIDE_DOMAIN = str(os.getenv(('CLIENT_SIDE_DOMAIN')))
-STRIPE_WEBHOOK_SECRET = str(os.getenv(('STRIPE_WEBHOOK_SECRET')))
 
 # Setting for heroku
 django_heroku.settings(locals())
