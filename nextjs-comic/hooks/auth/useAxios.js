@@ -2,7 +2,6 @@ import axios from 'axios'
 import dayjs from 'dayjs'
 import jwtDecode from 'jwt-decode'
 import useStorage from '../useStorage'
-
 const baseURL = process.env.NEXT_PUBLIC_BASE_API_ENDPOINT
 const useAxios = () => {
   // const { setToken } = useAuthState()

@@ -382,9 +382,11 @@ class BuyChapter(APIView):
         chapter = Chapter.objects.get(comic__slug=comic_slug, slug=slug)
 
         if user.coins >= chapter.price:
-            user_payment = Payment.objects.create(category=Product.TYPES.CHAPTER, chapter=chapter, user=user, amount=chapter.price, is_complete=True)
+            user_payment, created = Payment.objects.get_or_create(category=Product.TYPES.CHAPTER, chapter=chapter, user=user, amount=chapter.price, is_complete=True)
             success_message = "Chapter " + str(chapter.id) + " has been bought successfully by user " + user.username
             if user_payment is not None:
+                return Response({'bought': True, 'message': 'User already owned this chapter'}, status=status.HTTP_200_OK)
+            if created:
                 user.coins -= chapter.price
                 user.save()
                 return Response({'bought': True, 'message': success_message}, status=status.HTTP_200_OK)

@@ -49,7 +49,7 @@ function getLayout(selectedLayout, page) {
       <Analytics />
 
       <AuthProvider>
-        <Toaster toastOptions={{ duration: 8000 }} />
+        <Toaster toastOptions={{ duration: 5000 }} />
         <Layout>{page}</Layout>
       </AuthProvider>
     </ThemeProvider>

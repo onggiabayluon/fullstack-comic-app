@@ -7,17 +7,20 @@ import { useMemo } from 'react'
 const baseURL = process.env.NEXT_PUBLIC_BASE_API_ENDPOINT
 
 const WithAxios = ({ children }) => {
-  const { token, setToken } = useAuthState()
+  const { setToken } = useAuthState()
+
   const axiosInstance = axios.create({
     baseURL,
-    // headers: { Authorization: `Bearer ${token?.access}` },
   })
 
   useMemo(() => {
     axiosInstance.interceptors.request.use(async (req) => {
+      const token = JSON.parse(localStorage.getItem('token'))
+      console.log(token)
+      if (!token) return
+
       // interceptors cant get token outside
       // so we need to get token for each request using localstorage
-      const token = token
       req.headers.Authorization = token ? `Bearer ${token.access}` : ''
       const user = token && jwtDecode(token.access)
       const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1
@@ -33,7 +36,7 @@ const WithAxios = ({ children }) => {
       req.headers.Authorization = `Bearer ${response.data.access}`
       return req
     })
-  }, [token, axiosInstance.interceptors.request, setToken])
+  }, [axiosInstance.interceptors.request, setToken])
 
   return children
 }

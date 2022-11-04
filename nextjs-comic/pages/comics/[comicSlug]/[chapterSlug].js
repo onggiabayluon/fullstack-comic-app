@@ -274,15 +274,17 @@ function BuyChapter({ price, paymentMutate, comicSlug, chapterSlug }) {
 
   const handleBuyChapter = () => {
     if (window.confirm(`Are you sure to buy this Chapter for ${price} coins?`)) {
-      return buyChapter({ comicSlug: comicSlug, chapterSlug: chapterSlug }).then((res) => {
-        if (res?.bought === true) {
-          paymentMutate()
-          mutateUser()
-          toast.success(res?.message)
-        } else {
-          toast.error(res?.message)
-        }
-      })
+      return buyChapter({ comicSlug: comicSlug, chapterSlug: chapterSlug })
+        .then((res) => {
+          if (res?.bought === true) {
+            paymentMutate()
+            mutateUser()
+            toast.success(res?.message)
+          } else {
+            toast.error(res?.message)
+          }
+        })
+        .catch((err) => toast.error(err))
     }
   }
 
