@@ -42,7 +42,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         # Add custom claims
         token['username'] = user.username
         token['email'] = user.email
-        token['avatar'] = encode_imagefield(user.avatar)
+        token['avatar'] = str(user.avatar)
         return token
 
 
@@ -82,6 +82,8 @@ class UserLessSerializer(ModelSerializer):
 
 class UserSerializer(ModelSerializer):
     avatar = FileField()
+
+    print(avatar)
 
     # overriding create
     def create(self, validated_data):

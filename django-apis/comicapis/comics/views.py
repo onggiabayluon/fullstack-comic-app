@@ -1,5 +1,5 @@
 import stripe
-from comics.utils import get_or_none
+from comics.utils import get_or_none, image_upload
 from django.db.models import F
 from django.http import HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
@@ -491,8 +491,9 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.UpdateAPIVi
     def edit_profile(self, request):
         # try:
         photo = request.FILES.get('photo')
+        image_url = image_upload(photo, "users/")
         user = request.user
-        user.avatar = photo
+        user.avatar = image_url
         user.save()
         data = UserSerializer(user).data
         return Response(data, status=status.HTTP_200_OK)

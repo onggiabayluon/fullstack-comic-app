@@ -1,4 +1,5 @@
 import { login } from '@/services/userService'
+import toast from 'react-hot-toast'
 import { useAsyncFn } from './useAsync'
 import { useAuthDispatch } from './useAuthDispatch'
 import { useAuthState } from './useAuthState'
@@ -17,6 +18,9 @@ export const useLogin = () => {
 
         // Close form
         onCloseBtnClick()
+
+        // Show message
+        toast.success('Login succesfully')
       })
       .catch((err) => setError(err))
   }

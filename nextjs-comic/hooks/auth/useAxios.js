@@ -50,7 +50,23 @@ const useAxios = () => {
       })
   }
 
-  return { makeAuthRequest }
+  function authPost(url, data, options) {
+    return axiosInstance
+      .post(url, data, options)
+      .then((res) => res)
+      .catch((error) => {
+        console.log(error)
+        return Promise.reject(
+          error?.response?.data?.message ??
+            error?.response?.statusText ??
+            error?.response?.data?.detail ??
+            error?.message ??
+            'error'
+        )
+      })
+  }
+
+  return { makeAuthRequest, authPost }
 }
 
 export default useAxios

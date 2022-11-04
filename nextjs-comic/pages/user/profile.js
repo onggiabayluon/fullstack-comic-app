@@ -1,27 +1,46 @@
 /* This example requires Tailwind CSS v2.0+ */
 
+import Button from '@/components/Buttons/Button'
 import Image from '@/components/common/Image'
 import SettingLayoutWrapper from '@/components/common/SettingLayoutWrapper'
+import { useAsyncFn } from '@/hooks/useAsync'
 import { useAuthState } from '@/hooks/useAuthState'
 import useUserApi from '@/services/userService'
 import { XMarkIcon } from '@heroicons/react/20/solid'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import toast from 'react-hot-toast'
 
 export default function Profile() {
   const { mutateUser } = useAuthState()
   const { editProfile } = useUserApi()
+  const editProfileFn = useAsyncFn(editProfile)
   const [placeHolder, setPlaceHolder] = useState(null)
+  const formRef = useRef(null)
+
+  const clearForm = () => {
+    formRef.current.reset()
+    setPlaceHolder('')
+  }
 
   const handleEditProfile = (e) => {
     e.preventDefault()
 
     const formData = new FormData(e.target)
 
-    editProfile(formData).then((res) => {
-      if (res.data && res.statusText === 'OK') {
-        mutateUser()
-      }
-    })
+    editProfileFn
+      .execute(formData)
+      .then((res) => {
+        if (res.data && res.statusText === 'OK') {
+          mutateUser()
+          toast.success('Edit profile successfully')
+        } else {
+          toast.error('Edit profile failed')
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+        toast.error(err?.message || 'Error')
+      })
   }
   const handleImageOnChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -34,6 +53,7 @@ export default function Profile() {
     <SettingLayoutWrapper>
       <NoticeBanner />
       <form
+        ref={formRef}
         onSubmit={handleEditProfile}
         className="space-y-8 divide-y divide-gray-200"
         encType="multipart/form-data"
@@ -54,11 +74,12 @@ export default function Profile() {
                 </label>
                 <div className="mt-1 flex rounded-md shadow-sm">
                   <input
+                    disabled
                     type="text"
                     name="username"
                     id="username"
                     autoComplete="username"
-                    className="block w-full min-w-0 flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    className="block w-full min-w-0 flex-1 rounded-none rounded-r-md border-gray-300 bg-slate-100 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   />
                 </div>
               </div>
@@ -68,11 +89,12 @@ export default function Profile() {
                 </label>
                 <div className="mt-1 flex rounded-md shadow-sm">
                   <input
+                    disabled
                     type="text"
                     name="displayname"
                     id="displayname"
                     autoComplete="username"
-                    className="block w-full min-w-0 flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    className="block w-full min-w-0 flex-1 rounded-none rounded-r-md border-gray-300 bg-slate-100 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   />
                 </div>
               </div>
@@ -275,17 +297,19 @@ export default function Profile() {
         <div className="pt-5">
           <div className="flex justify-end">
             <button
+              onClick={clearForm}
               type="button"
               className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               Cancel
             </button>
-            <button
+            <Button
               type="submit"
-              className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            >
-              Save
-            </button>
+              className="ml-3 flex items-center justify-center space-x-2 rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              title="Save"
+              isDisabled={editProfileFn.loading}
+              isLoading={editProfileFn.loading}
+            ></Button>
           </div>
         </div>
       </form>

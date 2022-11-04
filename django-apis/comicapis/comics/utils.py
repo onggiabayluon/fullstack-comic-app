@@ -1,3 +1,4 @@
+import cloudinary
 import requests
 
 from comicapis import settings
@@ -22,3 +23,12 @@ def get_or_none(classmodel, **kwargs):
         return classmodel.objects.get(**kwargs)
     except classmodel.DoesNotExist:
         return None
+
+
+def image_upload(file, folder):
+    # image_name = file.rsplit('.', maxsplit=1)[0]
+    res = cloudinary.uploader.upload(file,
+                                     #  public_id=image_name,
+                                     folder=folder,
+                                     resource_type="auto")
+    return res["secure_url"]
