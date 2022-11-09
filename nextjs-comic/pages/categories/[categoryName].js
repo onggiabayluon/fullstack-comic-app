@@ -44,7 +44,8 @@ export async function getStaticPaths() {
     }
   }
 
-  const categories = await getCategories()
+  let categories = await getCategories()
+  categories = [{ id: null, name: 'All' }, ...categories]
 
   const paths = categories.map((category) => {
     const { name: categoryName } = category
@@ -234,12 +235,16 @@ function FilterNav({ categories, activeCategory }) {
                   key={category.name}
                   href={publicRoutes.categories.getDynamicPath(category.name)}
                   className={classNames(
-                    activeCategory === category.name
+                    activeCategory.toLowerCase() === category.name.toLowerCase()
                       ? 'border-indigo-500 text-indigo-600'
                       : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
                     'whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium'
                   )}
-                  aria-current={activeCategory === category.name ? 'page' : undefined}
+                  aria-current={
+                    activeCategory.toLowerCase() === category.name.toLowerCase()
+                      ? 'page'
+                      : undefined
+                  }
                 >
                   {category.name}
                 </CustomLink>

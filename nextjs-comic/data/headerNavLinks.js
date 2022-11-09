@@ -2,7 +2,7 @@ const headerNavLinks = [
   { href: '/', title: 'Home', icon: <Homeicon /> },
   { href: '/bookmarks', title: 'Bookmark', icon: <Bookmarkicon /> },
   { href: '/histories', title: 'History', icon: <Historyicon /> },
-  { href: '/tags', title: 'Tags', icon: <Tagsicon /> },
+  { href: '/categories', title: 'Tags', icon: <Tagsicon /> },
 ]
 function Homeicon() {
   return (
