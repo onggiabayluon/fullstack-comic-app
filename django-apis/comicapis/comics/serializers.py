@@ -83,8 +83,6 @@ class UserLessSerializer(ModelSerializer):
 class UserSerializer(ModelSerializer):
     avatar = FileField()
 
-    print(avatar)
-
     # overriding create
     def create(self, validated_data):
         # Hashing password whenever creating new user
@@ -116,9 +114,17 @@ class UserBookmarkSerializer(UserLessSerializer):
 
 
 class CategorySerializer(ModelSerializer):
+
     class Meta:
         model = Category
-        fields = "__all__"
+        fields = ["id", "name"]
+
+class CategoryDetailSerializer(CategorySerializer):
+    count = serializers.IntegerField(source="comics.count", read_only=True)
+
+    class Meta:
+        model = CategorySerializer.Meta.model
+        fields = CategorySerializer.Meta.fields + ["count"]
 
 
 class CoinSerializer(ModelSerializer):
@@ -126,11 +132,6 @@ class CoinSerializer(ModelSerializer):
         model = Product
         fields = "__all__"
 
-
-class CategoryDetailSerializer(ModelSerializer):
-    class Meta:
-        model = Category
-        fields = ["name"]
 
 
 class ChapterViewSerializer(ModelSerializer):
@@ -140,10 +141,14 @@ class ChapterViewSerializer(ModelSerializer):
 
 
 class ComicLessSerializer(ModelSerializer):
+    categories = SerializerMethodField()
+
+    def get_categories(self, comic):
+        return CategorySerializer(comic.categories, many=True, context={"request": self.context.get('request')}).data
 
     class Meta:
         model = Comic
-        fields = ["id", "title", "slug", "created_date", "updated_date", "active", "thumbnail"]
+        fields = ["id", "title", "slug", "created_date", "updated_date", "active", "thumbnail", "categories"]
 
 
 class ComicSerializer(ComicLessSerializer):
@@ -291,6 +296,7 @@ class BookmarkDetailSerializer(BookmarkSerializer):
 
     def get_comic(self, bookmark):
         return ComicLessSerializer(bookmark.comic, context={"request": self.context.get('request')}).data
+
 
     class Meta:
         model = BookmarkSerializer.Meta.model

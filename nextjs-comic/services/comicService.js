@@ -5,6 +5,12 @@ export const defaultOptions = {
 }
 
 export const getURLComics = () => '/comics/'
+export const getComicsFn = () => {
+  return {
+    fetcher: makeRequest,
+    url: '/comics/',
+  }
+}
 export const getURLComicBySlug = (slug) => `/comics/${slug}/`
 
 export function getComics({ params = defaultOptions, signal }) {
@@ -26,6 +32,14 @@ export function getComicBySlug(slug, params = defaultOptions) {
   return makeRequest(`/comics/${slug}/`, {
     method: 'GET',
     params: params,
+  })
+}
+
+export function getComicsByCategory({ params, signal }) {
+  return makeRequest(`/comics/`, {
+    method: 'GET',
+    params: params,
+    signal,
   })
 }
 

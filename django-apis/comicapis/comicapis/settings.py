@@ -85,13 +85,14 @@ CLIENT_SIDE_DOMAIN = str(os.getenv(('CLIENT_SIDE_DOMAIN')))
 STRIPE_WEBHOOK_SECRET = str(os.getenv(('STRIPE_WEBHOOK_SECRET')))
 BACKEND_REVALIDATE_SECRET = str(os.getenv(('BACKEND_REVALIDATE_SECRET')))
 
-ALLOWED_HOSTS = ["django-comic-api-2.herokuapp.com", "localhost", "127.0.0.1", CLIENT_SIDE_DOMAIN]
+ALLOWED_HOSTS = ["stripe.com", "django-comic-api-2.herokuapp.com", "localhost", "127.0.0.1", CLIENT_SIDE_DOMAIN]
 
 CORS_ALLOW_CREDENTIALS = True  # to accept cookies via ajax request
 # CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
+    "https://stripe.com",
     CLIENT_SIDE_DOMAIN
 ]
 

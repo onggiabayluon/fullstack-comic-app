@@ -16,13 +16,14 @@ from comicapis import settings
 from .models import (Bookmark, Category, Chapter, ChapterView, Comic, Comment,
                      Payment, Product, Rating, User)
 from .paginators import BasePagination, ComicPagniation, CommentPagination
-from .serializers import (BookmarkSerializer, CategorySerializer,
-                          ChapterSerializer, ChapterViewSerializer,
-                          CoinSerializer, ComicDetailSerializer,
-                          ComicDetailTypeLessSerializer, ComicSerializer,
-                          CommentSerializer, MyTokenObtainPairSerializer,
-                          RatingSerializer, RegisterSerializer,
-                          UserBookmarkSerializer, UserSerializer)
+from .serializers import (BookmarkSerializer, CategoryDetailSerializer,
+                          CategorySerializer, ChapterSerializer,
+                          ChapterViewSerializer, CoinSerializer,
+                          ComicDetailSerializer, ComicDetailTypeLessSerializer,
+                          ComicSerializer, CommentSerializer,
+                          MyTokenObtainPairSerializer, RatingSerializer,
+                          RegisterSerializer, UserBookmarkSerializer,
+                          UserSerializer)
 
 stripe.api_key = settings.STRIPE_API_KEY
 endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
@@ -128,6 +129,7 @@ class CheckoutWebhook(APIView):
                 payload, sig_header, endpoint_secret
             )
         except ValueError as e:
+            print(e)
             # Invalid payload
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except stripe.error.SignatureVerificationError as e:
@@ -214,6 +216,13 @@ class CategoryViewSet(viewsets.ViewSet, generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
+    def get_serializer_class(self):
+        type = self.request.query_params.get('type')
+        if type is not None and type == 'detail':
+            return CategoryDetailSerializer
+        else:
+            return CategorySerializer
+
 
 class ComicViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIView):
     serializer_class = ComicSerializer
@@ -233,9 +242,13 @@ class ComicViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIV
         if q is not None:
             comics = comics.filter(title__icontains=q)
 
-        cate_id = self.request.query_params.get('category_id')
-        if cate_id is not None:
-            comics = comics.filter(categories=cate_id)
+        cate_name = self.request.query_params.get('category')
+        if cate_name is not None:
+            cate_name = cate_name.lower()
+            if cate_name == 'all':
+                return comics
+            else:
+                comics = comics.filter(categories__name__icontains=cate_name)
 
         return comics
 

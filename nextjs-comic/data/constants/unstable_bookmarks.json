@@ -1,0 +1,173 @@
+{
+    "id": 1,
+    "username": "admin",
+    "bookmarks": [
+        {
+            "id": 664,
+            "created_date": "2022-10-27T04:16:18.618575Z",
+            "updated_date": "2022-10-27T04:16:18.618613Z",
+            "creator": 1,
+            "comic": {
+                "id": 54,
+                "title": "The Beginning After The End",
+                "slug": "the-beginning-after-the-end",
+                "created_date": "2022-10-02T04:23:30.685061Z",
+                "updated_date": "2022-10-02T04:25:43.183669Z",
+                "active": true,
+                "thumbnail": "https://res.cloudinary.com/dwajvm53v/image/upload/v1/comics/the-beginning-after-the-end/thumbnail/thumbnail_nl98zw",
+                "categories": [
+                    {
+                        "id": 3,
+                        "name": "Adventure"
+                    },
+                    {
+                        "id": 4,
+                        "name": "Manhwa"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 674,
+            "created_date": "2022-10-27T04:16:23.132757Z",
+            "updated_date": "2022-10-27T04:16:23.132797Z",
+            "creator": 1,
+            "comic": {
+                "id": 44,
+                "title": "Tales of Demons and Gods",
+                "slug": "tales-of-demons-and-gods",
+                "created_date": "2022-10-02T04:22:29.890680Z",
+                "updated_date": "2022-10-02T04:22:29.890714Z",
+                "active": true,
+                "thumbnail": "https://res.cloudinary.com/dwajvm53v/image/upload/v1/comics/tales-of-demons-and-gods/thumbnail/thumbnail_aenl0u",
+                "categories": [
+                    {
+                        "id": 5,
+                        "name": "Manhua"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 684,
+            "created_date": "2022-10-27T04:22:45.091508Z",
+            "updated_date": "2022-10-27T04:22:45.091544Z",
+            "creator": 1,
+            "comic": {
+                "id": 34,
+                "title": "National Tax Service Thug",
+                "slug": "national-tax-service-thug",
+                "created_date": "2022-10-02T04:21:25.189850Z",
+                "updated_date": "2022-10-02T04:21:25.189899Z",
+                "active": true,
+                "thumbnail": "https://res.cloudinary.com/dwajvm53v/image/upload/v1/comics/national-tax-service-thug/thumbnail/National-Tax-Service-Thug_onkyfk",
+                "categories": [
+                    {
+                        "id": 5,
+                        "name": "Manhua"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 694,
+            "created_date": "2022-10-27T04:22:48.822059Z",
+            "updated_date": "2022-10-27T04:22:48.822099Z",
+            "creator": 1,
+            "comic": {
+                "id": 2,
+                "title": "Goblin Slayer Side Story Year One",
+                "slug": "goblin-slayer-side-story-year-one",
+                "created_date": "2022-08-15T10:19:54.241158Z",
+                "updated_date": "2022-08-15T10:19:54.241158Z",
+                "active": true,
+                "thumbnail": "https://res.cloudinary.com/dwajvm53v/image/upload/v1/comics/goblin-slayer-side-story-year-one/thumbnail/Goblin-Slayer-Side-Story-Year-One_z6bg42",
+                "categories": [
+                    {
+                        "id": 2,
+                        "name": "Action"
+                    },
+                    {
+                        "id": 3,
+                        "name": "Adventure"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 704,
+            "created_date": "2022-10-27T04:24:56.261251Z",
+            "updated_date": "2022-10-27T04:24:56.261285Z",
+            "creator": 1,
+            "comic": {
+                "id": 4,
+                "title": "magic emperor",
+                "slug": "magic-emperor",
+                "created_date": "2022-08-15T10:21:28.598736Z",
+                "updated_date": "2022-09-29T01:47:11.506535Z",
+                "active": true,
+                "thumbnail": "https://res.cloudinary.com/dwajvm53v/image/upload/v1/comics/magic-emperor/thumbnail/43692_zo9y8e",
+                "categories": [
+                    {
+                        "id": 2,
+                        "name": "Action"
+                    },
+                    {
+                        "id": 5,
+                        "name": "Manhua"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 714,
+            "created_date": "2022-10-27T04:29:33.389817Z",
+            "updated_date": "2022-10-27T04:29:33.389850Z",
+            "creator": 1,
+            "comic": {
+                "id": 14,
+                "title": "Daybreak",
+                "slug": "daybreak",
+                "created_date": "2022-10-02T04:16:43.765032Z",
+                "updated_date": "2022-10-02T04:16:43.765063Z",
+                "active": true,
+                "thumbnail": "https://res.cloudinary.com/dwajvm53v/image/upload/v1/comics/daybreak/thumbnail/5Daybreak_thumbnail_mobile_sbrner",
+                "categories": [
+                    {
+                        "id": 1,
+                        "name": "Manga"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 754,
+            "created_date": "2022-11-04T10:19:04.382823Z",
+            "updated_date": "2022-11-04T10:19:04.382853Z",
+            "creator": 1,
+            "comic": {
+                "id": 74,
+                "title": "Omniscient Reader's Viewpoint",
+                "slug": "omniscient-readers-viewpoint",
+                "created_date": "2022-10-02T04:25:24.857782Z",
+                "updated_date": "2022-10-02T04:25:24.857833Z",
+                "active": true,
+                "thumbnail": "https://res.cloudinary.com/dwajvm53v/image/upload/v1/comics/omniscient-readers-viewpoint/thumbnail/49366_exxivx",
+                "categories": [
+                    {
+                        "id": 2,
+                        "name": "Action"
+                    },
+                    {
+                        "id": 3,
+                        "name": "Adventure"
+                    },
+                    {
+                        "id": 4,
+                        "name": "Manhwa"
+                    }
+                ]
+            }
+        }
+    ]
+}

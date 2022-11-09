@@ -2,7 +2,7 @@ const routes = {
   home: '/',
   comicDetail: '/comics/[comicSlug]',
   chapterDetail: '/comics/[comicSlug]/[chapterSlug]',
-  categories: '/categories/[tagName]',
+  categories: '/categories/[categoryName]',
   login: '/login',
   logout: '/logout',
   profile: '/user/profile',
