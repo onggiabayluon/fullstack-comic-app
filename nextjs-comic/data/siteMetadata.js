@@ -8,6 +8,10 @@ const chapterDetailMetaData = {
   title: (chapterTitle, lastestChapter) => `${chapterTitle} [Next Chapter ${lastestChapter}]`,
   description: `Read online comic with high quality images at ${siteName}`,
 }
+const categoriesDetailMetaData = {
+  title: (cateName) => `${cateName} | ${siteName}`,
+  description: `Read online comic with high quality images at ${siteName}`,
+}
 const siteMetadata = {
   title: siteName,
   author: 'Tails Azimuth',
@@ -92,4 +96,9 @@ const siteMetadata = {
   },
 }
 
-module.exports = { siteMetadata, comicDetailMetaData, chapterDetailMetaData }
+module.exports = {
+  siteMetadata,
+  comicDetailMetaData,
+  chapterDetailMetaData,
+  categoriesDetailMetaData,
+}

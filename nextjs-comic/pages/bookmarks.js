@@ -2,6 +2,7 @@ import AuthCheck from '@/components/common/AuthCheck'
 import Container from '@/components/common/Container'
 import Image from '@/components/common/Image'
 import CustomLink from '@/components/common/Link'
+import { PageSEO } from '@/components/SEO'
 import PictureGroupSkeleton from '@/components/Skeleton/PictureGroupSkeleton'
 import useFetch from '@/hooks/api/useFetch'
 import useFetchV2 from '@/hooks/api/useFetchV2'
@@ -17,22 +18,25 @@ export default function BookmarkPage() {
   const [activeCategory, setActiveCategory] = useState({ id: null, name: 'All' })
 
   return (
-    <AuthCheck showDefaultFallback>
-      <FilterNav changeActiveCategory={setActiveCategory} activeCategory={activeCategory} />
-      <Container className="transform duration-500">
-        <div className="relative px-4 pt-8 pb-20 sm:px-6 lg:px-8 lg:pt-8 lg:pb-28">
-          <div className="absolute inset-0">
-            <div className="h-1/3 sm:h-2/3" />
+    <>
+      <PageSEO title={'Your Bookmarks'} />
+      <AuthCheck showDefaultFallback>
+        <FilterNav changeActiveCategory={setActiveCategory} activeCategory={activeCategory} />
+        <Container className="transform duration-500">
+          <div className="relative px-4 pt-8 pb-20 sm:px-6 lg:px-8 lg:pt-8 lg:pb-28">
+            <div className="absolute inset-0">
+              <div className="h-1/3 sm:h-2/3" />
+            </div>
+            <div className="relative mx-auto max-w-7xl">
+              <BookmarkList
+                activeCategory={activeCategory}
+                className="mx-auto mt-12 grid  grid-cols-responsive-card gap-5 lg:max-w-none"
+              />
+            </div>
           </div>
-          <div className="relative mx-auto max-w-7xl">
-            <BookmarkList
-              activeCategory={activeCategory}
-              className="mx-auto mt-12 grid  grid-cols-responsive-card gap-5 lg:max-w-none"
-            />
-          </div>
-        </div>
-      </Container>
-    </AuthCheck>
+        </Container>
+      </AuthCheck>
+    </>
   )
 }
 function BookmarkList({ activeCategory, className, limit }) {

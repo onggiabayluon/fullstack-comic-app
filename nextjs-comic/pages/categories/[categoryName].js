@@ -1,9 +1,12 @@
+import Banner from '@/components/common/Banner'
 import Container from '@/components/common/Container'
 import Image from '@/components/common/Image'
 import CustomLink from '@/components/common/Link'
 import Pagination from '@/components/common/Pagination'
+import { PageSEO } from '@/components/SEO'
 import PictureGroupSkeleton from '@/components/Skeleton/PictureGroupSkeleton'
 import constant from '@/data/constants'
+import { categoriesDetailMetaData } from '@/data/siteMetadata'
 import usePaginatedQuery from '@/hooks/usePaginatedQuery'
 import comicsToJSON from '@/lib/toJSON/comicsToJSON'
 import classNames from '@/lib/utils/classNames'
@@ -58,6 +61,10 @@ export async function getStaticPaths() {
 export default function CategoryDetailPage({ staticComics, staticCategories, activeCategory }) {
   return (
     <>
+      <PageSEO
+        title={categoriesDetailMetaData.title(activeCategory)}
+        description={categoriesDetailMetaData.description}
+      />
       <FilterNav categories={staticCategories} activeCategory={activeCategory} />
       <Container className="transform duration-500">
         <div className="relative px-4 pt-8 pb-20 sm:px-6 lg:px-8 lg:pt-8 lg:pb-28">
@@ -102,7 +109,7 @@ function BookmarkList({ initialComics, totalRecords, activeCategory, className, 
 
   return (
     <div>
-      {isLoading || filtered?.length == 0 ? (
+      {isLoading ? (
         <div className={className}>
           {Array(12)
             .fill()
@@ -117,12 +124,14 @@ function BookmarkList({ initialComics, totalRecords, activeCategory, className, 
               )
             })}
         </div>
-      ) : (
+      ) : filtered?.length > 0 ? (
         <motion.div layout className={className}>
           {filtered.slice(0, limit).map((item, index) => (
             <BookmarkCard key={item.slug || item.id} index={index} {...item} />
           ))}
         </motion.div>
+      ) : (
+        <Banner title="No results found" description="No results found" />
       )}
       <Pagination
         className="pagination-bar mt-4"

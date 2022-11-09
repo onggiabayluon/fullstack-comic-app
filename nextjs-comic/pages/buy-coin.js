@@ -1,5 +1,6 @@
 import SideButton from '@/components/Buttons/SideButton'
 import SettingLayoutWrapper from '@/components/common/SettingLayoutWrapper'
+import { PageSEO } from '@/components/SEO'
 import Spinner from '@/components/Skeleton/Spinner'
 import useFetch from '@/hooks/api/useFetch'
 import { useAsyncFn } from '@/hooks/useAsync'
@@ -35,10 +36,13 @@ export default function BuyCoin() {
   }, [])
 
   return (
-    <SettingLayoutWrapper>
-      {message && <Message message={message} />}
-      <ProductDisplay />
-    </SettingLayoutWrapper>
+    <>
+      <PageSEO title={'Buy Coins'} />
+      <SettingLayoutWrapper>
+        {message && <Message message={message} />}
+        <ProductDisplay />
+      </SettingLayoutWrapper>
+    </>
   )
 }
 
