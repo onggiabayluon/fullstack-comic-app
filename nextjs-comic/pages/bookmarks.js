@@ -1,13 +1,11 @@
+import CardBookmark from '@/components/Card/CardBookmark'
 import AuthCheck from '@/components/common/AuthCheck'
 import Container from '@/components/common/Container'
-import Image from '@/components/common/Image'
 import CustomLink from '@/components/common/Link'
 import { PageSEO } from '@/components/SEO'
 import PictureGroupSkeleton from '@/components/Skeleton/PictureGroupSkeleton'
 import useFetch from '@/hooks/api/useFetch'
 import useFetchV2 from '@/hooks/api/useFetchV2'
-import classNames from '@/lib/utils/classNames'
-import { publicRoutes } from '@/lib/utils/getRoutes'
 import useBookmarkApi from '@/services/bookmarkServices'
 import { getCategoriesFn } from '@/services/categoryServices.js'
 import { useState } from 'react'
@@ -60,7 +58,7 @@ function BookmarkList({ activeCategory, className, limit }) {
 
   return isLoading ? (
     <div className={className}>
-      {Array(12)
+      {Array(10)
         .fill()
         .map((index) => {
           return <PictureGroupSkeleton height={269} key={index} hasIcon={false} />
@@ -70,59 +68,12 @@ function BookmarkList({ activeCategory, className, limit }) {
     filtered?.length > 0 && (
       <motion.div layout className={className}>
         {filtered.slice(0, limit).map((item, index) => (
-          <BookmarkCard key={item.slug || item.id} index={index} {...item} />
+          <motion.div key={item.slug || item.id} layout>
+            <CardBookmark index={index} {...item} />
+          </motion.div>
         ))}
       </motion.div>
     )
-  )
-}
-
-function BookmarkCard(item) {
-  return (
-    <article className="group relative max-w-[311px] transform cursor-pointer duration-300 hover:-translate-y-1 hover:shadow-xl">
-      <motion.div layout>
-        <div className="flex flex-col overflow-hidden rounded-lg shadow-lg">
-          <CustomLink
-            href={publicRoutes.comicDetail.getDynamicPath(item.slug)}
-            className="h-auto w-full transform overflow-hidden duration-200 hover:scale-110"
-          >
-            <Image
-              width={311}
-              height={145}
-              className="h-48 w-full object-cover object-top"
-              src={item.thumbnail}
-              alt={item.title}
-            />
-          </CustomLink>
-          <div className="flex flex-1 flex-col justify-between bg-white p-6">
-            <div className="flex-1">
-              <div className="flex flex-row space-x-2">
-                {item.categories?.slice(0, 2).map((category) => (
-                  <p key={category.id} className="text-sm font-medium text-indigo-600">
-                    <CustomLink
-                      href={publicRoutes.categories.getDynamicPath(category.name)}
-                      className="hover:underline"
-                    >
-                      {category.name}
-                    </CustomLink>
-                  </p>
-                ))}
-              </div>
-              <CustomLink
-                href={publicRoutes.comicDetail.getDynamicPath(item.slug)}
-                className="mt-2 block"
-              >
-                <p className="text-md font-semibold text-gray-900 line-clamp-2">{item.title}</p>
-              </CustomLink>
-            </div>
-            {/* <div className="mt-6 flex items-center">
-                    <div className="flex-shrink-0"></div>
-                    <div className="ml-3"></div>
-                  </div> */}
-          </div>
-        </div>
-      </motion.div>
-    </article>
   )
 }
 
@@ -166,16 +117,16 @@ function FilterNav({ changeActiveCategory, activeCategory }) {
                 <CustomLink
                   onClick={() => handleCategoryChange(category)}
                   key={category.name}
-                  // href={category.href}
-                  className={classNames(
-                    activeCategory.name === category.name
-                      ? 'border-indigo-500 text-indigo-600'
-                      : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                    'whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium'
-                  )}
+                  className="relative whitespace-nowrap py-4 text-sm font-medium"
                   aria-current={activeCategory.name === category.name ? 'page' : undefined}
                 >
                   {category.name}
+                  {activeCategory.name === category.name && (
+                    <motion.div
+                      className="absolute bottom-[0.5px] w-full whitespace-nowrap border-b-2 border-indigo-500 text-sm font-medium text-indigo-600"
+                      layoutId="underline"
+                    />
+                  )}
                 </CustomLink>
               ))}
             </nav>

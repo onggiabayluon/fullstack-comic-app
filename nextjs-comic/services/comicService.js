@@ -5,12 +5,21 @@ export const defaultOptions = {
 }
 
 export const getURLComics = () => '/comics/'
+
 export const getComicsFn = () => {
   return {
     fetcher: makeRequest,
     url: '/comics/',
   }
 }
+
+export const getComicsByCategory2 = (params) => {
+  return {
+    url: '/comics/',
+    params,
+  }
+}
+
 export const getURLComicBySlug = (slug) => `/comics/${slug}/`
 
 export function getComics({ params = defaultOptions, signal }) {

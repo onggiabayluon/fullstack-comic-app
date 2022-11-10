@@ -1,20 +1,17 @@
+import CardBookmark from '@/components/Card/CardBookmark'
 import Banner from '@/components/common/Banner'
 import Container from '@/components/common/Container'
-import Image from '@/components/common/Image'
 import CustomLink from '@/components/common/Link'
 import Pagination from '@/components/common/Pagination'
 import { PageSEO } from '@/components/SEO'
 import PictureGroupSkeleton from '@/components/Skeleton/PictureGroupSkeleton'
 import constant from '@/data/constants'
 import { categoriesDetailMetaData } from '@/data/siteMetadata'
-import usePaginatedQuery from '@/hooks/usePaginatedQuery'
-import comicsToJSON from '@/lib/toJSON/comicsToJSON'
-import classNames from '@/lib/utils/classNames'
+import usePaginatedQuery2 from '@/hooks/usePaginatedQuery2'
 import { publicRoutes } from '@/lib/utils/getRoutes'
 import { getCategories } from '@/services/categoryServices.js'
-import { getComicsByCategory } from '@/services/comicService'
+import { getComicsByCategory, getComicsByCategory2 } from '@/services/comicService'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
 import ScrollContainer from 'react-indiana-drag-scroll'
 const { motion } = require('framer-motion')
 
@@ -86,15 +83,14 @@ export default function CategoryDetailPage({ staticComics, staticCategories, act
   )
 }
 function BookmarkList({ initialComics, totalRecords, activeCategory, className, limit }) {
-  const pageSize = constant.COMIC_LIMIT
-  const options = { category: activeCategory }
-  const [comics, setComics] = useState(initialComics)
   const {
+    data: comics,
     currentPage,
     setCurrentPage,
-    loading: isLoading,
-    error,
-  } = usePaginatedQuery(setComics, getComicsByCategory, null, options, comicsToJSON)
+    isLoading,
+  } = usePaginatedQuery2(getComicsByCategory2, { category: activeCategory }, initialComics)
+
+  const pageSize = constant.COMIC_LIMIT
 
   const filterByCategory = (comics) => {
     if (activeCategory?.toLowerCase() === 'all') return comics
@@ -112,7 +108,7 @@ function BookmarkList({ initialComics, totalRecords, activeCategory, className, 
     <div>
       {isLoading ? (
         <div className={className}>
-          {Array(12)
+          {Array(10)
             .fill()
             .map((index) => {
               return (
@@ -128,7 +124,9 @@ function BookmarkList({ initialComics, totalRecords, activeCategory, className, 
       ) : filtered?.length > 0 ? (
         <motion.div layout className={className}>
           {filtered.slice(0, limit).map((item, index) => (
-            <BookmarkCard key={item.slug || item.id} index={index} {...item} />
+            <motion.div key={item.slug || item.id} layout>
+              <CardBookmark index={index} {...item} />
+            </motion.div>
           ))}
         </motion.div>
       ) : (
@@ -143,55 +141,6 @@ function BookmarkList({ initialComics, totalRecords, activeCategory, className, 
         isLoading={isLoading}
       />
     </div>
-  )
-}
-
-function BookmarkCard(item) {
-  return (
-    <article className="group relative max-w-[311px] transform cursor-pointer duration-300 hover:-translate-y-1 hover:shadow-xl">
-      <motion.div layout>
-        <div className="flex flex-col overflow-hidden rounded-lg shadow-lg">
-          <CustomLink
-            href={publicRoutes.comicDetail.getDynamicPath(item.slug)}
-            className="h-auto w-full transform overflow-hidden duration-200 hover:scale-110"
-          >
-            <Image
-              width={311}
-              height={145}
-              className="h-48 w-full object-cover object-top"
-              src={item.thumbnail}
-              alt={item.title}
-            />
-          </CustomLink>
-          <div className="flex flex-1 flex-col justify-between bg-white p-6">
-            <div className="flex-1">
-              <div className="flex flex-row space-x-2">
-                {item.categories?.slice(0, 2).map((category) => (
-                  <p key={category.id} className="text-sm font-medium text-indigo-600">
-                    <CustomLink
-                      href={publicRoutes.categories.getDynamicPath(category.name)}
-                      className="hover:underline"
-                    >
-                      {category.name}
-                    </CustomLink>
-                  </p>
-                ))}
-              </div>
-              <CustomLink
-                href={publicRoutes.comicDetail.getDynamicPath(item.slug)}
-                className="mt-2 block"
-              >
-                <p className="text-md font-semibold text-gray-900 line-clamp-2">{item.title}</p>
-              </CustomLink>
-            </div>
-            {/* <div className="mt-6 flex items-center">
-                    <div className="flex-shrink-0"></div>
-                    <div className="ml-3"></div>
-                  </div> */}
-          </div>
-        </div>
-      </motion.div>
-    </article>
   )
 }
 
@@ -234,12 +183,7 @@ function FilterNav({ categories, activeCategory }) {
                 <CustomLink
                   key={category.name}
                   href={publicRoutes.categories.getDynamicPath(category.name)}
-                  className={classNames(
-                    activeCategory.toLowerCase() === category.name.toLowerCase()
-                      ? 'border-indigo-500 text-indigo-600'
-                      : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                    'whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium'
-                  )}
+                  className="relative whitespace-nowrap py-4 text-sm font-medium"
                   aria-current={
                     activeCategory.toLowerCase() === category.name.toLowerCase()
                       ? 'page'
@@ -247,6 +191,12 @@ function FilterNav({ categories, activeCategory }) {
                   }
                 >
                   {category.name}
+                  {activeCategory.toLowerCase() === category.name.toLowerCase() && (
+                    <motion.div
+                      className="absolute bottom-[0.5px] w-full whitespace-nowrap border-b-2 border-indigo-500 text-sm font-medium text-indigo-600"
+                      layoutId="underline"
+                    />
+                  )}
                 </CustomLink>
               ))}
             </nav>

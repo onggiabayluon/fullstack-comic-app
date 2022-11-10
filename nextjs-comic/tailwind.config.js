@@ -17,8 +17,8 @@ module.exports = {
   theme: {
     extend: {
       gridTemplateColumns: {
-        // Complex site-specific column configuration
-        'responsive-card': 'repeat(auto-fit, minmax(180px, 1fr))',
+        // (2 - 5 columns with a min-width of 160px per column)
+        'responsive-card': 'repeat(auto-fit, minmax(min(100%/2, max(160px, 100%/6)), 1fr))',
       },
       lineClamp: {
         6: '6',
