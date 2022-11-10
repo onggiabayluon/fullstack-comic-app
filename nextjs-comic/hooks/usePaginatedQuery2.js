@@ -18,9 +18,10 @@ function usePaginatedQuery2(getDataFn, passedArgs, initialDatas) {
   // Only fetch when not use initial data
   const shouldFetch = !shouldUseInitialData
 
-  // set new initialData when swap detail pages
+  // set new initialData and page to default when go to another detail pages
   useUpdateEffect(() => {
     setData(initialDatas)
+    setCurrentPage(1)
   }, [initialDatas])
 
   const wrap = (oldFunction) => {
