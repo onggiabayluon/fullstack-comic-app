@@ -111,7 +111,7 @@ class Chapter(MyModelBase):
 
 class ChapterImage(models.Model):
     thumbnail = models.ImageField(blank=True)
-    chapter = models.ForeignKey(Chapter, related_name="chapter_images", on_delete=models.CASCADE, null=True)
+    chapter = models.ForeignKey(Chapter, related_name="chapter_images", on_delete=models.CASCADE, null=True, editable=False)
 
 
 class ChapterView(models.Model):

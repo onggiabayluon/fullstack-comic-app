@@ -78,6 +78,7 @@ class ComicAdmin(nested_admin.NestedModelAdmin):
 
 class ChapterAdmin(admin.ModelAdmin):
     inlines = [ChapterImageInline]
+    change_form_template = 'admin/comics/Chapter/change_form.html'
     list_display = ["slug", "id", "get_comic_title", "get_comic_slug", "created_date"]
     search_fields = ["comic__title", "comic__slug"]
     list_filter = ('created_date', 'chapter_num',)
