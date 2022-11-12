@@ -1,6 +1,7 @@
 asgiref==3.4.1
 auditlog3==1.0.1
 autopep8==1.7.0
+bower==0.0.0
 cachetools==5.2.0
 certifi==2021.5.30
 cffi==1.14.6
@@ -9,12 +10,13 @@ cloudinary==1.29.0
 coreapi==2.3.3
 coreschema==0.0.4
 cryptography==3.4.7
+datetime-truncate==1.1.1
 Deprecated==1.2.12
 dj-database-url==1.0.0
 dj3-cloudinary-storage==0.0.6
 Django==3.2.5
+django-admin-charts==1.2.3
 django-admin-tools==0.9.2
-django-admin-tools-stats==0.9.0
 django-autoslug==1.9.8
 django-bower==5.2.0
 django-ckeditor==6.1.0
@@ -24,6 +26,8 @@ django-environ==0.9.0
 django-heroku==0.3.1
 django-js-asset==1.2.2
 django-jsonfield==1.4.1
+django-memoize==2.3.1
+django-multiselectfield==0.1.12
 django-nested-admin==3.4.0
 django-nvd3==0.9.7
 django-oauth-toolkit==1.5.0
