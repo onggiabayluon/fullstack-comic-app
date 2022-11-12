@@ -156,7 +156,7 @@ def fulfill_order(session):
         payment_id = session.metadata.paymentId
         amount_total = session.amount_total
         # Save Order to db
-        Payment.objects.filter(payment_id=payment_id).update(stripe_charge_id=session.id, product_id=product_id, is_complete=True)
+        Payment.objects.filter(id=payment_id).update(stripe_charge_id=session.id, product_id=product_id, is_complete=True)
 
         # If order type == COIN => increase user coin
         if (product_type == Product.TYPES.COIN):
