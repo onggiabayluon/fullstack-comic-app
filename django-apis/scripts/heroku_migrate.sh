@@ -1,0 +1,1 @@
+heroku run 'cd comicapis/ && python manage.py makemigrations && python manage.py migrate'

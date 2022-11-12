@@ -27,3 +27,7 @@ bash generate_env.sh ".env"
 git add .
 git commit -m "text"
 git push heroku main
+
+# Fake migrations for existing models
+1. python manage.py migrate --fake
+2. ./scripts/migrate.sh

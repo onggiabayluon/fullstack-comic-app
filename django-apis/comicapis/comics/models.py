@@ -174,7 +174,7 @@ class Product(models.Model):
 class Payment(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    stripe_charge_id = models.CharField(max_length=50)
+    stripe_charge_id = models.CharField(max_length=255, blank=True, null=True)
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, blank=True)
     chapter = models.ForeignKey(Chapter, on_delete=models.SET_NULL, null=True, blank=True)
     category = models.CharField(

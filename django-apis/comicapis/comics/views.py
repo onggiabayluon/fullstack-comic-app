@@ -91,7 +91,7 @@ class CreateCheckoutSection(APIView):
         coin_selected_id = request.data.get('coin')
         coin = Product.objects.get(id=coin_selected_id)
         coin_stripe_price_id = coin.stripe_price_id
-        Payment.objects.create(user=request.user, amount=coin.price, is_complete=False)
+        payment = Payment.objects.create(user=request.user, amount=coin.price, is_complete=False)
 
         try:
             checkout_session = stripe.checkout.Session.create(
@@ -103,7 +103,7 @@ class CreateCheckoutSection(APIView):
                     },
                 ],
                 client_reference_id=request.user.id,
-                metadata={'productType': Product.TYPES.COIN, 'productId': coin.id},
+                metadata={'product_type': Product.TYPES.COIN, 'product_id': coin.id, 'paymentId': payment.id},
                 mode='payment',
                 success_url=settings.CLIENT_SIDE_DOMAIN + '/buy-coin?success=true',
                 cancel_url=settings.CLIENT_SIDE_DOMAIN + '/buy-coin?canceled=true',
@@ -151,15 +151,15 @@ class CheckoutWebhook(APIView):
 def fulfill_order(session):
     try:
         user = User.objects.get(id=session.client_reference_id)
-        stripe_charge_id = session.id
-        productType = session.metadata.productType
-        productId = session.metadata.productId
+        product_type = session.metadata.product_type
+        product_id = session.metadata.product_id
+        payment_id = session.metadata.paymentId
         amount_total = session.amount_total
         # Save Order to db
-        Payment.objects.update(user=user, stripe_charge_id=stripe_charge_id, product_id=productId, is_complete=True)
+        Payment.objects.filter(payment_id=payment_id).update(stripe_charge_id=session.id, product_id=product_id, is_complete=True)
 
         # If order type == COIN => increase user coin
-        if (productType == Product.TYPES.COIN):
+        if (product_type == Product.TYPES.COIN):
             user.coins += amount_total
             user.save()
 
