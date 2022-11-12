@@ -5,17 +5,20 @@ from comicapis import settings
 
 
 def do_revalidate(path_to_revalidate):
-    headers = {
-        'content-type': 'application/x-www-form-urlencoded',
-    }
+   try:
+        headers = {
+            'content-type': 'application/x-www-form-urlencoded',
+        }
 
-    url = settings.CLIENT_SIDE_DOMAIN + "/api/revalidate?secret=" + settings.BACKEND_REVALIDATE_SECRET
+        url = settings.CLIENT_SIDE_DOMAIN + "/api/revalidate?secret=" + settings.BACKEND_REVALIDATE_SECRET
 
-    payload = {"path_to_revalidate": path_to_revalidate}
+        payload = {"path_to_revalidate": path_to_revalidate}
 
-    resp = requests.post(url=url, data=payload, headers=headers)
+        resp = requests.post(url=url, data=payload, headers=headers)
 
-    print(resp)
+        print(resp)
+   except Exception as e:
+        print('An exception occurred', e)
 
 
 def get_or_none(classmodel, **kwargs):

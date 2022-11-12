@@ -40,13 +40,6 @@ class User(AbstractUser):
     coins = models.IntegerField(default=0)
 
 
-class Category(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
 class MyModelBase(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
@@ -55,6 +48,13 @@ class MyModelBase(models.Model):
     class Meta:
         abstract = True
 
+        
+class Category(MyModelBase):
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
+    
 
 class Comic(MyModelBase):
 
@@ -185,6 +185,9 @@ class Payment(models.Model):
     amount = models.FloatField()
     is_complete = models.BooleanField(default=False, null=True, blank=False)
     timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return "Payment of {0} - buy {1} - paid for {2} - is_complete: {3}".format(self.user, self.category, self.amount, self.is_complete)
 
 
 # class Coin(models.Model):

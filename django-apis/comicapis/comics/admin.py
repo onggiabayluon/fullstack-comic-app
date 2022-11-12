@@ -10,7 +10,8 @@ from django.db import transaction
 
 from comicapis import settings
 
-from .models import Category, Chapter, ChapterImage, Comic, Product, User
+from .models import (Category, Chapter, ChapterImage, Comic, Payment, Product,
+                     User)
 
 stripe.api_key = settings.STRIPE_API_KEY
 
@@ -200,6 +201,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(Category)
+admin.site.register(Payment)
 admin.site.register(User)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Comic, ComicAdmin)
