@@ -397,12 +397,12 @@ class BuyChapter(APIView):
         if user.coins >= chapter.price:
             user_payment, created = Payment.objects.get_or_create(category=Product.TYPES.CHAPTER, chapter=chapter, user=user, amount=chapter.price, is_complete=True)
             success_message = "Chapter " + str(chapter.id) + " has been bought successfully by user " + user.username
-            if user_payment is not None:
-                return Response({'bought': True, 'message': 'User already owned this chapter'}, status=status.HTTP_200_OK)
             if created:
                 user.coins -= chapter.price
                 user.save()
                 return Response({'bought': True, 'message': success_message}, status=status.HTTP_200_OK)
+            if user_payment is not None:
+                return Response({'bought': True, 'message': 'User already owned this chapter'}, status=status.HTTP_200_OK)
 
         error_message = "user not have enough coins to buy this chapter, require: " + str(chapter.price) + " owned: " + str(user.coins)
         return Response({'bought': False, 'message': error_message}, status=status.HTTP_200_OK)

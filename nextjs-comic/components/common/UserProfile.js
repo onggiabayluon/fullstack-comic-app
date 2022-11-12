@@ -96,7 +96,7 @@ export default function UserProfile() {
             </span>
             <span>
               {isFetchingUser && <Spinner className="ml-2" />}
-              {!isFetchingUser && user.coins + ' coins'}
+              {!isFetchingUser && user && user.coins + ' coins'}
             </span>
           </a>
           <a className="bg-indigo flex flex-row items-center space-x-2 px-4 py-2 text-sm text-gray-700">

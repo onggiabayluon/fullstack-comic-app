@@ -49,6 +49,9 @@ export const AuthProvider = ({ children }) => {
     deps: token,
     url: getCurrentUserUrl.url,
     fetcher: getCurrentUserUrl.fetcher,
+    swrOptions: {
+      dedupingInterval: 0,
+    },
   })
 
   useEffect(() => {

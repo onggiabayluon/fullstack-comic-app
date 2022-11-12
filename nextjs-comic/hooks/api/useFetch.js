@@ -12,7 +12,7 @@ const swrOpts = {
 }
 const defaultFetcher = makeRequest
 
-function useFetch({ url, options, deps = true, fetcher = defaultFetcher }) {
+function useFetch({ url, options, deps = true, fetcher = defaultFetcher, swrOptions }) {
   const { data, error, mutate } = useSWR(deps ? [url, options] : null, fetcher, swrOpts)
 
   return {
