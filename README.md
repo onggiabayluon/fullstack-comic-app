@@ -9,13 +9,6 @@
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
 
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
@@ -65,7 +58,7 @@
 
 ## About The Project
 
-🐧🐧 Temporarily don't know what to write
+A full-stack comics website using Next.js | React.js framework as Front-end and Django-rest framwork as Back-end that allow users to post and read comics online, utilize pre-render which dramatically increases page performance
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -84,14 +77,14 @@
 
 ### Functionality
 
-- [ ] Login, logout, signup using google, facebook
+- [X] Login, logout, signup
 - [x] Comic Views
 - [x] Comment, reply
 - [x] Bookmark
 - [ ] Local reading history
 - [x] Rate
 - [X] Payment using Stripe
-- [ ] Update User Profile
+- [X] Update User Profile
 - [ ] Chapter Free timer (Free after a specific interval time, Ex: 1 week)
 - [X] Chapter Coin (Require coin for reading a chapter) 
 
