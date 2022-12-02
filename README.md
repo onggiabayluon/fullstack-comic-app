@@ -58,7 +58,7 @@
 
 ## About The Project
 
-A full-stack comics website using Next.js | React.js framework as Front-end and Django-rest framwork as Back-end that allow users to post and read comics online, utilize pre-render which dramatically increases page performance
+A full-stack webtoon, manhua, manga website, manhwa website, comics website using Next.js | React.js framework as Front-end and Django-rest framwork as Back-end that allow users to post and read comics online, utilize pre-render which dramatically increases page performance
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
