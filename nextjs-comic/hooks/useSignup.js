@@ -1,5 +1,5 @@
-import { USER_ACTIONS } from '@/contexts/AuthProvider'
 import { register } from '@/services/userService'
+import toast from 'react-hot-toast'
 import { useAsyncFn } from './useAsync'
 import { useAuthState } from './useAuthState'
 import { useLogin } from './useLogin'
@@ -15,10 +15,12 @@ export const useSignup = () => {
     return signupFn({ username, password, password2 })
       .then((data) => {
         // save the token to local storage
-        setToken(data)
+        // setToken(data)
 
         // update the user state
-        dispatch({ type: USER_ACTIONS.REGISTER, payload: data })
+        // dispatch({ type: USER_ACTIONS.REGISTER, payload: data })
+
+        toast.success('Signup succesfully')
 
         // Login and close form
         loginUser(username, password, onCloseBtnClick)

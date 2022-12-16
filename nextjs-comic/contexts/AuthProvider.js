@@ -66,7 +66,7 @@ export const AuthProvider = ({ children }) => {
       Persist data if user has loggedin before
       Load userDetails from token data
     */
-    if (token) {
+    if (token && token.access) {
       return dispatch({
         type: USER_ACTIONS.LOGIN,
         payload: { user: { ...jwtDecode(token.access), isTokenData: true } },
