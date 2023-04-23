@@ -60,6 +60,13 @@
 
 A full-stack webtoon, manhua, manga website, manhwa website, comics website using Next.js | React.js framework as Front-end and Django-rest framwork as Back-end that allow users to post and read comics online, utilize pre-render which dramatically increases page performance
 
+- The website prioritizes performance, achieving a near-perfect Lighthouse score for page performance. 
+- Next.js pre-rendering is utilized with on-demand Incremental Static Regeneration (ISR) to optimize loading times.
+- Admins can re-create new caches whenever they add/update data on the back-end, ensuring that changes are immediately reflected on the front-end.
+- Stripe payment integration allows for secure and streamlined payment processing. 
+
+Note: There're some issue regarding the back-end to revalidate the cache for the front-end not working properly!!
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
