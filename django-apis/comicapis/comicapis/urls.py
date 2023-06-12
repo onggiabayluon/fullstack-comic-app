@@ -17,7 +17,7 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path('admin_tools_stats/', include('admin_tools_stats.urls')),
+    # path('admin_tools_stats/', include('admin_tools_stats.urls')),
 
     path('admin/', admin.site.urls),
     path('', include('comics.urls')),

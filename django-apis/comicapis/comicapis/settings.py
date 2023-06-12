@@ -32,7 +32,7 @@ DEBUG = bool(os.getenv(('DEBUG')))
 # Application definition
 
 INSTALLED_APPS = [
-    'admin_tools_stats',  # this must be BEFORE 'admin_tools' and 'django.contrib.admin'
+    # 'admin_tools_stats',  # this must be BEFORE 'admin_tools' and 'django.contrib.admin'
     'django_nvd3',
     # default
     'django.contrib.admin',

@@ -103,7 +103,7 @@ Note: There're some issue regarding the back-end to revalidate the cache for the
    git clone https://github.com/onggiabayluon/fullstack-comic-app.git
    ```
 
-2. Setting your Mysql root name and password in settings.py file for Mysql:
+2. Setting your Mysql root name and password in settings.py file for Mysql, assume you already have Mysql install:
    [./comicsapis/comicsapis/settings.py](https://github.com/onggiabayluon/fullstack-comic-app/blob/ca9d6917eef7f7d5375eabcc13ffd0d3be859c22/django-apis/comicapis/comicapis/settings.py#L99)
 
 3. First time setup, Run init.sh Scripts in Git bash, This Script Will:
@@ -114,8 +114,9 @@ Note: There're some issue regarding the back-end to revalidate the cache for the
 - Create super user
 - Run the project
 
+4. cd to the django-apis folder, then run this in git Bash:
 ```sh
-./init.sh
+./scripts/init.sh
 ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
